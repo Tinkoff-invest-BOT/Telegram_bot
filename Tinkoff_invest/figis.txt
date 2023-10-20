@@ -1,0 +1,1415 @@
+BBG004S68758 Башнефть
+BBG004TC84Z8 Трубная Металлургическая Компания
+BBG004730JJ5 Московская Биржа
+BBG004S686N0 Башнефть — привилегированные акции
+BBG008F2T3T2 РУСАЛ
+BBG000RJL816 Таттелеком
+BBG000VKG4R5 МРСК Урала
+BBG004731489 Норильский никель
+BBG000TJ6F42 МРСК Северо-Запада
+BBG000Q7GG57 ТГК-2
+BBG0029SFXB3 ПАО «КАЗАНЬОРГСИНТЕЗ»
+BBG004S687G6 МОЭСК
+BBG005D1WCQ1 QIWI
+BBG000FWGSZ5 Корпорация ИРКУТ
+BBG000N16BP3 ИСКЧ
+BBG004S686W0 Юнипро
+BBG004S68FR6 Мечел — Привилегированные акции
+BBG0029SG1C1 ПАО «КАЗАНЬОРГСИНТЕЗ» — акции привилегированные
+BBG000NLC9Z6 Ленэнерго
+BBG00475K2X9 РусГидро
+BBG004S685M3 Ростелеком — Привилегированные акции
+BBG006L8G4H1 Yandex
+BBG004S68614 АФК Система
+BBG000BX7DH0 ТНС энерго Воронеж
+BBG004730ZJ9 Банк ВТБ
+BBG004731354 Роснефть
+BBG000GQSRR5 Нижнекамскнефтехим
+BBG000RMWQD4 En+ Group
+BBG000RP8V70 ЧМК
+BBG00475JZZ6 ФСК ЕЭС
+BBG004730RP0 Газпром
+BBG000NLHR27 Банк Возрождение — акции привилегированные
+BBG002B2J5X0 Саратовский НПЗ — акции привилегированные
+BBG004S68696 Распадская
+BBG000K3STR7 Аптечная сеть 36,6
+BBG00475K6C3 Северсталь
+BBG001M2SC01 Etalon Group PLC
+BBG000KTF667 Российские сети — акции привилегированные
+BBG0014PFYM2 Русгрэйн
+BBG0047315Y7 Сбербанк России — привилегированные акции
+BBG00VPKLPX4 Petropavlovsk PLC
+BBG000PKWCQ7 МРСК Волги
+BBG000Q49F45 ЧТПЗ
+BBG000QW1WH0 Кузбасская топливная компания
+BBG004S68B31 АЛРОСА
+BBG002458LF8 Селигдар
+BBG000RTHVK7 Группа Черкизово
+BBG000W325F7 Русская аквакультура
+BBG004S687W8 Мосэнерго
+BBG004S68829 Татнефть — привилегированные акции
+BBG0047315D0 Сургутнефтегаз
+BBG000DBD6F6 Калужская сбытовая компания
+BBG000QFH687 ТГК-1
+BBG00B8NN386 Городские Инновационные Технологии
+BBG000F6YP24 Энел Россия
+BBG00HY6V6H5 ГТМ
+BBG00178PGX3 MAIL.RU
+BBG00F9XX7H4 РуссНефть
+BBG003LYCMB1 САФМАР
+BBG004S688G4 Акрон
+BBG004RVFCY3 Магнит
+BBG007N0Z367 РусАгро
+BBG00F40L971 Финансовая группа БУДУЩЕЕ
+BBG000LNHHJ9 КАМАЗ
+BBG000SK7JS5 Лензолото
+BBG0018X6YV1 ТрансКонтейнер
+BBG000RK52V1 Вторая генерирующая компания оптового рынка электроэнергии
+BBG001DJNR51 РБК
+BBG004S682J4 Российские сети
+BBG000VG1034 МРСК Центра и Приволжья
+BBG004731032 ЛУКОЙЛ
+BBG000R607Y3 Полюс Золото
+BBG000QJW156 Банк Санкт-Петербург
+BBG004RVFFC0 Татнефть
+BBG002YFXL29 ЮУНК
+BBG001BBSZV8 Мультисистема
+BBG000MZL2S9 Пермэнергосбыт — акции привилегированные
+BBG004S682Z6 Ростелеком
+BBG00QPYJ5H0 TCS Group
+BBG004S68CV8 ВСМПО-АВИСМА
+BBG000PZ0833 МГТС — акции привилегированные
+BBG004S68CP5 М.видео
+BBG004730N88 Сбербанк России
+BBG002B25NL9 АЛРОСА-Нюрба
+BBG004Z2RGW8 Русолово
+BBG004S68BH6 ПИК
+BBG004S689R0 ФосАгро
+BBG003BNWBP3 ЧЗПСН
+BBG004S681B4 НЛМК
+BBG004S68JR8 СОЛЛЕРС
+BBG000Q7ZZY2 Объединенная авиастроительная корпорация
+BBG000NL6ZD9 Иркутскэнерго
+BBG000RG4ZQ4 ТГК-14
+BBG00475KHX6 Транснефть
+BBG004S681W1 МТС
+BBG000NLB2G3 Красный Октябрь
+BBG004S68C39 Группа ЛСР
+BBG000R466J1 Русполимет
+BBG004S681M2 Сургутнефтегаз — привилегированные акции
+BBG004S68BR5 НМТП
+BBG004S68507 Магнитогорский металлургический комбинат
+BBG000NLCCM3 Ленэнерго — акции привилегированные
+BBG004S684M6 Газпром нефть
+BBG000GQSVC2 Нижнекамскнефтехим — акции привилегированные
+BBG000V07CB8 ДЭК
+BBG002BCQK67 Наука-Связь
+BBG000Q7GJ60 ТГК-2 — акции привилегированные
+BBG000TZGXK8 ПРОТЕК
+BBG00475KKY8 НОВАТЭК
+BBG000F6H7K3 Квадра
+BBG000RJWGC4 Ашинский метзавод
+BBG000BN56Q9 Детский Мир
+BBG004S68598 Мечел
+BBG000LWNRP3 РКК Энергия им.С.П.Королева
+BBG000QQPXZ5 Лента
+BBG000VJMH65 МРСК Сибири
+BBG001BBGNS2 Обувь России
+BBG000C7P5M7 МРСК Юга
+BBG008HD3V85 ОВК
+BBG000MZL0Y6 Пермэнергосбыт
+BBG000TY1CD1 Белуга Групп ПАО ао
+BBG000QF1Q17 ДВМП
+BBG004PYF2N3 Polymetal
+BBG009GSYN76 МКБ
+BBG004S68DD6 Мостотрест
+BBG00BGKYH17 НКХП
+BBG000LWVHN8 Дагестанская энергосбытовая компания
+BBG000VH7TZ8 МРСК Центра
+BBG0027F0Y27 Центральный Телеграф — акции привилегированные
+BBG004S68473 Интер РАО ЕЭС
+BBG000BBV4M5 Центральный Телеграф
+BBG004S683W7 Аэрофлот
+BBG00JXPFBN0 ГДР X5 RetailGroup
+BBG002W2FT69 АбрауДюрсо
+BBG000HLJ7M4 InterDigItal Inc
+BBG002293PJ4 RH
+BBG000CTQBF3 Starbucks Corporation
+BBG000BPL8G3 MTS Systems Corp
+BBG000BH0FR6 Seattle Genetics Inc
+BBG004MN1R41 Navient
+BBG000BPNP00 Maxim Integrated Products Inc
+BBG000BWS3F3 Winnebago Industries Inc
+BBG000BF0K17 Caterpillar
+BBG000BTGKK9 Trex Co Inc
+BBG000BZJQL8 Integra LifeSciences Holdings
+BBG000BS9HN3 Rogers Corp
+BBG000BS5DR2 Robert Half
+BBG000BDHD29 Univar Solutions Inc
+BBG0077VNXV6 PayPal Holdings
+BBG001R72SR9 Ubiquiti Inc
+BBG001JZPSQ2 SONOS INC
+BBG000FV1Z23 Crown Castle
+BBG000BFDLV8 Cerner
+BBG002WMH2F2 ServiceMaster Global Holdings
+BBG000BMWKC5 Kennametal Inc
+BBG000DZJVH0 Nexstar Media Group Inc
+BBG000BQHGR6 ONEOK
+BBG000BNSZP1 Mc’DONALDS
+BBG000BHJSC4 Barrett Business Services Inc
+BBG000BGRY34 CVS Health Corporation
+BBG000VMWHH5 Discovery Communications (C)
+BBG000BKH263 NeoGenomics Inc
+BBG000QW7VC1 HCA Healthcare
+BBG005YHY0Q7 JD.com
+BBG000C6GN04 Quidel Corp
+BBG00FH3FM15 TCR2 Therapeutics Inc
+BBG000C41023 UDR
+BBG000L9CV04 United Parcel Service
+BBG000BBHXQ3 Arthur J. Gallagher & Co
+BBG00G4Y2DC1 Select Energy Services Inc
+BBG00B8N0HG1 Yum China Holdings
+BBG000BXQ7R1 China Southern Airlines
+BBG000LJS6B8 Allegiant Travel Co
+BBG002R1CW27 Ingersoll-Rand
+BBG000BWSV34 Whirlpool
+BBG000C1JTL6 Total System Services
+BBG00HCY3Q67 Wyndham Hotels & Resorts
+BBG0016X4XN6 Cornerstone OnDemand Inc
+BBG000K4WS65 Cavco Industries Inc
+BBG000BB6KF5 MetLife
+BBG000BNBPQ0 Legg Mason
+BBG000BSBBP1 Rollins
+BBG000QY4ZD0 Agios Pharmaceuticals Inc
+BBG000BTNGZ4 Omnicell Inc
+BBG000BR2B91 Pfizer
+BBG000BWQFY7 Wells Fargo & Company
+BBG000P2TYL8 LPL Financial Holdings
+BBG000BG5BL8 Charles River Laboratories Int
+BBG000PN9NB9 Altair Engineering Inc
+BBG000QBR5J5 Discover Financial Services
+BBG001K61W36 Nevro
+BBG00629NGT2 Trade Desk Inc/The
+BBG000BJF1Z8 FedEx
+BBG000FQRVM3 Waters
+BBG0077SYZV6 Boot Barn Holdings Inc
+BBG005PXTR70 Malibu Boats Inc
+BBG000FJH8W0 Hanover Insurance Group
+BBG000P1K2X6 Chart Industries Inc
+BBG000DW76Y6 Fair Isaac Corp
+BBG000BJ81C1 Travelers Cos
+BBG009DFHWG6 Rapid7 Inc
+BBG000BG3445 The Cooper Companies
+BBG000HN7W02 ePlus Inc
+BBG000C4ZZ10 Signet Jewelers
+BBG002PHSYX9 Diamondback Energy Inc
+BBG000BHLYP4 CME GROUP
+BBG000BTCH57 C.H. Robinson Worldwide
+BBG000BLY663 Crocs Inc
+BBG000G0Z878 Hartford Financial Services
+BBG000HXJB21 iRobot Corp
+BBG00L9HLWV8 Madison Square Garden Entertainment
+BBG000BGKTF9 Capital One
+BBG000BJL3N0 Fifth Third Bancorp
+BBG000QGWY50 Bluebird Bio Inc
+BBG007GNPYY7 Alarm com Holdings Inc
+BBG000BPD168 Merck
+BBG000BHLYS1 Consolidated Edison
+BBG0014XR0N5 Chegg Inc
+BBG000BNNKG9 Masco
+BBG000BH3GZ2 Yum!
+BBG000TJM7F0 Keurig Dr Pepper
+BBG000M1R011 ServiceNow Inc
+BBG000BLZRJ2 Morgan Stanley
+BBG000C0F570 Xilinx
+BBG000BDNV95 Brady
+BBG000F5VVB6 Nasdaq
+BBG000Q1KFH4 Western Alliance Bancorp
+BBG000HD3DW5 Wintrust Financial
+BBG0084BBZY6 SolarEdge Technologies Inc
+BBG006MDLY05 GoDaddy Inc
+BBG000BNY197 Methode Electronics Inc
+BBG000K3BC83 LIthia Motors Inc
+BBG000QCG7M7 Virtusa Corp
+BBG001Z0Q6T5 Murphy USA Inc
+BBG000DWG505 Berkshire Hathaway
+BBG000BS48J3 Repligen Corporation
+BBG007FL7ZD2 SPX FLOW Inc
+TCS00JH9TZ56 Apergy Corporation
+BBG000C2ZCH8 Sempra Energy
+BBG000BV59Y6 Teleflex Inc
+BBG0064N0ZZ5 Paycom Software Inc
+BBG000HS77T5 Verizon Communications
+BBG000BJQK11 Ferro Corp
+BBG0078W3NQ3 Hewlett Packard Enterprise
+BBG000C4SKT1 Dycom Industries Inc
+BBG0022FMPD5 Everbridge Inc
+BBG000BLNNH6 IBM
+BBG000BGPQW1 Calavo Growers Inc
+BBG000BBHPV4 Sykes Enterprises Inc
+BBG000GXZ4W7 ANSYS
+BBG000C136Z8 NetScout Systems Inc
+BBG000BS1YV5 Take-Two Interactive Software
+BBG000BP1152 Ciena Corp
+BBG000Q5ZRM7 Digital Realty
+BBG00DYPZ4T0 Brighthouse Financial
+BBG000CHPMY5 John B Sanfilippo & Son Inc
+BBG000BM0QL7 Smith & Wesson Brands
+BBG00BTK1DT8 Cortexyme Inc
+BBG000C3KB84 Glacier Ban
+BBG000HT5MG6 Vanda Pharmaceuticals Inc
+BBG000BWXBC2 Wal-Mart Stores
+BBG009NRSWJ4 Zillow Group Inc
+BBG000GQPB11 MercadoLibre Inc
+BBG000BWHD54 Vornado Realty Trust
+BBG000BSZ738 Selective Insurance Group
+BBG000PXGT62 Tempur Sealy International Inc
+BBG0059KNH10 Change Healthcare Inc
+BBG000BMDBZ1 JB Hunt
+BBG000BH5DV1 Intuit
+BBG000BD53V2 Woodward Inc
+BBG000DPKKK0 American Financial Group
+BBG000C1BCK2 Neogen Corp
+BBG001QD41M9 Aptiv
+BBG000LNL298 NuVasive Inc
+BBG006473QX9 Apple Hospitality REIT Inc
+BBG000BPBTL2 Choice Hotels International In
+BBG00L0YTFN8 Focus Financial Partners Inc
+BBG000CXYSZ6 F5 Networks
+BBG000BB88K4 Group 1 Automotive Inc
+BBG000BP3PW7 Mesa Laboratories Inc
+BBG000BLH3P8 Harsco Corp
+BBG000BHPL78 Equifax
+BBG000HCXFS4 Johnson Outdoors Inc
+BBG000BC33T9 Alexandria Real Estate Equities
+BBG000BKQDQ7 Gibraltar Industries Inc
+BBG001V9NSB4 Enanta Pharmaceuticals Inc
+BBG005ZVK9P2 Q2 Holdings Inc
+BBG000BCBYT2 Verint Systems Inc
+BBG000QDJT53 Green Dot Corp
+BBG000BNDN65 Lowe’s
+BBG000CBMH27 MGIC Investment Corp
+BBG001C7TST4 Splunk
+BBG000JG0547 Automatic Data Processing
+BBG001J1QN87 Intercept Pharmaceuticals Inc
+BBG000BBTJZ1 Erie IndemnIty Co
+BBG000C1HN22 IDEX Corp
+BBG000BV95H9 Timken Co The
+BBG000CJ2181 Reliance Steel & Aluminum Co
+BBG00209SZJ7 Inspire Medical Systems Inc
+BBG006D97VY9 Guardant Health Inc
+BBG000N9MNX3 Tesla Motors
+BBG00HFWVGN0 Micro Focus
+BBG000GZQ728 Exxon Mobil Corporation
+BBG000DV7MX4 ON Semiconductor Corp
+BBG000GQJPZ0 MicroStrategy Inc
+BBG0063GCHH8 Shake Shack Inc
+BBG000FTLBV7 Iovance Biotherapeutics Inc
+BBG000CSZKR2 АДР МТС
+BBG000BRRG02 PVH
+BBG000BFS7D3 The Clorox Company
+BBG000BW6P59 United States Cellular Corp
+BBG000DGLTG5 Dolby Laboratories Inc
+BBG000BFC848 Knight-Swift Transportation
+BBG000BBL0Y1 Alaska Air Group
+BBG000BX24N8 West Pharmaceutical Services I
+BBG000BWNV93 WD-40 Co
+BBG000BT41Q8 Schlumberger
+BBG000BS5CM9 Boston Properties
+BBG000D7JKW9 CoStar Group Inc
+BBG001NFKJ68 New Relic Inc
+BBG000BVMPN3 T Rowe Price Group
+BBG0043BYPB8 Pagerduty Inc
+BBG000CL9JV4 SYNNEX Corp
+BBG005DXJS36 TCS Group (Tinkoff Bank holder)
+BBG000DTT624 Atrion Corp
+BBG000BFVXX0 CMS Energy Corporation
+BBG0021PH456 Inogen Inc
+BBG000BY2Y78 Invesco
+BBG000BDCM24 Vericel Corp
+BBG000BH5LT6 Transocean
+BBG000C3TKY6 Parsons
+BBG000BFV758 Manhattan Associates Inc
+BBG000BRXP69 Edwards Lifesciences
+BBG000R23VW8 Inphi Corp
+BBG000C1XKF6 Pinnacle Financial Partners In
+BBG004PQN2M2 BMC Stock Holdings Inc
+BBG000FFC0B3 New York Times
+BBG00KR691K8 Covetrus Inc
+BBG000CXQTZ3 Raven Industries Inc
+BBG000C0BZD1 Monro
+BBG000C4Z6C2 Watts Water Technologies Inc
+BBG000CQV2N4 ICU Medical Inc
+BBG000BX72V8 NetEase Inc
+BBG000BR2040 TriNet Group Inc
+BBG000QM0RZ4 Prestige Consumer Healthcare I
+BBG000BB1TH9 Fluor
+BBG004S641N5 Burlington Stores Inc
+BBG000DW4Q75 Alliant Energy
+BBG000JLC8L8 Simpson Manufacturing Co Inc
+BBG00341H6M0 Global Blood Therapeutics Inc
+BBG000BLXT19 Immunomedics Inc
+BBG000BQ87N0 Eversource Energy
+BBG00GFMPRK0 Altice USA Inc
+BBG000C19QW1 Chemed Corp
+BBG000BQ74K1 Northern Trust
+BBG000BKXYX5 Deckers Outdoor Corp
+BBG000LF8708 Takeda Pharmaceutical Co Ltd
+BBG000C496P7 ViacomCBS Inc.
+BBG000C7LMS8 AutoZone
+BBG00D0Y81M1 Ashland Global Holdings Inc
+BBG000R7Z112 Delta Air Lines
+BBG000P458P3 Domino’s Pizza Inc
+BBG000KK1L04 ANI Pharmaceuticals Inc
+BBG000BPH459 Microsoft Corporation
+BBG000DQTXY6 D.R. Horton
+BBG000C30L48 Monolithic Power Systems
+BBG004T7VS53 Fox Factory Holding Corp
+BBG00B0FS947 WillScot Mobile Mini Holdings
+BBG000BB8PG1 WR Grace & Co
+BBG00LPTHYD5 Kontoor Brands Inc
+BBG000F02T51 Cable One
+BBG000C4HKK2 Skechers U.S.A. Inc
+BBG000F86GP6 Moody’s
+BBG00SSQFPK6 Aon
+BBG000BM2FL9 Energy Transfer LP
+BBG000CGQ4F7 Morningstar
+BBG000BHY4D9 Prosperity Bancshares
+BBG000BV4XJ1 United Therapeutics Corp
+BBG000BT3HG5 Zuora Inc
+BBG000D7HF89 Sonoco Products Co
+BBG000D9H9F1 Myriad Genetics Inc
+BBG000K88H58 FTI Consulting Inc
+BBG000BN8ZK8 Darling Ingredients Inc
+BBG000BLFNC0 Greif Inc
+BBG0088CYPX8 Nielsen Holdings plc
+BBG000BB5792 Royal Caribbean Cruises
+BBG000C1S2X2 Vertex Pharmaceuticals
+BBG000BLSL58 International Flavors & Fragrances
+BBG006G2JVL2 Alibaba
+BBG000BYQ0B1 TTM Technologies Inc
+BBG000BBBNC6 Aflac Incorporated
+BBG000BJ0932 Monarch Casino & Resort Inc
+BBG000G3QLY3 Ameriprise Financial
+BBG000BLPBL5 AvalonBay Communities
+BBG00658F3P3 Synchrony Financial
+BBG000BD1HP2 WR Berkley
+BBG000RGM5P1 TE Connectivity
+BBG000QCW561 VEON
+BBG000BKVJK4 Hasbro
+BBG008N298Y8 Wingstop Inc
+BBG004KB3S72 Esperion Therapeutics Inc
+BBG000BL79J3 Urban Outfitters
+BBG000C3GN47 Cabot Oil & Gas
+BBG004HXD0G8 Global Net Lease Inc
+BBG000BR3KL6 Parker-Hannifin
+BBG000D7RKJ5 Edison International
+BBG000BK9W84 Graco
+BBG000BZCKH3 Mettler Toledo
+BBG000BJ26K7 Albemarle
+BBG000BMQPL1 KeyCorp
+BBG000BPWGR1 Nordson Corp
+BBG000BFNR17 Alliance Data Systems
+BBG000GX14P2 AeroVironment Inc
+BBG000BLN497 SK Telecom Co.
+BBG000RTDY25 MSCI Inc
+BBG000FKJRC5 The Estee Lauder Companies
+BBG000BVMGF2 The Allstate Corporation
+BBG000BJW241 Eagle Materials Inc
+BBG000NWQ9S5 Cardiovascular Systems Inc
+BBG000WCFV84 LyondellBasell
+BBG000BCTLF6 Bank of America Corp
+BBG00R2NHQ65 Ovintiv Inc.
+BBG000BBPFB9 Applied Materials
+BBG000P5JQX6 eHealth Inc
+BBG000BH4R78 Walt Disney
+BBG0026ZDHR0 AnaptysBio Inc
+BBG000C2PW58 BlackRock
+BBG000RVD346 American Public Education Inc
+BBG008HNHZ07 National Western Life Group In
+BBG000B9XRY4 Apple
+BBG000BSXQV7 Sherwin-Williams
+BBG000BSBZH7 Ross Stores
+BBG000BCVJ77 Baxter International
+BBG000NV1KK7 Dollar General
+BBG000BR14K5 Chubb
+BBG000BJ5HK0 Acuity Brands
+BBG000BDGHD9 Badger Meter Inc
+BBG001YV1SM4 Okta Inc
+BBG000BBNYF6 Darden Restaurants
+BBG000C0LW92 Boston Scientific Corporation
+BBG000GZYVY1 Jack in the Box
+BBG000BWVCP8 The Williams Companies
+BBG001RWPDW6 Ultragenyx Pharmaceutical Inc
+BBG000BKDWB5 Asbury Automotive Group Inc
+BBG00GX77LW3 Black Knight Inc
+BBG000BWGYF8 Vulcan Materials
+BBG000J79P80 Sensient Technologies Corp
+BBG006Q0HY77 Citizens Financial Group
+BBG000BQY289 Patterson
+BBG000Q0SZJ2 LogMeIn Inc
+BBG000BLBVN4 Booking
+BBG000BL8804 Host Hotels & Resorts
+BBG000QY3XZ2 Expedia
+BBG001HRFJG4 Zendesk Inc
+BBG000C2VBB0 PTC Inc
+BBG000PKZDX4 Kaiser Aluminum Corp
+BBG000N746D6 E TRADE Financial Corporation
+BBG000BJSBJ0 NextEra Energy
+BBG000BGD7W6 Marriott International
+BBG000BN5LG7 Vale SA
+BBG000CL1FG7 Bruker Corp
+BBG000P5LMQ0 Saia Inc
+BBG000BQQ2S6 Occidental Petroleum
+BBG000BSLZY7 The Charles Schwab Corporation
+BBG0016XJ8S0 TAL Education Group
+BBG000BNWG87 Medtronic
+BBG00B6KGNN1 Hostess Brands Inc
+BBG009XW2WB8 Performance Food Group Co
+BBG008GC8CP6 Appfolio Inc
+BBG000BCZYD3 Becton, Dickinson and Company
+BBG000CL9VN6 Netflix
+BBG000BYYLS8 Truist Financial Corporation
+BBG000BS73J1 Raymond James Financial
+BBG000BFWF13 Papa John’s International Inc
+BBG000F4F1N0 Meritage Homes Corp
+BBG000L69KL5 Tucows Inc
+BBG000PCNQN7 China Telecom
+BBG00BLVZ228 Fortive
+BBG006G063F9 IHS Markit
+BBG000C42VX0 MerIt Medical Systems Inc
+BBG000C4GBR6 NETGEAR Inc
+BBG000DN4ZT1 Texas Capital Bancshares Inc
+BBG000BDJL83 FactSet Research Systems Inc
+BBG000BB8SW7 Packaging Corp of America
+BBG005CHLM96 Evolent Health Inc
+BBG007TJF1N7 Qorvo
+BBG000C0G1D1 Intel Corporation
+BBG000BB5B84 Lennox International Inc
+BBG009LM28K6 Ingevity Corp
+BBG000BQBYR3 NVR Inc
+BBG000BF8CB6 National Beverage Corp
+BBG000CM6L31 America’s Car-Mart Inc TX
+BBG000G7W420 LHC Group Inc
+BBG000VDC3G9 Zogenix Inc
+BBG000BL30Y9 Movado Group Inc
+BBG000F369C7 Encore Capital Group Inc
+BBG000BCQ4P6 Avery Dennison
+BBG000C8H633 Marathon Oil
+BBG000BQ8KV2 Nucor
+BBG000BSS5C0 Stifel Financial
+BBG00HQ77DS2 Cargurus Inc
+BBG000BFXHL6 Mosaic
+BBG000CC7LQ7 Zebra Technologies Corp
+BBG000R8ZVD1 Lululemon Athletica Inc
+BBG000BHCYJ1 Nektar Therapeutics
+BBG000BC2KW8 Kite Realty Group Trust
+BBG000PRQ0V9 Vishay Precision Group Inc
+BBG008HNS333 Baozun Inc
+BBG000C1FB75 Intercontinental Exchange
+BBG000BGPTV6 Cummins
+BBG000C75N77 Comerica Incorporated
+BBG000PTLGZ1 Lear Corp
+BBG005XVXML5 Shockwave Medical Inc
+BBG000VC0T95 Workday Inc
+BBG001D0HB36 Freshpet Inc
+BBG000HT5G06 Qualys Inc
+BBG000GMGNB3 RBC Bearings Inc
+BBG000VPGNR2 Charter Communications
+BBG00KXRCDP0 Cigna
+BBG009H04M17 Planet FItness Inc
+BBG000QTFDQ4 Atkore International Group Inc
+BBG000QXSSS6 Royal Dutch Shell (A)
+BBG000TVRB50 LendingTree Inc
+BBG000BNPSQ9 Incyte
+BBG00JHNJW99 Twenty-First Century Fox (A)
+BBG002ZCK2V9 Shutterstock Inc
+BBG001Y04TN6 Varonis Systems Inc
+BBG000PV27K3 Extra Space Storage
+BBG000D0FNV3 WESCO International Inc
+BBG00KHGQ0H4 HeadHunter Group PLC
+BBG00RP60KV0 Otis Worldwide
+BBG000H556T9 Honeywell
+BBG000C1BW00 Lockheed Martin
+BBG000P1B7C8 Providence Service Corp The
+BBG000BG7L34 Rayonier Inc
+BBG00M4RHBD0 Revolve Group Inc
+BBG000BCJ161 Sarepta Therapeutics Inc
+BBG000N7KJX8 DocuSign Inc
+BBG00KMYC574 Pluralsight Inc
+BBG000F61RJ8 AECOM
+BBG000R4Y9C1 Avalara Inc
+BBG005CPNTQ2 Kraft Heinz
+BBG000N7MZ06 HubSpot Inc
+BBG000R3RKT8 BioTelemetry Inc
+BBG000BNJHS8 Southwest Airlines
+BBG000BKTXF2 Beacon Roofing Supply Inc
+BBG000QKNLB2 Red River Bancshares
+BBG001M8HHB7 TripAdvisor
+BBG000BNPS52 Trimble Inc
+BBG000BD2NY8 Brown-Forman
+BBG000DQBZJ7 Adtalem Global Education Inc
+BBG00H1CY328 PetIQ Inc
+BBG000BQDF10 Levi Strauss & Co
+BBG000BGTX98 Mobile Mini Inc
+BBG000NSCNT7 Principal Financial Group
+BBG00333FYS2 IQVIA Holdings Inc
+BBG004M9ZHX5 Lyft Inc
+BBG000CTM4J9 Carter’s Inc
+BBG000BPXVJ6 Republic Services
+BBG000BNTW77 PRA Group Inc
+BBG000BK67C7 General Dynamics
+BBG000TRJ294 American Water Works
+BBG009S39JX6 Alphabet Class A
+BBG000C22QV7 Sealed Air
+BBG000BKXBV7 Arena Pharmaceuticals Inc
+BBG000F7RCJ1 Advance Auto Parts
+BBG001BP77C3 QAD Inc
+BBG000C1XVK6 Everest Re Group
+BBG000BQC9V2 Newell Brands
+BBG000BHB3M6 Dover
+BBG000D898T9 Cardinal Health
+BBG000BXNJ07 Cypress Semiconductor Corp
+BBG000BBVJZ8 Devon Energy
+BBG006JS5785 CareDx Inc
+BBG000BP4MH0 Marsh & McLennan
+BBG000BL9C59 Macerich
+BBG00B6WH9G3 Match Group Inc
+BBG000BNHSP9 Jefferies Financial Group
+BBG000BP8Z50 Motorola Solutions
+BBG0035LY913 News Corp (A)
+BBG00B6G7GL7 Axsome Therapeutics Inc
+BBG000DBVBY4 Eaton Vance
+BBG000J0D904 Big Lots Inc
+BBG001J2M542 Veracyte Inc
+BBG000BBQCY0 AMD
+BBG000BP30Y0 Evercore
+BBG001B4BV87 Fortune Brands Home & Security
+BBG000BPBVW5 Cognex Corp
+BBG00FYCQ352 ProPetro Holding Corp
+BBG000K82ZT8 Check Point Software Technologies Ltd
+BBG000BKQG80 IAC InterActiveCorp
+BBG000BCMBG4 Fortinet Inc
+BBG000BLCPY4 Helmerich & Payne
+BBG00K53L394 Equitrans Midstream Corporation
+BBG000BX2YN2 Wolverine World Wide Inc
+BBG000BHFHP8 Domtar Corp
+BBG00MJDR6J9 Legacy Housing Corp
+BBG00HY28P97 Garrett Motion Inc
+BBG000C04224 CBRE Group
+BBG000BCFNR4 China Eastern Airlines
+BBG006B6PVN9 CDK Global
+BBG006Q52RD0 Lantheus Holdings Inc
+BBG000DCGRL8 IPG Photonics Corporation
+BBG000CMRVH1 Aluminum Corp of China
+BBG000BJX8C8 National Oilwell Varco
+BBG000BR2TH3 Procter & Gamble
+BBG000BFD605 Central Garden & Pet Co
+BBG000BZX1N5 Assurant
+BBG000BLF8D2 Hormel Foods
+BBG000FV28W9 Grand Canyon Education Inc
+BBG00JRH1P95 Cactus Inc
+BBG00GQK3WB5 Smartsheet Inc
+BBG000GW06J7 Emergent BioSolutions Inc
+BBG000Q3JN03 Regions Financial
+BBG000BF8CN3 Andersons Inc
+BBG000NJGX84 Addus HomeCare Corp
+BBG00R4ZKPN5 Natura &Co Holding S.A.
+BBG000R7RDB4 Concho Resources
+BBG000FFDM15 US Bancorp
+BBG000BKCFC2 General Mills
+BBG001P63B80 CDW Corp
+BBG000BL9JQ1 HollyFrontier
+BBG000D9V7T4 Aaron’s Inc
+BBG000BKYVF0 Healthcare Services Group Inc
+BBG000FX3Y66 PGT Innovations Inc
+BBG003PS7JV1 Allegion
+TCS000C8NJ10 PolyOne Corp
+BBG000BX57K1 Dentsply Sirona
+BBG000H8R0N8 Rexnord Corp
+BBG0082W8Q12 GCP Applied Technologies Inc
+BBG000BP0HX7 Supernus Pharmaceuticals Inc
+BBG000BC2C10 Apache
+BBG000BWFH48 Heska Corp
+BBG000CZ8W54 Halozyme Therapeutics Inc
+BBG000BMHYD1 Johnson & Johnson
+BBG000BX5YM0 Huaneng Power International
+BBG000MM2P62 Facebook
+BBG000BWNFZ9 Western Digital
+BBG00JH9TZ56 ChampionX Corporation
+BBG00RP5HYS8 Carrier Global
+BBG00212PVZ5 Pure Storage Inc
+BBG00JM7QBR6 Pagseguro Digital Ltd
+BBG000BV0VK7 Telephone & Data Systems Inc
+BBG001KHJM17 Five9 Inc
+BBG000BHR1H9 Sinopec Shanghai Petrochemical
+BBG000BRJ809 PPG Industries
+BBG000BK5DP1 TEGNA
+BBG000BT5PG5 Scotts Miracle-Gro Co The
+BBG000BS7KS3 Molson Coors Brewing
+BBG000BHCP19 Microchip Technology
+BBG000BQZMH4 Public Service Enterprise Group
+BBG000BMY992 Kroger
+BBG0058KMH30 Hilton
+BBG000DM2BF3 Sleep Number Corp
+BBG000BJBZ23 MarketAxess Holdings Inc
+BBG000B9Z0J8 Prologis
+BBG000PWTD92 EnerSys
+BBG000BGYMH7 Martin Marietta Materials
+BBG000BV8DN6 TJX
+BBG000BTQR96 Stanley Black & Decker
+BBG000BQLM34 Gentherm Inc
+BBG00BN96922 Dow Inc
+BBG008NVB1C0 Monster Beverage
+BBG000RYC984 Anheuser-Busch InBev
+BBG000BBDV81 Cognizant Technology Solutions
+BBG000R2YFG7 Booz Allen Hamilton
+BBG001K003W2 Bandwidth Inc
+BBG000BND699 NXP Semiconductors NV
+BBG000CWL0F5 Exact Sciences Corp
+BBG000BKLH74 Gap
+BBG000PVGDH9 Tata Motors
+BBG000C1FQS9 Entergy Corporation
+BBG000DNF659 FirstCash
+BBG000L4M7F1 ResMed Inc
+BBG0019GM953 JELD-WEN Holding Inc
+BBG000HG21Y3 Nu Skin Enterprises Inc
+BBG00FZYFVC5 Delek US Holdings Inc
+BBG009PH3Q86 Ferrari N.V.
+BBG000BY29C7 Tapestry
+BBG000BKPL53 Zimmer Biomet Holdings
+BBG000CN5CJ3 RealPage Inc
+BBG000BFT2L4 Comcast
+BBG000BFGNJ5 Alnylam Pharmaceuticals Inc
+BBG005NMB2L4 Aimmune Therapeutics Inc
+BBG001B12Z39 Tactile Systems Technology Inc
+BBG000BGJRC8 CSX Corp
+BBG000BF6LY3 Carnival
+BBG0020BCPX5 nLight Inc
+BBG007387YL8 PRA Health Sciences Inc
+BBG000BRW644 Edgewell Personal Care Co
+BBG003PGJHP5 Taylor Morrison Home Corp
+BBG000BLMDQ9 Hexcel Corp
+BBG000BPT0C6 Noble Energy
+BBG009Q036D0 GMS Inc
+BBG000BBX657 American Woodmark Corp
+BBG00FBJ6390 Upwork Inc
+BBG00359HX70 Acacia Communications Inc
+BBG000BX3BL3 Weyerhaeuser
+BBG000CKGBP2 GILEAD
+BBG000BT13B3 Proto Labs Inc
+BBG000BB5006 Adobe
+BBG000DZK6N6 National Instruments
+BBG000NJ96L6 Dr. Reddy’s Laboratories
+BBG000BMW2Z0 Kimberly-Clark
+BBG000BBKZD8 Anika Therapeutics Inc
+BBG000BY33P5 Juniper Networks
+BBG00KT2SCV8 GreenSky Inc
+BBG000BFRF55 Cleveland-Cliffs
+BBG00C6H6D40 US Foods Holding Corp
+BBG000BLW102 II-VI Inc
+BBG00HPDM5Z2 Switch Inc
+BBG000C4QP94 Progress Software Corp
+BBG005Q3MQY4 Atara Biotherapeutics Inc
+BBG000BJ5SS8 NewMarket Corp
+BBG000BXMFC3 United Rentals
+BBG000BVD6X4 Globe Life Inc
+BBG000BV2BR2 Tech Data Corp
+BBG002583CV8 Pinterest Inc
+BBG000BMT9T6 Teledyne Technologies Inc
+BBG000BPPN67 Public Storage
+BBG000C7TF41 Haemonetics Corp
+BBG000BRVKH0 Arrowhead Pharmaceuticals Inc
+BBG000BJBXZ2 Zynex Inc
+BBG000BF33K1 Cracker Barrel Old Country Sto
+BBG001MC8YF7 Blueprint Medicines Corp
+BBG000BN46R9 Axogen Inc
+BBG000C5Z1S3 Micron Technology
+BBG000BKYDP9 Healthpeak Properties Inc
+BBG000BGZP70 Donaldson Co
+BBG000BCWG90 Korea Electric Power
+BBG000BVZP59 WEX Inc
+BBG000BX74M4 PC Connection Inc
+BBG009DTD8H2 Under Armour (C)
+BBG000BVHBM1 Toll Brothers Inc
+BBG005BLN209 NOW Inc
+BBG000BCGHH7 8×8 Inc
+BBG000BCWWV0 Columbus McKinnon Corp
+BBG000CVWGS6 Activision Blizzard
+BBG000G25P51 Diodes Inc
+BBG000C2L2L0 Jones Lang LaSalle Inc
+BBG000BX6BJ3 Alleghany Corp
+BBG00179VSY7 Vocera Communications Inc
+BBG000C8D8G9 Bank of Hawaii
+BBG000BKRHQ7 Aerojet Rocketdyne Holdings In
+BBG000L8CBX4 TransDigm
+BBG000C3NTN5 Hologic
+BBG000R33BD1 Reata Pharmaceuticals Inc
+BBG000BHG9K0 ACADIA Pharmaceuticals Inc
+BBG00BN969C1 Corteva Inc
+BBG001KWG293 GrubHub Inc
+BBG000C23KJ3 The AES Corporation
+BBG000BJP882 FMC
+BBG000QSXPZ9 K12 Inc
+BBG000CC53X1 Oshkosh Corporation
+BBG000BNMHS4 ManpowerGroup Inc
+BBG000C46HM9 Macy’s
+BBG000BKTFN2 Halliburton
+BBG000D9DMK0 LabCorp
+BBG000BDD940 Wabtec Corp.
+BBG000Q2HM09 Yelp Inc
+BBG000QXWHD1 Baidu
+BBG000BDXCJ5 Centene Corporation
+BBG000BNFLM9 Lam Research
+BBG005F1DK91 G1 Therapeutics Inc
+BBG000FJ0RK9 LG Display
+BBG000BLRT07 IDEXX
+BBG003LFWP05 Bright Horizons Family Solutio
+BBG000BRNLL2 Align Technology
+BBG000BCSST7 BOEING
+BBG000QP35H2 Fate Therapeutics Inc
+BBG0029SNR63 Capri Holdings Limited
+BBG001J2QYS9 Cara Therapeutics Inc
+BBG000BSJK37 AT&T
+BBG001ZZPQJ6 Roku Inc
+BBG000BQLTW7 Oracle
+BBG000PCQQL6 Qurate Retail Inc
+BBG000HL7499 Worthington Industries Inc
+BBG0078Y1D92 Syneos Health Inc
+BBG000PRJ2Z9 Spirit AeroSystems Holdings
+BBG000R7XX87 Insulet Corp
+BBG000CZWZ05 BioMarin Pharmaceutical Inc
+BBG000BQ4WF8 Exelixis Inc
+BBG000BHTPZ4 ScanSource Inc
+BBG000C734W3 Regeneron Pharmaceuticals
+BBG000BR37X2 Progressive
+BBG000B9ZV28 Amedisys Inc
+BBG001D8R5D0 Xylem
+BBG000Q4XNV1 Belden Inc
+BBG000BKF014 Ligand Pharmaceuticals Inc
+BBG000PXZFW2 Westlake Chemical
+BBG00R2JZG39 O-I Glass
+BBG000BW8S60 Raytheon Technologies
+BBG000C2V3D6 Agilent Technologies
+BBG000BHJWG1 Axon Enterprise Inc
+BBG000BBCDZ2 Rockwell Automation
+BBG00JPRDQH1 Biglari Holdings Inc
+BBG000GJS7C1 Neurocrine Biosciences Inc
+BBG000BBXB74 Bayerische Motoren Werke AG
+BBG000BG7423 Crane Co
+BBG000BGXMG9 Churchill Downs Inc
+BBG000BMGPW0 J&J Snack Foods Corp
+BBG00BN961G4 DuPont de Nemours Inc
+BBG000DYGNW7 McKesson
+BBG001MFW6D6 Chefs’ Warehouse Inc
+BBG000H01H92 AMC Networks Inc
+BBG000C4QB95 STAAR Surgical Co
+BBG0027Z6X10 Spirit Realty Capital Inc
+BBG000BFLXV3 Pilgrim’s Pride Corp
+BBG000BF6756 Crown Holdings Inc
+BBG000GPXKX9 FleetCor Technologies Inc
+BBG009T22D49 SiteOne Landscape Supply Inc
+BBG000F964B6 American States Water Co
+BBG000QPHD08 Axos Financial Inc
+BBG005Y3XWH9 Eagle Pharmaceuticals Inc
+BBG000BPZVW9 New Jersey Resources Corp
+BBG000BD8ZK0 Taiwan Semiconductor Manufacturing
+BBG005XZHR97 Veritiv Corp
+BBG000BBGQF1 AAR Corp
+BBG000BL9MZ4 M/I Homes Inc
+BBG000DBKR53 Semtech Corp
+BBG000BC5WJ4 MAXIMUS Inc
+BBG000BQPC32 Ford
+BBG00DYNJGH9 Howmet Aerospace
+BBG000RQ2GY7 Proofpoint Inc
+BBG000GLG0G0 Guangshen Railway
+BBG000BKFZM4 Corning
+BBG000K4ND22 Chevron
+BBG000TYXCT9 HealthEquity Inc
+BBG000CVKZY0 CorVel Corp
+BBG000BTC2N0 Shenandoah Telecommunications
+BBG000CCFB17 Heritage-Crystal Clean Inc
+BBG000BH1NH9 Deere & Company
+BBG001KJ7WJ5 Aerie Pharmaceuticals Inc
+BBG00JHNKJY8 Twenty-First Century Fox
+BBG000BF3G77 Commerce Bancshares
+BBG000BRNH31 Bottomline Technologies DE Inc
+BBG000BLMY92 Mid-America Apartment Communities
+BBG000BQWPC5 PG&E
+BBG000BX8DC4 Foot Locker
+BBG000BGZT72 Alteryx Inc
+BBG001BP92V1 Penumbra Inc
+BBG000D2ZK61 REX American Resources Corp
+BBG000CX0P89 Global Payments
+BBG005DJFD43 Invitae Corp
+BBG000BM22F5 Dorman Products Inc
+BBG000BPQD31 Mylan NV
+BBG000BKWSR6 Huntington Bancshares
+BBG000BG1SX2 Coca-Cola Consolidated Inc
+BBG000H8LGK2 MEDNAX Inc
+BBG000D4LWF6 Mondelez
+BBG0029KJVB0 Blackline Inc
+BBG000B9XG87 AMETEK
+BBG000BB2KN0 Landstar System
+BBG000DY28W5 Bio-Rad Laboratories Inc
+BBG000PSKYX7 Visa
+BBG000BP46T2 Herman Miller Inc
+BBG000BBJQV0 NVIDIA
+BBG0026ZG4W0 Xencor Inc
+BBG000LR8515 Sally Beauty Holdings Inc
+BBG004NLQHL0 Fastly Inc
+BBG000BLGFJ9 L3Harris Technologies Inc
+BBG00225ZDD0 Cardlytics Inc
+BBG001KY4N87 Aramark
+BBG000FQ6PY6 Citrix Systems
+BBG000BXRPH1 Pioneer Natural Resources
+BBG000BHBGN6 Continental Resources Inc
+BBG0035M2ZB7 News Corp
+BBG000J6XT05 Exelon Corporation
+BBG000DZS2L9 Quaker Chemical Corp
+BBG000BB5373 Western Union
+BBG0025Y4RY4 AbbVie
+BBG0018SLC07 Square
+BBG000BWPP85 Werner Enterprises Inc
+BBG003BW05K6 Science Applications Internati
+BBG00LJYS1P8 Elanco Animal Health Inc
+BBG000BL0T06 UUFP Industries, Inc
+BBG000BF0672 Casey’s General Stores Inc
+BBG000FRVHB9 Ventas
+BBG007BBS8B7 Zynerba Pharmaceuticals Inc
+BBG000BCZBF1 Boston Beer Co Inc The
+BBG000BGGBT8 Carlisle Companies Incorporated
+BBG000FFH4P5 Flowserve
+BBG000C8NJ10 Avient Corporation
+BBG000FKMP26 Advanced Energy Industries Inc
+BBG000BX9WL1 Zions Bancorporation
+BBG00BT7PPY8 Tabula Rasa HealthCare In
+BBG000BZ9223 EOG Resources
+BBG000BBS2Y0 Amgen
+BBG00K4MPP27 Veoneer Inc
+BBG000CHSS88 Old Dominion Freight Line Inc
+BBG000BC1L02 A. O. Smith Corporation
+BBG000QS6NV8 Madrigal Pharmaceuticals Inc
+BBG000LD9JQ8 Wynn Resorts
+BBG000BT0CM2 SVB Financial Group
+BBG000BJ49H3 BorgWarner
+BBG000BRD0D8 PNC Financial Services
+BBG000G2GJT7 Heron Therapeutics Inc
+BBG000BS4MP5 Dillard’s Inc
+BBG000CTV4N4 Entegris Inc
+BBG000BLDV98 H&R Block
+BBG000BP0KQ8 Electronic Arts
+BBG000BTT3D1 Power Integrations Inc
+BBG000BDLCQ0 Reinsurance Group of America I
+BBG000BRXTR8 Regal Beloit
+BBG00H6YFFF5 China Biologic Products Holdings
+BBG000BBK401 Matson Inc
+BBG000CH5208 UnitedHealth
+BBG000BSFRF3 Synopsys
+BBG000BJZ7V7 HB Fuller Co
+BBG000BWPXQ8 British American Tobacco
+BBG000C5HS04 NIKE
+BBG000BSHH72 Southern Copper Corp
+BBG000HGTH33 Cars.com Inc
+BBG000PSJMV7 Texas Roadhouse Inc
+BBG000D13GN8 Zillow Group Inc
+BBG000DB3KT1 Willis Towers Watson
+BBG000BW3299 Union Pacific Corporation
+BBG000BCVG28 Pool Corp
+BBG00GTWPCQ0 Delphi Technologies
+BBG0059FN811 Keysight Technologies Inc
+BBG000C15114 Bio-Techne
+BBG000BDTT76 Materion Corp
+BBG000BGLRN3 CenturyLink
+BBG000D9KWL9 M&T Bank
+BBG000BRJL00 PPL
+BBG0016T3GQ0 Visteon Corp
+BBG000C90DH9 IPG
+BBG000BH6360 Deluxe Corp
+BBG000GRZDV1 Strategic Education Inc
+BBG001WWJTK5 Dave & Buster’s Entertainment Inc
+BBG003DKQRK4 MyoKardia Inc
+BBG000JK9DK4 Children’s Place Inc The
+BBG000JWD753 Las Vegas Sands Corp
+BBG0016MQ7C5 TPI Composites Inc
+BBG000G6Y5W4 McCormick & Co
+BBG000DFMXT3 Aspen Technology Inc
+BBG0018FQNS6 Pacira BioSciences Inc
+BBG000BPMH90 Murphy Oil
+BBG000BB9Q78 Stoneridge Inc
+BBG000BJ3PD2 Eaton Corporation
+BBG00GVR8YQ9 Linde
+BBG000RJ2J04 SS&C Technologies Holdings Inc
+BBG003H0XV18 JOYY Inc
+BBG000N2HDY5 Arista Networks Inc
+BBG000PPFKQ7 Broadridge Financial Solutions
+BBG000G9W6L0 Hub Group Inc
+BBG000MHTV89 EPAM Systems
+BBG000BB65D0 Gartner
+BBG000D6L294 Cimarex Energy
+BBG000FLZN98 Mohawk Industries
+BBG000BR54L0 PulteGroup
+BBG000BB6WG8 Archer-Daniels-Midland Company
+BBG000C43RR5 eBay
+BBG000G8N9C6 Nordstrom
+BBG000BN2DC2 Salesforce
+BBG000H8TVT2 Target
+BBG00FWQ4VD6 Ulta Beauty
+BBG000HGYNZ9 Steel Dynamics Inc
+BBG000BQT4L6 People’s United Financial
+BBG000BHKYH4 Ecolab
+BBG001C7PMJ2 Appian Corp
+BBG000C13CD9 Cadence Design Systems
+BBG000C8L273 Infineon Technologies AG
+BBG000BCLYL9 MSC Industrial Direct Co Inc
+BBG000J3D1Y8 OraSure Technologies Inc
+BBG000MQ1SN9 DaVita HealthCare Partners
+BBG000BQVTF5 PACCAR
+BBG000BR85F1 PetroChina
+BBG00P33SY72 Pennant Group Inc
+TCS003QRSQD3 Health Insurance Innovations
+BBG000BGYWY6 O’Reilly Automotive
+BBG000C7X325 Carl Zeiss Meditec AG
+BBG00HXSHDQ9 Funko Inc
+BBG000BGX2S0 AptarGroup
+BBG007GJ2F81 Floor & Decor Holdings Inc
+BBG000BJD7C2 FARO Technologies Inc
+BBG000MBHNC8 Molina Healthcare Inc
+BBG000BM5SR2 International Paper
+BBG000QFPM65 Huazhu Group
+BBG000BS0ZF1 Ralph Lauren
+BBG000BBGGQ1 Valero Energy Corporation
+BBG001J4BCN4 Coupa Software Inc
+BBG000DQLV23 Bristol-Myers Squibb
+BBG000BJ2D31 Simon Property Group
+BBG001KFKQM7 Sprouts Farmers Market Inc
+BBG000BGFGT8 Littelfuse
+BBG000DHPN63 Realty Income
+BBG0014GJCT9 Palo Alto Networks
+BBG000BB4HM6 LiveRamp Holdings Inc
+BBG000DQN9R3 Middleby Corp The
+BBG000CVRFS4 Hyatt Hotels Corp
+BBG000FW5ZL6 FIBROGEN INC
+BBG002NLDLV8 Vipshop
+BBG000CN80Y9 CorEnergy Infrastructure Trust
+BBG000BVPV84 Amazon.com
+BBG000D5S4M0 Polaris Industries Inc
+BBG000FDBX90 CenterPoint Energy
+BBG000BG4202 Campbell Soup
+BBG0035WV4N9 Manchester United Plc
+BBG000C3G9J2 World Acceptance Corp
+BBG0046L1KL9 Stitch Fix
+BBG000C3FGH9 Graham Holdings Co
+BBG000CPBCL8 Oceaneering International Inc
+BBG000BJQWD2 Akamai Technologies
+BBG008P7F869 Denali Therapeutics Inc
+BBG000Q4NZ54 Envestnet Inc
+BBG000H6HNW3 Twitter
+BBG00HVKH3Q0 ANGI Homeservices Inc
+BBG000R0L5J4 Teradata
+BBG0018SLDN0 Dropbox Inc
+BBG000C101X4 Abiomed Inc
+BBG000BBD5N1 Sanofi
+BBG005DLMMZ6 NMI Holdings Inc
+BBG000BQ2C28 Northrop Grumman
+BBG000CR20B1 East West Ban
+BBG000BHK836 FLIR Systems
+BBG000JH6683 Ionis Pharmaceuticals Inc
+BBG000BCG930 Anthem
+BBG000BC4185 Hawaiian Holdings Inc
+BBG000KK3464 Seacoast Banking Corp of Flori
+BBG000BC4JJ4 Air Products & Chemicals
+BBG000F3CWW7 j2 Global Inc
+BBG000G1C210 Orthofix Medical Inc
+BBG000BD8PN9 Bank of New York Mellon
+BBG000BXPZB7 Ingredion Inc
+BBG00CBYY6M1 Hilton Grand Vacations Inc
+BBG000BVWZF9 Tyler Technologies Inc
+BBG000NS3P30 ExlService Holdings Inc
+BBG000DD8WX1 UMB Financial
+BBG000BV6R84 Thor Industries Inc
+BBG000BKNX95 Goodyear Tire & Rubber
+BBG000BMQCP6 Kirby Corp
+BBG000BCTQ65 Xcel Energy
+BBG000N7MXL8 Etsy Inc
+BBG000BN53G7 Leggett & Platt
+BBG00FN64XT9 DXC Technology
+BBG000C4FQG6 Sturm Ruger & Co Inc
+BBG000D2ZTS8 Hanesbrands
+BBG00HY28K89 Resideo Technologies Inc
+BBG000BPRN29 Onto Innovation Inc
+BBG003338H34 Zscaler Inc
+BBG000BQV1S2 Synaptics Inc
+BBG0039320N9 Zoetis
+BBG000BM6N47 Turtle Beach Corp
+BBG000BB6G37 Analog Devices
+BBG000BC9938 VMware Inc
+BBG000BW6JV4 Integer Holdings Corp
+BBG000C17X76 Biogen
+BBG007BVZ8H9 Workiva Inc
+BBG000CGJMB9 Essex Property Trust
+BBG000BH92D1 Meritor Inc
+BBG000BN84F3 Quest Diagnostics
+BBG0019V9M65 Tandem Diabetes Care Inc
+BBG000BH3JF8 Danaher
+BBG000B9YJ35 Amphenol
+BBG000DS5588 Spectrum Brands Holdings Inc
+BBG000C5Z443 Colfax Corp
+BBG000DMBXR2 JPMorgan
+BBG000BM7HL0 Autodesk
+BBG0065B7K59 Medpace Holdings Inc
+BBG000BT9DW0 Southern
+BBG000BQTMJ9 Pitney Bowes
+BBG000BMNBY1 Euronet Worldwide Inc
+BBG007Z9V591 REGENXBIO Inc
+BBG000BKR1D6 WW Grainger
+BBG001C7PM75 Guidewire Software Inc
+BBG001CGB489 Veeva Systems Inc
+BBG000G30YX4 Alexion Pharmaceuticals
+BBG000PZGB75 SPS Commerce Inc
+BBG000BQSBB2 Patrick Industries Inc
+BBG000BGVW60 Dominion Energy Inc
+BBG005GBRSR6 Marcus & Millichap Inc
+BBG000BWSGF4 Brown & Brown
+BBG00NNG2ZJ8 Xerox
+BBG000BKZB36 The Home Depot
+BBG000H3GDJ8 Kemper
+BBG000J1QLT0 Constellation Brands
+BBG0025X16Y5 Sage Therapeutics Inc
+BBG000BX28M0 USANA Health Sciences Inc
+TCS000BKQG80 IAC InterActiveCorp
+BBG00KHRRDX3 Allogene Therapeutics Inc
+BBG004TPGBP5 Mirati Therapeutics Inc
+BBG000BTR593 Southwestern Energy
+BBG000GQGJT4 TreeHouse Foods Inc
+BBG007DLZ601 Rhythm Pharmaceuticals Inc
+BBG0089KM290 United Technologies
+BBG007NLG4L3 CSW Industrials Inc
+BBG000QDVR53 Cinemark Holdings Inc
+BBG000BTVJ25 Sysco
+BBG000BK2F42 Fidelity National Information
+BBG000BP6LJ8 Altria Group
+BBG000DW4LB1 Armstrong World Industries Inc
+BBG001B17MV2 Wayfair Inc
+BBG000N625H8 Freedom Holding Corp/NV
+BBG000BBRPL4 EMCOR Group
+BBG000BXM6V2 Under Armour
+BBG000BFPK65 Cincinnati Financial Corporation
+BBG0073F9RT7 Lumentum Holdings Inc
+BBG00R45JYB7 Arconic
+BBG00441QMJ7 Snap Inc
+BBG000BL4504 Chesapeake Energy Corporation
+BBG000C42WS4 Compass Minerals International
+BBG00CZNLR47 Varex Imaging Corp
+BBG001KJ2HM9 Huntington Ingalls Industries Inc
+BBG00L2DB535 Sohu.com
+BBG000C060M4 Affiliated Managers Group
+BBG000BKJG33 Corcept Therapeutics Inc
+BBG001NDW1Z7 Nutanix Inc
+BBG003PHHZT1 Moderna Inc
+BBG002832GV8 PBF Energy Inc
+BBG000J094P3 RingCentral Inc
+BBG000FVXD63 Range Resources
+BBG000DKCC19 Tyson Foods
+BBG000KTYB56 Central Garden & Pet Co
+BBG000CF5097 Greenbrier Cos Inc
+BBG000L5CJF3 XPO Logistics Inc
+BBG000BG88X9 CommVault Systems Inc
+BBG00GBVBK51 Baker Hughes
+BBG000BC3BJ2 Henkel AG & Co
+BBG007KC7PB0 Intellia Therapeutics Inc
+BBG001KY3845 Allison Transmission Holdings
+BBG000BNNYW1 Mattel
+BBG000F1ZSN5 Roper Technologies
+BBG00DW3SZS1 Dell Technologies Inc
+BBG000BVVQQ8 Textron
+BBG000DPW6P3 Anixter International Inc
+BBG000CDMJW6 Cal-Maine Foods Inc
+BBG000BN5HF7 Lennar
+BBG000B9X8C0 Ameren
+BBG000H1RYG7 Pegasystems Inc
+BBG000DR5QP5 Brink’s Co
+BBG000BN1M88 Lancaster Colony
+BBG000BQW085 Hain Celestial Group Inc
+BBG000BRB5D9 Vonage Holdings Corp
+BBG000BT7JW9 Snap-on
+BBG000BM9RH1 Copart Inc
+BBG005L86G05 Avanos Medical Inc
+BBG000BF4D19 Community Bank System
+BBG000F7L5N7 Discovery Communications (B)
+BBG000BJ8YN7 Fastenal Company
+BBG00KHY5S69 Broadcom
+BBG00B3T3HD3 Alcoa Corporation
+BBG000C1DHF5 Cirrus Logic Inc
+BBG000BJKPG0 Fiserv
+BBG000BSQLT9 SEI Investments Company
+BBG000BK6MB5 General Electric Company
+BBG000BB6R33 MaxLinear Inc
+BBG000BWBZN1 Varian Medical Systems
+BBG000KLB4Q1 Skyworks Solutions
+BBG0016YQTR5 TRI Pointe Group Inc
+BBG000DCCZW2 AGCO Corp
+BBG0019JZ882 Kinder Morgan
+BBG000BBR9P6 1-800-Flowers.com Inc
+BBG000B9XYV2 American Tower
+BBG000F395V1 Coty
+BBG000BCLBY5 Astronics Corp
+BBG000BRBX66 Plexus Corp
+BBG002Q7J5Z1 TransUnion
+BBG000BDDNH5 Ball Corporation
+BBG000PV2M48 Huron Consulting Group Inc
+BBG000RFP8W6 Echo Global Logistics Inc
+BBG000BPWXK1 Newmont Goldcorp Corporation
+BBG000H001V3 Hibbett Sports Inc
+BBG000JYP7L8 Celanese Corp
+BBG000MDCQC2 AmerisourceBergen Corp
+BBG000BK5S78 Genesco Inc
+BBG000BVWLJ6 Johnson Controls
+BBG000FH5YM1 Frontier Communications
+BBG000BCT197 AMN Healthcare Services Inc
+BBG000BKY1G5 Welltower
+BBG003CVMLQ2 Lamb Weston Holdings Inc
+BBG000CHZ857 Total S.A.
+BBG00286S4N9 Phillips 66
+BBG00LBLCD02 Tenable Holdings Inc
+BBG000H3FZM6 Stericycle
+BBG0033377Y3 HD Supply Holdings Inc
+BBG000DJN7L9 Watsco Inc
+BBG000BSV0W5 LivePerson Inc
+BBG000BL16Q7 HEICO
+BBG000CSY9H9 Bed Bath & Beyond
+BBG000BHX7N2 Emerson Electric
+BBG000NDYB67 General Motors
+BBG000BB99S3 Silicon Laboratories Inc
+BBG000QX74T1 Chipotle Mexican Grill
+BBG000GCSWR5 Inter Parfums Inc
+BBG000BX4S53 Merck KGaA
+BBG000BKFBD7 State Street
+BBG000FSMWC3 Williams-Sonoma Inc
+BBG003QRSQD3 Benefytt Technologies
+BBG0016SSV00 Renewable Energy Group Inc
+BBG000KHWT55 HP
+BBG00CWTTQ41 AdvanSix Inc
+BBG000DSQLQ0 Gray Television Inc
+BBG000BNGTQ7 L Brands
+BBG000BMX289 COCA-COLA
+BBG000BHP8J4 Melco Resorts & Entertainment
+BBG000FC7366 Markel Corp
+BBG005P7Q881 American Airlines Group
+BBG000PYX812 Zumiez Inc
+BBG000MXH9C1 Red Robin Gourmet Burgers Inc
+BBG000J2XL74 Philip Morris
+BBG000BFQYY3 Colgate-Palmolive
+BBG005TJKDZ6 Installed Building Products
+BBG000BP52R2 3M Company
+BBG000BHZ5J9 EQT Corporation
+BBG000HCVWW4 FRP Holdings Inc
+BBG000S9XXB8 QuinStreet Inc
+BBG000BZ2QG2 Surmodics Inc
+BBG000BBL8V7 Quanta Services
+BBG000MBDGM6 Equinix
+BBG000BS5170 Royal Gold
+BBG000BG14P4 Cree Inc
+BBG002B04MT8 Uber
+BBG000FXW512 PerkinElmer
+BBG000BGKHZ3 VeriSign
+BBG000D8RG11 NRG Energy
+BBG000BW29L1 UniFirst Corp MA
+BBG000BQQH30 ConocoPhillips
+BBG000BCD3D5 Arrow Electronics Inc
+BBG003NJHZT9 Datadog Inc
+BBG000BGSPS5 Curtiss-Wright
+BBG000HGNYG8 Forrester Research Inc
+BBG000BLXZN1 Tractor Supply
+BBG000BH2JM1 NortonLifeLock Inc
+BBG000C4LN67 Garmin
+BBG002GBMZG4 Duluth Holdings Inc
+BBG000MTDW24 Sabra Health Care REIT Inc
+BBG000BBXLW4 AutoNation
+BBG000R5HWZ1 Acceleron Pharma Inc
+BBG000BD2167 Itron Inc
+BBG000M44VW8 Owens Corning
+BBG000BLMZK6 CarMax
+BBG000F5YH15 World Wrestling Entertainment
+BBG001KS9450 2U Inc
+BBG000DRM643 ICICI Bank
+BBG000BFL116 First Solar
+BBG000BVMG26 MKS Instruments
+BBG00DL8NMV2 TechnipFMC
+BBG005XR47P5 Catalent Inc
+BBG001QYNR63 Quotient Technology Inc
+BBG000DPZHS3 Natus Medical Inc
+BBG000WG2LQ1 Glaukos Corp
+BBG002DZS299 Anaplan Inc
+BBG000FY4S11 Citigroup
+BBG000BWVSR1 Waste Management
+BBG000C3VHF1 Vicor Corp
+BBG000BWB7V4 Valmont Industries
+BBG000BLDXH5 Allscripts Healthcare Solution
+BBG000CGC1X8 Qualcomm
+BBG000BCWCG1 Best Buy Co.
+BBG000DD3510 Apartment Investment & Management
+BBG000BP3NW2 Cabot Microelectronics
+BBG000BCMWM1 Vail Resorts Inc
+BBG000BVXFK6 Perficient Inc
+BBG000BSHJ96 Sanderson Farms Inc
+BBG000BF6RQ9 Spirit Airlines Inc
+BBG000BMBL90 Illinois Tool Works
+BBG000BVQRY3 Toro
+BBG000C3W281 Masimo Corporation
+BBG000BJ5GK2 Expeditors
+BBG000B9ZXB4 Abbott
+BBG002BC7WC5 Trupanion Inc
+BBG000DSMS70 Illumina
+BBG000BM6788 Trane Technologies
+TCS000BM0QL7 American Outdoor Brands Corp
+BBG00D8JC882 YETI Holdings Inc
+TCS00B6WH9G3 Match Group Inc
+BBG000BBK4B9 China Life Insurance
+BBG00GVP5JL4 Simply Good Foods Co
+BBG000BVP5P2 SL Green Realty
+BBG000KCZPC3 Iron Mountain
+BBG000F6ZWH2 Dick’s Sporting Goods Inc
+BBG000BLHRS2 Hershey
+BBG000BMXK89 NCR Corp
+BBG007HTCQT0 Momo
+BBG000BJPDZ1 Intuitive Surgical
+BBG000G7QX50 Premier Inc
+BBG000QTF8K1 DexCom Inc
+BBG00CVQZQ96 ITT
+BBG000DVB833 GranIte Construction Inc
+BBG000BFJT36 Church & Dwight
+BBG00M1CKSK7 SolarWinds Corp
+BBG000BFRRX8 Clean Harbors Inc
+BBG000BWCKB6 VF
+BBG000NS03H7 MSG Networks Inc
+BBG0022FDRY8 MongoDB Inc
+BBG000FQ7YR4 Live Nation Entertainment Inc
+BBG000DN7P92 Stryker
+BBG000BWLMJ4 Walgreens Boots Alliance
+BBG000BLW530 Eastman Chemical Company
+BBG000BLRP41 Universal Display Corp
+BBG000C23PB0 Leidos Holdings
+BBG00HVQF9K2 National Vision Holdings Inc
+BBG000C45984 Loews
+BBG000BD6DD9 Magellan Health Inc
+BBG000BKLTM1 MRC Global Inc
+BBG0098VVDT9 Ollie’s Bargain Outlet Holding
+BBG000CHWP52 Discovery Communications (A)
+BBG000BMZ7P7 Kansas City Southern
+BBG0056655S1 LGI Homes Inc
+BBG000D86F25 BWX Technologies
+BBG000BVDLH9 Thermo Fisher Scientific
+BBG000BTT5B8 Standex International Corp
+BBG008NXC572 WestRock
+BBG00J0BBZL0 SailPoint Technologies Holdings
+BBG000BWPR54 OSI Systems Inc
+BBG000FH8PX5 Allergan
+BBG000BPDXF8 MSA Safety
+BBG000BGCQT9 Carpenter Technology Corp
+BBG000H9LNX1 BJ’s Restaurants Inc
+BBG000CJZ2W6 SINA Corp China
+BBG0029ZX840 Twilio Inc
+BBG000CB8Q50 Universal Health Services
+BBG000BV75B7 Tiffany & Co
+BBG000DCNK80 RPM International Inc
+BBG000M65M61 United Airlines Holdings
+BBG000BVV7G1 Texas Instruments
+BBG000PV2L86 Wyndham Destinations
+BBG000F0KF42 Seagate
+TCS651671075 Chesapeake Energy Corporation
+BBG000PT6BR8 Chatham Lodging Trust
+BBG000D9D830 Accenture
+BBG000BYZ0Q5 Tetra Tech
+BBG000BNMMJ3 Henry Schein
+BBG000DH7JK6 PepsiCo
+BBG0077VS2C0 TopBuild Corp
+BBG000F6H8W8 Costco Wholesale
+BBG000BKWCS0 Hill-Rom Holdings
+BBG001Q7HP63 Redfin Corp
+BBG000BJ91B1 SP Plus Corp
+BBG000BKL348 Genuine Parts
+BBG002BHBHM1 Mallinckrodt PLC
+BBG000BMFFQ0 Jacobs Engineering
+BBG000BJD1D4 51job
+BBG001DCCGR8 Marathon Petroleum
+BBG000BP1Q11 S&P Global
+BBG000BLK267 Hubbell
+BBG005MX5GZ2 Editas Medicine Inc
+BBG000BKD3K9 Builders FirstSource Inc
+BBG000BB72K8 Lincoln Electric Holdings
+BBG000BNBDC2 Eli Lilly & Co
+BBG000BC7VW9 MYR Group Inc
+BBG003QBJKN0 Allakos Inc
+BBG000C5QMB5 Korn Ferry
+BBG000F2XXP2 Sinclair Broadcast Group Inc
+BBG000PQ4W72 Generac Holdings Inc
+BBG000BKZTP3 Harley-Davidson
+BBG000BGF8B5 ManTech International Corp VA
+BBG000BCWSS3 Brunswick Corp DE
+BBG000BCY878 Balchem Corp
+BBG000BGGTW5 Blackbaud Inc
+BBG000BCQZS4 American Express
+BBG000CN3S73 Kimco Realty
+BBG000BJ41X2 InsperIty Inc
+BBG001J19V24 iRhythm Technologies
+BBG000FP1N32 NetApp
+BBG000C2PL98 Cullen/Frost Bankers
+BBG000D1Y3P1 FormFactor Inc
+BBG000MJRJJ2 Howard Hughes Corp
+BBG000T8ZF80 Primerica
+BBG000BVDBY2 Dril-Quip Inc
+BBG000BKKQ84 Columbia Sportswear Company
+BBG000BQ5DS5 Norfolk Southern
+BBG000BWP7D9 WEC Energy Group
+BBG000BGKXV2 Cooper Tire & Rubber Co
+BBG000BT1715 JM Smucker
+BBG000BSC0K9 Dollar Tree
+BBG009S3NB30 Alphabet Class C
+BBG000H3YXF8 Cintas
+BBG00MVWLLM2 Gossamer Bio Inc
+BBG000HCJMF9 Prudential Financial
+BBG000BMTFR4 KLA-Tencor
+BBG000BD0TF8 Franklin Resources
+BBG00LV3NRG0 Livent Corporation
+BBG000BCNYT9 Avon Products
+BBG000CS0D96 Credit Acceptance Corp
+BBG000BLKK03 Humana
+BBG000Q1R1Y9 Berry Global Group Inc
+BBG000C3J3C9 Cisco
+BBG000BMH2Q7 Jack Henry & Associates Inc
+BBG000BL46Q4 Regency Centers
+BBG000BMKDM3 Kellogg
+BBG000BCZL41 Verisk Analytics
+BBG00KMXKWF9 Perspecta
+BBG000BBD070 Hess
+BBG006598YS8 Paylocity Holding Corp
+BBG001MKZGY7 Yext Inc
+BBG000C2H3F0 CoreLogic Inc United States
+BBG000C0HQ54 Endo International PLC
+BBG000BNGBW9 Nokia
+BBG000BJDB15 Freeport-McMoRan
+BBG00GNC8DL2 Magnolia Oil & Gas Corp
+BBG000C6CFJ5 Goldman Sachs
+BBG000BB0P33 China Mobile
+BBG000T88BN2 Schrodinger Inc
+BBG001WTBC36 Post Holdings Inc
+BBG000BDXGP9 Conagra Brands
+BBG002V87SD0 Globus Medical Inc
+BBG000F1ZSQ2 Mastercard
+BBG000BW2QX0 Unum
+BBG000BBDZG3 American International Group
+BBG000BS9489 Omnicom Group
+BBG000CRN8N8 ASGN Inc
+BBG000HSLV70 Ultra Clean Holdings Inc
+BBG000BDDN94 Oil States International Inc
+BBG007FG0C23 Madison Square Garden Co
+BBG0065XPGX9 Weibo Corporation
+BBG000BRVP70 Ryder System
+BBG000PXDL44 LKQ Corporation
+BBG00K7T3037 Bilibili Inc
+BBG000BWJFZ4 CF Industries Holdings
+BBG000BG1DH3 Coherent Inc
+BBG000BV4DR6 Teradyne Inc
+BBG000PSXT64 Cooper-Standard Holdings Inc
+BBG005BT60Y8 NV5 Global Inc
