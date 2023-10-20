@@ -1,6 +1,6 @@
 import Cython
 import pandas as pd
-from textblob import TextBlob
+# from textblob import TextBlob
 import chardet
 from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse
 #
