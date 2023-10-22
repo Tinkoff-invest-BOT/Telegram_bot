@@ -1,5 +1,0 @@
-host = 'localhost'
-user = 'root'
-password = '1234'
-db_name = 'users'
-BOT_TOKEN = '6308347573:AAHRkAHGuBCmw_cDgm8J9z1pA3N9AZZ3bb8'
