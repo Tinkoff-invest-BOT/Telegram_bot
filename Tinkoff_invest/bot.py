@@ -3,23 +3,23 @@ from aiogram import Bot, Dispatcher, executor, types
 import markups as nav
 from functions import tocken_check
 from db import Database
+from passwords import *
+from connection_db import connect
 
-TOKEN = '6308347573:AAHRkAHGuBCmw_cDgm8J9z1pA3N9AZZ3bb8'
+
 logging.basicConfig(level=logging.INFO)
-bot = Bot(TOKEN)
+bot = Bot(BOT_TOKEN)
 dp = Dispatcher(bot)
 
-db = Database('database')
-
+db = Database(connect)
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    if (not db.user_exists(message.from_user.id)):
+    if(not db.user_exists(message.from_user.id)):
         db.add_user(message.from_user.id)
         await bot.send_message(message.from_user.id, f'Привет, {message.chat.first_name}! \n Укажи свой ник:')
     else:
         await bot.send_message(message.from_user.id, "Вы уже зарегистрированны!", reply_markup=nav.mainMenu)
-
 
 @dp.message_handler()
 async def bot_message(message: types.Message):
@@ -28,8 +28,8 @@ async def bot_message(message: types.Message):
             pass
         else:
             if db.get_signup(message.from_user.id) == 'setnickname':
-                if (len(message.text) > 15):
-                    await bot.send_message(message.from_user.id, 'Никнейм не должен превышать 15 символов')
+                if(len(message.text) > 30):
+                    await bot.send_message(message.from_user.id, 'Никнейм не должен превышать 30 символов')
                 elif '@' in message.text or '/' in message.text:
                     await bot.send_message(message.from_user.id, 'Вы ввели запрещенный символ')
                 else:
@@ -37,7 +37,7 @@ async def bot_message(message: types.Message):
                     db.set_sign_up(message.from_user.id, "setemail")
                     await bot.send_message(message.from_user.id, 'Введите  свой email', reply_markup=nav.mainMenu)
             elif db.get_signup(message.from_user.id) == 'setemail':
-                if (len(message.text) < 5):
+                if(len(message.text) < 5):
                     await bot.send_message(message.from_user.id, "Недопустимый email")
                 elif '@' not in message.text or '.' not in message.text:
                     await bot.send_message(message.from_user.id, 'Недопустимый формат email')
@@ -49,8 +49,7 @@ async def bot_message(message: types.Message):
                 if tocken_check(message.text) == 1:
                     await bot.send_message(message.from_user.id, 'Несуществующий токен')
                 elif tocken_check(message.text) == 2:
-                    await bot.send_message(message.from_user.id,
-                                           'Ты когда нибудь видел токен на русском языке? Напиши нормальный токен')
+                    await bot.send_message(message.from_user.id, 'Ты когда нибудь видел токен на русском языке? Напиши нормальный токен')
                 elif tocken_check(message.text) == 3:
                     await bot.send_message(message.from_user.id, 'Я такое не понимаю...')
 
@@ -60,5 +59,9 @@ async def bot_message(message: types.Message):
                     await bot.send_message(message.from_user.id, 'Ваш аккаунт зарегестрирован!')
 
 
+
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates = True)
+
+
+
