@@ -1,6 +1,4 @@
-import Cython
-import pandas as pd
-# from textblob import TextBlob
+from bot import *
 import chardet
 from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse
 #
@@ -26,3 +24,5 @@ def tocken_check(TOKEN):
         except ValueError as e:
             result = 1
         return result
+
+

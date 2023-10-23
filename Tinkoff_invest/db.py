@@ -1,4 +1,7 @@
-
+import logging
+from aiogram import Bot, Dispatcher, executor, types
+import markups as nav
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 class Database:
     def __init__(self, connection):
@@ -62,6 +65,24 @@ class Database:
             result = self.cursor.execute(tmp)
             self.connection.commit()
             return result
+
+    def set_status(self, user_id, status):
+        self.connection.ping()
+        with self.connection:
+            tmp = f"UPDATE `people` SET `status` = {repr(status)} WHERE `user_id`= {user_id}"
+            result = self.cursor.execute(tmp)
+            self.connection.commit()
+            return result
+
+    def get_status(self, user_id):
+        self.connection.ping()
+        with self.connection:
+            tmp = f"SELECT `status` FROM `people` WHERE `user_id` = {user_id}"
+            self.cursor.execute(tmp)
+            result = self.cursor.fetchall()
+            for row in result:
+                sign_up = row['status']
+            return sign_up
 
 
 
