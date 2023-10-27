@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from tabulate import tabulate
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from tabulate import tabulate
+# from tabulate import tabulate
 from io import BytesIO
 from functions import *
 from functions import *
@@ -20,7 +20,7 @@ dp = Dispatcher(bot)
 db = Database(connect)
 
 def ff():
-    from temprary import df
+    from temporary import df
 
 @dp.message_handler(lambda message: db.user_exists(message.from_user.id) == False)
 async def why_without_start(message):
@@ -93,12 +93,12 @@ async def tkn_setter(message: types.Message):
         db.set_sign_up(message.from_user.id, 'withouttoken')
         db.set_status(message.from_user.id, "none")
     else:
-        if tocken_check(message.text) == 1:
+        if token_check(message.text) == 1:
             await bot.send_message(message.from_user.id, 'Несуществующий токен')
-        elif tocken_check(message.text) == 2:
+        elif token_check(message.text) == 2:
             await bot.send_message(message.from_user.id,
                                    'Ты когда нибудь видел токен на русском языке? Напиши нормальный токен')
-        elif tocken_check(message.text) == 3:
+        elif token_check(message.text) == 3:
             await bot.send_message(message.from_user.id, 'Я такое не понимаю...')
 
         else:
@@ -119,12 +119,12 @@ async def token_setter(message: types.Message):
         db.set_sign_up(message.from_user.id, 'withouttoken')
         db.set_status(message.from_user.id, "none")
     else:
-        if tocken_check(message.text) == 1:
+        if token_check(message.text) == 1:
             await bot.send_message(message.from_user.id, 'Несуществующий токен')
-        elif tocken_check(message.text) == 2:
+        elif token_check(message.text) == 2:
             await bot.send_message(message.from_user.id,
                                    'Ты когда нибудь видел токен на русском языке? Напиши нормальный токен')
-        elif tocken_check(message.text) == 3:
+        elif token_check(message.text) == 3:
             await bot.send_message(message.from_user.id, 'Я такое не понимаю...')
 
         else:
@@ -139,16 +139,16 @@ async def token_setter(message: types.Message):
 async def continue_without_token(message:types.Message):
     if (not db.user_exists(message.from_user.id)):
         db.add_user(message.from_user.id)
-        await bot.send_message(message.from_user.id, f'Привет, {message.chat.first_name}! \n Укажи свой ник:')
+        await bot.send_message(message.from_user.id, f'Приветствую, {message.chat.first_name}! \n Укажите свой ник:')
     else:
         if db.get_signup(message.from_user.id) == 'done':
-            await bot.send_message(message.from_user.id, 'Но вы уже ввели токен, Вам доступны все функции!')
+            await bot.send_message(message.from_user.id, 'Вы уже ввели токен, Вам доступны все функции!')
         elif db.get_signup(message.from_user.id) != 'settoken':
             await bot_message(message)
         elif db.get_signup(message.from_user.id) == 'withouttoken':
             await bot.send_message(message.from_user.id, 'Вам уже доступен функционал, для которого не требуется токен.\nЕсли захотите вести или изменить токен, это всегда можно сделать, вызвав команду "/settoken"')
         else:
-            await bot.send_message(message.from_user.id, 'Вам доступен функционал, для которого не требуется токен.\nЕсли захотите вести или изменить токен, это всегда можно сделать, вызвав команду "/settoken"')
+            await bot.send_message(message.from_user.id, 'Вам доступен функционал, для которого не требуется токен.\nЕсли захотите ввести или изменить токен, введите команду "/settoken"')
             db.set_sign_up(message.from_user.id, 'withouttoken')
 
 
@@ -156,8 +156,9 @@ async def continue_without_token(message:types.Message):
 @dp.message_handler(lambda message: message.text == "/get_portfolio")
 async def get_portfolio(message: types.Message):
     if db.get_signup(message.from_user.id) != 'done':
-        await bot.send_message(message.from_user.id, 'Извините, но эта функция не работает без токена. Что бы установить свой токен введи /settoken\nУзнать доступные функции можно вызвав /help')
+        await bot.send_message(message.from_user.id, 'Извините, но эта функция не работает без токена. Чтобы установить свой токен введите команду /settoken.\nУзнать доступные функции можно с помощью команды /help')
     else:
+        ff()
         pdf_out = create_pdf_from_dataframe(df)
         pdf_out.seek(0)
         await bot.send_document(message.from_user.id, document=types.InputFile(pdf_out,filename='your_portfolio.pdf'))
@@ -183,10 +184,10 @@ async def bot_message(message: types.Message):
         if (not db.user_exists(message.from_user.id)):
             db.add_user(message.from_user.id)
             await bot.send_message(message.from_user.id, start_message)
-            await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
+            await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выберите себе ник:')
             db.set_sign_up(message.from_user.id, 'setnikname')
         else:
-            await bot.send_message(message.from_user.id, 'Очень интересно, но ничего не понятно\nЧто бы узнать доступные команды, введи /help')
+            await bot.send_message(message.from_user.id, 'Очень интересно, но ничего не понятно\nЧтобы узнать доступные команды, введите /help')
     else:
         await bot.send_message(message.from_user.id,'Я работаю только в личных чатаx')
 

@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from reportlab.pdfbase import pdfmetrics
 
 # import markups as nav
-from temprary import df_str, df_html, df
+from temporary import df_str, df_html, df
 from tabulate import tabulate
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
@@ -73,7 +73,7 @@ sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
 #     return output
 
 
-def tocken_check(TOKEN):
+def token_check(TOKEN):
     try:
         if chardet.detect(TOKEN.encode('cp1251'))['language'] == 'Russian':
             result = 2
