@@ -85,10 +85,25 @@ class Database:
             return sign_up
 
 
+    def get_figi(self, figi):
+        self.connection.ping()
+        with self.connection:
+            tmp = f"SELECT `name` FROM `shares` WHERE `share` = {repr(figi)}"
+            self.cursor.execute(tmp)
+            result = self.cursor.fetchall()
+            for row in result:
+                fg = row['name']
+            return fg
 
-
-
-
-
-
-
+    # def get_token(self, user_id):
+    #     self.connection.ping()
+    #     with self.connection:
+    #         tmp = f"SELECT `token` FROM `people` WHERE `user_id` = {user_id}"
+    #         self.cursor.execute(tmp)
+    #         result = self.cursor.fetchall()
+    #         if result == []:
+    #             return 'none'
+    #         else:
+    #             for row in result:
+    #                 ravil = row['token']
+    #                 return ravil

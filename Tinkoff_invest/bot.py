@@ -1,6 +1,13 @@
 import logging
+import matplotlib.pyplot as plt
 from aiogram import Bot, Dispatcher, executor, types
-import markups as nav
+# import markups as nav
+from tabulate import tabulate
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from tabulate import tabulate
+from io import BytesIO
+from functions import *
 from functions import *
 from db import Database
 from passwords import *
@@ -12,6 +19,17 @@ bot = Bot(BOT_TOKEN)
 dp = Dispatcher(bot)
 db = Database(connect)
 
+def ff():
+    from temprary import df
+
+@dp.message_handler(lambda message: db.user_exists(message.from_user.id) == False)
+async def why_without_start(message):
+    db.add_user(message.from_user.id)
+    await bot.send_message(message.from_user.id, start_message)
+    await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
+    db.set_sign_up(message.from_user.id, 'setnikname')
+
+
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
@@ -21,7 +39,7 @@ async def start(message: types.Message):
         await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
         db.set_sign_up(message.from_user.id, 'setnikname')
     elif db.get_signup(message.from_user.id) == 'done' or db.get_signup(message.from_user.id) == 'withouttoken':
-        await bot.send_message(message.from_user.id, "Вы уже зарегистрированны!", reply_markup=nav.mainMenu)
+        await bot.send_message(message.from_user.id, "Вы уже зарегистрированны!")
     else:
         await bot.send_message(message.from_user.id, "Продолжайте регистрацию")
 
@@ -135,11 +153,38 @@ async def continue_without_token(message:types.Message):
 
 
 
+@dp.message_handler(lambda message: message.text == "/get_portfolio")
+async def get_portfolio(message: types.Message):
+    if db.get_signup(message.from_user.id) != 'done':
+        await bot.send_message(message.from_user.id, 'Извините, но эта функция не работает без токена. Что бы установить свой токен введи /settoken\nУзнать доступные функции можно вызвав /help')
+    else:
+        pdf_out = create_pdf_from_dataframe(df)
+        pdf_out.seek(0)
+        await bot.send_document(message.from_user.id, document=types.InputFile(pdf_out,filename='your_portfolio.pdf'))
+
+
+
+    # plt.bar(df['figi'], df['quantity'])
+    # plt.xlabel('Share')
+    # plt.ylabel('Quontity')
+    # plt.title('Я самый крутой мазафака')
+    # plt.savefig('tmp.png')
+    # await bot.send_photo(message.from_user.id, photo=open('tmp.png', 'rb'))
+
+
+
+    # table = tabulate(df, headers='keys', tablefmt='pretty')
+    # await bot.send_message(message.from_user.id, table)
+
+
 @dp.message_handler()
 async def bot_message(message: types.Message):
     if message.chat.type == 'private':
         if (not db.user_exists(message.from_user.id)):
-            await start(message)
+            db.add_user(message.from_user.id)
+            await bot.send_message(message.from_user.id, start_message)
+            await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
+            db.set_sign_up(message.from_user.id, 'setnikname')
         else:
             await bot.send_message(message.from_user.id, 'Очень интересно, но ничего не понятно\nЧто бы узнать доступные команды, введи /help')
     else:
@@ -148,6 +193,3 @@ async def bot_message(message: types.Message):
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
-
-
-
