@@ -11,13 +11,13 @@ from functions import *
 from functions import *
 from db import Database
 from passwords import *
-from connection_db import connect
+from connection_db import connection
 from messages import *
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher(bot)
-db = Database(connect)
+db = Database(connection)
 
 def ff():
     from temporary import df
@@ -27,7 +27,7 @@ async def why_without_start(message):
     db.add_user(message.from_user.id)
     await bot.send_message(message.from_user.id, start_message)
     await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
-    db.set_sign_up(message.from_user.id, 'setnikname')
+    db.set_sign_up(message.from_user.id, 'setniсkname')
 
 
 
@@ -165,12 +165,12 @@ async def get_portfolio(message: types.Message):
 
 
 
-    # plt.bar(df['figi'], df['quantity'])
-    # plt.xlabel('Share')
-    # plt.ylabel('Quontity')
-    # plt.title('Я самый крутой мазафака')
-    # plt.savefig('tmp.png')
-    # await bot.send_photo(message.from_user.id, photo=open('tmp.png', 'rb'))
+    plt.bar(df['figi'], df['quantity'])
+    plt.xlabel('Share')
+    plt.ylabel('Quantity')
+    plt.title('Я самый крутой мазафака')
+    plt.savefig('tmp.png')
+    await bot.send_photo(message.from_user.id, photo=open('tmp.png', 'rb'))
 
 
 
