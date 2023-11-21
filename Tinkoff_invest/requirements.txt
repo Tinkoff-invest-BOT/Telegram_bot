@@ -1,0 +1,12 @@
+psycopg2
+aiogram
+matplotlib
+reportlab
+chardet
+pandas
+Python-IO
+datetime
+ta
+markups
+logging
+typing
