@@ -37,7 +37,7 @@ async def start(message: types.Message):
         db.add_user(message.from_user.id)
         await bot.send_message(message.from_user.id, start_message)
         await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
-        db.set_sign_up(message.from_user.id, 'setnikname')
+        db.set_sign_up(message.from_user.id, 'setnickname')
     elif db.get_signup(message.from_user.id) == 'done' or db.get_signup(message.from_user.id) == 'withouttoken':
         await bot.send_message(message.from_user.id, "Вы уже зарегистрированны!")
     else:
@@ -60,7 +60,7 @@ async def help(message: types.Message):
 
 
 
-@dp.message_handler(lambda message: db.get_signup(message.from_user.id) == "setnikname")
+@dp.message_handler(lambda message: db.get_signup(message.from_user.id) == "setnickname")
 async def nick_setter(message: types.Message):
     if (len(message.text) > 30):
         await bot.send_message(message.from_user.id, 'Никнейм не должен превышать 30 символов')
@@ -181,11 +181,11 @@ async def get_portfolio(message: types.Message):
 @dp.message_handler()
 async def bot_message(message: types.Message):
     if message.chat.type == 'private':
-        if (not db.user_exists(message.from_user.id)):
+        if (db.get_signup(message.from_user.id) == 'setnickname'):
             db.add_user(message.from_user.id)
             await bot.send_message(message.from_user.id, start_message)
             await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выберите себе ник:')
-            db.set_sign_up(message.from_user.id, 'setnikname')
+            db.set_sign_up(message.from_user.id, 'setnickname')
         else:
             await bot.send_message(message.from_user.id, 'Очень интересно, но ничего не понятно\nЧтобы узнать доступные команды, введите /help')
     else:

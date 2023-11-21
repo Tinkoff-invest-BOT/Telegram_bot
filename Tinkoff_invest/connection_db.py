@@ -13,7 +13,7 @@ try:
 except Exception as e:
     print("Ошибочка(( проверь  правильность данных для подключения к бд")
     print(e)
-    
+
 # with connection:
 #     cursor = connection.cursor()
 #     cursor.execute("SELECT * FROM public.figi_2_comp;")

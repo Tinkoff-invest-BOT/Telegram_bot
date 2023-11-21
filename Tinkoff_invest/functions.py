@@ -14,7 +14,7 @@ from tabulate import tabulate
 from io import BytesIO
 from db import Database
 from passwords import *
-from connection_db import connect
+from connection_db import connection
 from messages import *
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import fonts
