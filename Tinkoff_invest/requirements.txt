@@ -10,3 +10,7 @@ ta
 markups
 logging
 typing
+tabulate
+tinkoff.invest
+tinkoff
+fpdf
