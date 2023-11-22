@@ -29,7 +29,7 @@ class Database:
     def set_nickname(self, user_id, nickname):
         self.cursor.execute("SELECT 1")
         with self.connection:
-            tmp = f"UPDATE users SET nickname = {repr(nickname)} WHERE `user_id`= {user_id};"
+            tmp = f"UPDATE users SET nickname = {repr(nickname)} WHERE user_id= {user_id};"
             result = self.cursor.execute(tmp)
             self.connection.commit()
             return result

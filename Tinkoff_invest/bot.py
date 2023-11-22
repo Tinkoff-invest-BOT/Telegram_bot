@@ -27,7 +27,7 @@ async def why_without_start(message):
     db.add_user(message.from_user.id)
     await bot.send_message(message.from_user.id, start_message)
     await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
-    db.set_sign_up(message.from_user.id, 'setniсkname')
+    db.set_sign_up(message.from_user.id, 'setnickname')
 
 
 
@@ -181,7 +181,7 @@ async def get_portfolio(message: types.Message):
 @dp.message_handler()
 async def bot_message(message: types.Message):
     if message.chat.type == 'private':
-        if (db.get_signup(message.from_user.id) == 'setnickname'):
+        if (not db.user_exists(message.from_user.id)):
             db.add_user(message.from_user.id)
             await bot.send_message(message.from_user.id, start_message)
             await bot.send_message(message.from_user.id, f'{message.chat.first_name}, выберите себе ник:')
