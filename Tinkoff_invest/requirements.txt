@@ -10,7 +10,10 @@ ta
 markups
 logging
 typing
-tabulate
-tinkoff.invest
-tinkoff
-fpdf
+pytz
+asyncio
+schedule
+apimoex
+apscheduler
+datetime
+
