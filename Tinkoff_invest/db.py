@@ -86,6 +86,7 @@ class Database:
                 sign_up = row['status']
             return sign_up
 
+
     def get_figi(self, figi):
         self.cursor.execute("SELECT 1")
         with self.connection:
@@ -122,28 +123,29 @@ class Database:
     def get_all_users(self):
         self.cursor.execute("SELECT user_id FROM users")
         return [row['user_id'] for row in self.cursor.fetchall()]
+    
+
+    def ticker_to_figi(self, ticker):
+        self.cursor.execute(f"SELECT figi FROM tiki WHERE ticker = {repr(ticker)}")
+        result = self.cursor.fetchone()
+        return result[0]
+
+
+    def ticker_to_name(self, ticker):
+        self.cursor.execute(f"SELECT name FROM tiki WHERE ticker = {repr(ticker)}")
+        result = self.cursor.fetchone()
+        return result
+    
 
 # db = Database(connection) 
-# db.add_user(user_id=12346) # проверОчка
-# db.set_share(user_id=12346, shares_list=['TATN'])
-# shares = db.get_share(user_id=12346)
-# print(db.get_all_users())
+# db.set_share(user_id=311223254, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
+# db.set_share(user_id=1850315818, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
+# db.set_share(user_id=446927518, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
+# db.set_share(user_id=327256178, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
+
+
+
 
         
         
         
-        
-        
-        
-    # def get_token(self, user_id):
-    #     self.connection.ping()
-    #     with self.connection:
-    #         tmp = f"SELECT `token` FROM `users` WHERE `user_id` = {user_id}"
-    #         self.cursor.execute(tmp)
-    #         result = self.cursor.fetchall()
-    #         if result == []:
-    #             return 'none'
-    #         else:
-    #             for row in result:
-    #                 ravil = row['token']
-    #                 return ravil
