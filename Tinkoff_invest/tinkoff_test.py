@@ -27,7 +27,6 @@ def get_account_id(r, a):
 
 print("Введите токен от своего аккаунта")
 TOKEN = input()
-os.environ['TOKEN'] = TOKEN
 try:
     with Client(TOKEN) as client:
         r = client.users.get_accounts()

@@ -3,8 +3,8 @@ import psycopg2
 try:
     connection = psycopg2.connect(
         dbname="mydatabase",
-        user="admin",
-        password="root",
+        user="postgres",
+        password="123",
         host="localhost",
         port="5432"
     )

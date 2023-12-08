@@ -28,51 +28,7 @@ import sys
 import codecs
 import pandas as pd
 
-
-# from weasyprint import HTML
-#
-# def create_pdf_from_dataframe(dataframe):
-#     # Преобразовываем датафрейм в HTML
-#     html = dataframe.to_html(classes='table table-condensed table-bordered')
-#
-#     output = BytesIO()
-#
-#     # Генерируем PDF из HTML
-#     HTML(string=html).write_pdf(output)
-#
-#     return output
-
 sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
-
-# class PDF(FPDF):
-#     def header(self):
-#         self.set_font("Arial", "B", 12)
-#         self.cell(0, 10, "Заголовок", 0, 1, "C")
-#
-#     def chapter_title(self, title):
-#         self.set_font("Arial", "B", 12)
-#         self.cell(0, 10, title, 0, 1, "L")
-#         self.ln(10)
-#
-#     def chapter_body(self, body):
-#         self.set_font("Arial", "", 12)
-#         self.multi_cell(0, 10, body)
-#         self.ln()
-#
-# def create_pdf_from_dataframe(dataframe):
-#     output = BytesIO()
-#     pdf = PDF()
-#     pdf.add_page()
-#
-#     text = dataframe.to_string(index=False)
-#
-#     pdf.chapter_title("Ваш заголовок")
-#     pdf.chapter_body(text)
-#
-#     pdf.output(output)
-#     return output
-
-
 def token_check(TOKEN):
     try:
         if chardet.detect(TOKEN.encode('cp1251'))['language'] == 'Russian':
@@ -93,12 +49,17 @@ def token_check(TOKEN):
             result = 1
         return result
 
+# def share_check(share):
+#     result = db.share_exist(share)
+#     if result:
+#         return True
+#     return False
 
 def create_pdf_from_dataframe(dataframe):
     output = BytesIO()
-    pdfmetrics.registerFont(TTFont('Sochi2014Bold', r"C:\Users\Timur\PycharmProjects\pythonProject\Tinkoff_invest\Sochi2014Bold.ttf"))
+    # pdfmetrics.registerFont(TTFont('Sochi2014Bold', r"C:\Users\Timur\PycharmProjects\pythonProject\Tinkoff_invest\Sochi2014Bold.ttf"))
 
-    doc = SimpleDocTemplate(output, pagesize=letter, fontName='Sochi2014Bold')
+    doc = SimpleDocTemplate(output, pagesize=letter)
     elements = []
     doc.encoding = "utf-8"
     table_data = [list(dataframe.columns)] + dataframe.values.tolist()
@@ -107,6 +68,9 @@ def create_pdf_from_dataframe(dataframe):
     elements.append(table)
     doc.build(elements)
     return output
+
+def token_access_level(token):
+    pass
 
 
 

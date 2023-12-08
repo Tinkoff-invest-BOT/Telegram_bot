@@ -76,6 +76,14 @@ class Database:
             self.connection.commit()
             return result
 
+    def set_token_status(self, user_id, status):
+        self.cursor.execute("SELECT 1")
+        with self.connection:
+            tmp = f"UPDATE users SET token_status = {repr(status)} WHERE user_id = {user_id}"
+            result = self.cursor.execute(tmp)
+            self.connection.commit()
+            return result
+
     def get_status(self, user_id):
         self.cursor.execute("SELECT 1")
         with self.connection:
@@ -93,9 +101,19 @@ class Database:
             tmp = f"SELECT name FROM figi_2_comp WHERE figi = '{figi}'"
             self.cursor.execute(tmp)
             result = self.cursor.fetchall()
-            for row in result:
-                fg = row['name']
-            return fg
+            if result:
+                for row in result:
+                    fg = row['name']
+                return fg
+            else:
+                return 0
+    def get_token_status(self, user_id):
+        self.cursor.execute("SELECT 1")
+        with self.connection:
+            tmp = f"SELECT token_status FROM users WHERE user_id = {user_id}"
+            self.cursor.execute(tmp)
+            result = self.cursor.fetchone()
+            return result
 
 
     def set_share(self, user_id, shares_list):
@@ -135,7 +153,18 @@ class Database:
         self.cursor.execute(f"SELECT name FROM tiki WHERE ticker = {repr(ticker)}")
         result = self.cursor.fetchone()
         return result
-    
+
+
+    def share_exist(self, share):
+        self.cursor.execute("SELECT 1")
+        with self.connection:
+            tmp = f"SELECT figi FROM tiki WHERE ticker = {repr(share)}"
+            self.cursor.execute(tmp)
+            result = self.cursor.fetchone()
+            if result:
+                return True
+            return False
+
 
 # db = Database(connection) 
 # db.set_share(user_id=311223254, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
