@@ -1,5 +1,5 @@
 psycopg2
-aiogram
+aiogram==2.23.1
 matplotlib
 reportlab
 chardet
@@ -15,5 +15,5 @@ asyncio
 schedule
 apimoex
 apscheduler
-datetime
-
+plotly
+streamlit

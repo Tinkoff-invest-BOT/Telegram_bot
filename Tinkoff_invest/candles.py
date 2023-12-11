@@ -13,6 +13,9 @@ from tinkoff.invest import Client, RequestError, CandleInterval, HistoricCandle
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import streamlit as st
+
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -22,7 +25,6 @@ def run():
     try:
         with Client(TOKEN) as client:
             r = client.market_data.get_candles(
-                # figi='USD000UTSTOM',
                 figi='BBG004731032',
                 from_=datetime.utcnow() - timedelta(days = 7),
                 to=datetime.utcnow(),
@@ -37,10 +39,23 @@ def run():
 
             df['ema'] = ema_indicator(close=df['close'], window=9)
 
-            print(df[['time', 'close', 'ema']].tail(30))
-            ax=df.plot(x='time', y='close')
-            df.plot(ax=ax, x='time', y='ema')
-            plt.show()
+            fig = go.Figure()
+
+            fig.add_trace(go.Candlestick(x=df['time'],
+                            open=df['open'],
+                            high=df['high'],
+                            low=df['low'],
+                            close=df['close']))
+
+            fig.add_trace(go.Scatter(x=df['time'], y=df['ema'], mode='lines', name='EMA'))
+
+            fig.update_layout(
+                title='График стоимости акций с EMA',
+                xaxis_title='Время',
+                yaxis_title='Цена акции',
+            )
+
+            st.plotly_chart(fig, theme="streamlit")
 
     except RequestError as e:
         print(str(e))
@@ -62,4 +77,7 @@ def create_df(candles : [HistoricCandle]):
 def cast_money(v):
     return v.units + v.nano / 1e9  # nano - 9 нулей
 
-run()
+if __name__ == "__main__":
+    st.set_page_config(page_title="EMA Indicator line", page_icon="📈")
+
+    run()

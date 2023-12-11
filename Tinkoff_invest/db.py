@@ -107,6 +107,7 @@ class Database:
                 return fg
             else:
                 return 0
+            
     def get_token_status(self, user_id):
         self.cursor.execute("SELECT 1")
         with self.connection:
@@ -164,6 +165,10 @@ class Database:
             if result:
                 return True
             return False
+        
+    def get_all_tinkoff_tickers(self):
+        self.cursor.execute("SELECT ticker FROM tiki")
+        return [row['ticker'] for row in self.cursor.fetchall()]
 
 
 # db = Database(connection) 
