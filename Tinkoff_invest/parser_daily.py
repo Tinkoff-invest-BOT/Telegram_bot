@@ -8,6 +8,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.utils.executor import start_webhook
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from tinkoff.invest import Client, CandleInterval, RequestError
+from passwords import *
 
 
 
@@ -54,7 +55,7 @@ def stock_price_change(shares_figi, user_id):
     if db.get_token(user_id=user_id) != None:
         TOKEN = db.get_token(user_id=user_id)
     else:
-        TOKEN = "t.wtbTq-3mtVbV_7R8Ma-HR6oObR4kIHCRCaQunedAxn5pIvoJ-uhHED1YFA8SKvQFvGNZdbtOCoiikNV38LiFeA"
+        TOKEN = TOKEN_SH
     
     for figi in shares_figi:     
         figi_use = db.ticker_to_figi(figi)

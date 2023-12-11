@@ -22,7 +22,6 @@ from bot import *
 import chardet
 from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse
 #
-# TOKEN = "t.aR38YYpBrtrkJezowoByFlvhDiOUl8ixFl9QLbnYPr-6x9pfuAL0IOpwjmPdBFI-sNt25Ln1BT9SlhoH1V2WoA"
 from fpdf import FPDF
 import sys
 import codecs
