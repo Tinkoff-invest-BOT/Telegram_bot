@@ -42,12 +42,13 @@ class Analyzer:
         data = pd.DataFrame()
         
         for name in stocks_names:
-            figi = db.get_figi(name)
+            figi = db.ticker_to_figi(name)
+            print(figi)
             with Client(TOKEN) as client:
                 r = client.market_data.get_candles(
                     figi=figi,
-                    from_=datetime.datetime(self.start_date) + datetime.timedelta(days=1),
-                    to=datetime.datetime(self.end_date) + datetime.timedelta(days=1),
+                    from_=datetime.datetime.strptime(self.start_date, "%Y-%m-%d") + datetime.timedelta(days=1),
+                    to=datetime.datetime.strptime(self.end_date, "%Y-%m-%d") + datetime.timedelta(days=1),
                     interval=CandleInterval.CANDLE_INTERVAL_DAY
                 )
                 
@@ -86,9 +87,10 @@ class Analyzer:
         for i in indexes:
             self.analysis = pd.concat([self.analysis, analysis[analysis['index'] == i]])
         
-anal = Analyzer(['AAPL', 'TSLA'], [], '2022-01-01', '2023-01-01')
-anal.yahoo_stocks_parse(anal.stocks_names, anal.start_date, anal.end_date)
-anal.yahoo_stocks_parse(["YNDX"], anal.start_date, anal.end_date)
+anal = Analyzer(['AAPL', 'TSLA'], '2022-02-01', '2023-01-01', 1297355532)
+anal.yahoo_stocks_parse(anal.stocks_names)
+anal.yahoo_stocks_parse(["GOOG"])
+anal.tinkoff_stocks_parse(["YNDX"])
 anal.get_overall_col_in_data()
 anal.sharpe_ratio(0.02)
 print(anal.analysis)
