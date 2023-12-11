@@ -19,11 +19,25 @@ class Analyzer:
         self.data = pd.DataFrame()
         self.analysis = pd.DataFrame()
         
+        try:
+            self.parse_all()
+        except:
+            raise ValueError("Неправильное название акции")
+    
+    def text_analyser(self):
+        text = 'Результаты анализа:\n'
+        for i in self.analysis[self.analysis.index == 'sharpe'].columns():
+            text += i + ' - ' + self.analysis[self.analysis.index == 'sharpe'][i] + '\n'
+        return text
+            
+    
     def parse_all(self):
         yahoo_tickers = np.setdiff1d(self.stocks_tickers, db.get_all_tinkoff_tickers())
         tinkoff_tickers = np.setdiff1d(self.stocks_tickers, yahoo_tickers)
         
-        self.yahoo_stocks_parse(yahoo_tickers)
+        self.__yahoo_stocks_parse(yahoo_tickers)
+        self.__tinkoff_stocks_parse(tinkoff_tickers)
+        self.__get_overall_col_in_data()
         
     def __yahoo_stocks_parse(self, stocks_tickers : list):
         # get not russian stocks
@@ -41,7 +55,7 @@ class Analyzer:
             self.data = self.data.join(data)
             self.data = self.data.fillna(method='bfill').fillna(method='ffill')
             
-    def tinkoff_stocks_parse(self, stocks_tickers : list):
+    def __tinkoff_stocks_parse(self, stocks_tickers : list):
         TOKEN = db.get_token(user_id=self.user_id)
         if TOKEN == None:
             TOKEN = "t.wtbTq-3mtVbV_7R8Ma-HR6oObR4kIHCRCaQunedAxn5pIvoJ-uhHED1YFA8SKvQFvGNZdbtOCoiikNV38LiFeA"
@@ -73,11 +87,11 @@ class Analyzer:
                 
         
     
-    def get_overall_col_in_data(self):
+    def __get_overall_col_in_data(self):
         self.data['Overall'] = self.data.apply(lambda x: sum(x[name] for name in self.stocks_tickers), axis=1)
         
     def sharpe_ratio(self, rfr: float):
-        # returns DataFrame: cols - stocks, row - sharpe ratio
+        # self.analysis = DataFrame: cols - stocks, row - sharpe ratio
         std = self.data.apply(lambda x: x.pct_change().std() * np.sqrt(len(self.data)))
         cumulative = self.data.apply(lambda x: (x[len(self.data) - 1] / x[0]) - 1)
         sharpe = (cumulative - rfr) / std
@@ -95,7 +109,7 @@ class Analyzer:
 anal = Analyzer(['AAPL', 'TSLA'], [], '2022-01-01', '2023-01-01')
 anal.__yahoo_stocks_parse(anal.stocks_tickers, anal.start_date, anal.end_date)
 anal.__yahoo_stocks_parse(["YNDX"], anal.start_date, anal.end_date)
-anal.get_overall_col_in_data()
+anal.__get_overall_col_in_data()
 anal.sharpe_ratio(0.02)
 print(anal.analysis)
 
