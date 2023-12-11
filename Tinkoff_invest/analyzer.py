@@ -4,6 +4,9 @@ from pandas_datareader import data as pdr
 import yfinance as yfin
 from connection_db import connection
 from db import Database
+import datetime
+from tinkoff.invest import Client, CandleInterval
+from parser_daily import cast_money
 
 db = Database(connection)
 
@@ -16,25 +19,52 @@ class Analyzer:
         self.data = pd.DataFrame()
         self.analysis = pd.DataFrame()
         
-    def yahoo_stocks_parse(self, stocks_names : list, start_date : str, end_date : str):
+    def yahoo_stocks_parse(self, stocks_names : list):
         # get not russian stocks
         # returns pd.DF: cols - [date, stocks_names...], rows - [date, stocks_price...]
         yfin.pdr_override()
-        data = pdr.get_data_yahoo(stocks_names, start=start_date, end=end_date)['Adj Close'].fillna(method='bfill')
+        data = pdr.get_data_yahoo(stocks_names, start=self.start_date, end=self.end_date)['Adj Close']
         if len(stocks_names) == 1:
             data = data.rename(stocks_names[0])
+        data = data.reset_index()
+        data['Date'] = data['Date'].apply(lambda x: x.date())
+        data = data.set_index('Date')
         if self.data.size == 0:
-            self.data = data
+            self.data = data.fillna(method='bfill').fillna(method='ffill')
         else:
             self.data = self.data.join(data)
+            self.data = self.data.fillna(method='bfill').fillna(method='ffill')
             
-    def tinkoff_stocks_parse(self, stocks_names : list, start_date : str, end_date : str):
-        stocks_figi = map(db.get_figi, stocks_names)
-        
+    def tinkoff_stocks_parse(self, stocks_names : list):
         TOKEN = db.get_token(user_id=self.user_id)
         if TOKEN == None:
             TOKEN = "t.wtbTq-3mtVbV_7R8Ma-HR6oObR4kIHCRCaQunedAxn5pIvoJ-uhHED1YFA8SKvQFvGNZdbtOCoiikNV38LiFeA"
+        data = pd.DataFrame()
         
+        for name in stocks_names:
+            figi = db.get_figi(name)
+            with Client(TOKEN) as client:
+                r = client.market_data.get_candles(
+                    figi=figi,
+                    from_=datetime.datetime(self.start_date) + datetime.timedelta(days=1),
+                    to=datetime.datetime(self.end_date) + datetime.timedelta(days=1),
+                    interval=CandleInterval.CANDLE_INTERVAL_DAY
+                )
+                
+                df = pd.DataFrame([{
+                    'time': c.time,
+                    'close': cast_money(c.close)
+                } for c in r.candles])
+                
+                data[name] = df['close']
+                data['Date'] = df['time'].apply(lambda x: x.date())
+        data = data.set_index('Date')
+        if self.data.size == 0:
+            self.data = data.fillna(method='bfill').fillna(method='ffill')
+        else:
+            self.data = self.data.join(data)
+            self.data = self.data.fillna(method='bfill').fillna(method='ffill')
+                
         
     
     def get_overall_col_in_data(self):
