@@ -148,7 +148,7 @@ async def choose_one_acc(message: types.Message):
 async def shares_set(message: types.Message):
     if db.get_share(message.from_user.id) == []:
         await Form.waiting_for_tickers.set()
-        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите через запятую *до 10 тикеров* (коротких названий) ценных бумаг, вы хотите отслеживать у которых Вы желаете отслеживать стоимость:')
+        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите через пробел <b>до 10 тикеров</b> (коротких названий) ценных бумаг, вы хотите отслеживать у которых Вы желаете отслеживать стоимость:', parse_mode='html')
     else:
         await Form.confirmation.set()
         await bot_run.send_message(message.from_user.id, 'У вас уже есть набор ценных бумаг. Желаете изменить его?')
@@ -158,7 +158,7 @@ async def shares_set(message: types.Message):
 @dp.message_handler(state=Form.waiting_for_tickers)
 async def process_tickers(message: types.Message, state):
     tickers = message.text
-    shares_list = tickers.split(',')
+    shares_list = tickers.split(' ')
     counter = 0
     for i in shares_list:
         if not db.share_exist(i):
