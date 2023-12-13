@@ -10,3 +10,4 @@ __pycache__/
 *__
 *.pytest_cache
 *.png
+passwords.py

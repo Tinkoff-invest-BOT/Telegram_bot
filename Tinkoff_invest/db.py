@@ -107,7 +107,6 @@ class Database:
                 return fg
             else:
                 return 0
-            
     def get_token_status(self, user_id):
         self.cursor.execute("SELECT 1")
         with self.connection:
@@ -166,20 +165,8 @@ class Database:
                 return True
             return False
         
-    def get_all_tinkoff_tickers(self):
-        self.cursor.execute("SELECT ticker FROM tiki")
+        
+    def get_all_tinkoff_tickers(self): 
+        self.cursor.execute("SELECT ticker FROM tiki") 
         return [row['ticker'] for row in self.cursor.fetchall()]
-
-
-# db = Database(connection) 
-# db.set_share(user_id=311223254, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
-# db.set_share(user_id=1850315818, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
-# db.set_share(user_id=446927518, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
-# db.set_share(user_id=327256178, shares_list=["BBG000BN56Q9", "BBG000GQSVC2", "TCS00A106YF0"])
-
-
-
-
-        
-        
         

@@ -223,7 +223,7 @@ async def eleven_messages():
 
 if __name__ == "__main__":
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
-    scheduler.add_job(eleven_messages, trigger="cron", hour=17, minute=19)
+    scheduler.add_job(eleven_messages, trigger="cron", hour=10, minute=59)
 
     scheduler.start()
     executor.start_polling(dp, skip_updates=True)

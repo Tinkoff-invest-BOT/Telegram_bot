@@ -7,7 +7,7 @@ from db import Database
 import datetime
 from tinkoff.invest import Client, CandleInterval
 from parser_daily import cast_money
-
+from passwords import *
 db = Database(connection)
 
 class Analyzer:
@@ -58,7 +58,7 @@ class Analyzer:
     def __tinkoff_stocks_parse(self, stocks_tickers : list):
         TOKEN = db.get_token(user_id=self.user_id)
         if TOKEN == None:
-            TOKEN = "t.wtbTq-3mtVbV_7R8Ma-HR6oObR4kIHCRCaQunedAxn5pIvoJ-uhHED1YFA8SKvQFvGNZdbtOCoiikNV38LiFeA"
+            TOKEN = TOKEN_SH
         data = pd.DataFrame()
         
         for name in stocks_tickers:
@@ -105,12 +105,4 @@ class Analyzer:
         indexes = np.setdiff1d(analysis['index'], self.analysis['index'])
         for i in indexes:
             self.analysis = pd.concat([self.analysis, analysis[analysis['index'] == i]])
-        
-anal = Analyzer(['AAPL', 'TSLA'], [], '2022-01-01', '2023-01-01')
-anal.__yahoo_stocks_parse(anal.stocks_tickers, anal.start_date, anal.end_date)
-anal.__yahoo_stocks_parse(["YNDX"], anal.start_date, anal.end_date)
-anal.__get_overall_col_in_data()
-anal.sharpe_ratio(0.02)
-print(anal.analysis)
-
         
