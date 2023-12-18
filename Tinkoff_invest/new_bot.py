@@ -5,7 +5,7 @@ from db import Database
 from passwords import *
 from connection_db import connection
 from messages import *
-from DELETE_AT_FIRST import *
+# from DELETE_AT_FIRST import *
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, Dispatcher, executor, types
 from parser_daily import notify_user_about_stocks
@@ -147,8 +147,8 @@ async def choose_one_acc(message: types.Message):
 @dp.message_handler(lambda message: message.text == '/set_shares')
 async def shares_set(message: types.Message):
     if db.get_share(message.from_user.id) == []:
+        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите через запятую <b>до 10 тикеров</b> (коротких названий на английском языке) ценных бумаг, вы хотите отслеживать у которых Вы желаете отслеживать стоимость:', parse_mode='html')
         await Form.waiting_for_tickers.set()
-        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите через пробел <b>до 10 тикеров</b> (коротких названий) ценных бумаг, вы хотите отслеживать у которых Вы желаете отслеживать стоимость:', parse_mode='html')
     else:
         await Form.confirmation.set()
         await bot_run.send_message(message.from_user.id, 'У вас уже есть набор ценных бумаг. Желаете изменить его?')
@@ -158,26 +158,32 @@ async def shares_set(message: types.Message):
 @dp.message_handler(state=Form.waiting_for_tickers)
 async def process_tickers(message: types.Message, state):
     tickers = message.text
-    shares_list = tickers.split(' ')
-    counter = 0
-    for i in shares_list:
-        if not db.share_exist(i):
-            counter = 1
-            shares_list.remove(i)
-    db.set_share(user_id=message.from_user.id, shares_list=shares_list)
-    await bot_run.send_message(message.from_user.id, 'Вы удачно изменили набор ценных бумаг!')
-    if counter == 1:
-        await bot_run.send_message(message.from_user.id,
-                                   'Были добавлены не все акции, так как их мы не смогли найти в нашей базе данных')
-    await state.finish()
+    if language_check(tickers) != 3:
+        await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров")
+        await Form.waiting_for_tickers.set()
+    else:
+        tmp_list = tickers.split(",")
+        shares_list = []
+        for i in tmp_list:
+            shares_list.append(i.strip().upper())
+        shares, counter = add_shares(shares_list)
+        if len(shares_list) >=1 :
+            db.set_share(user_id=message.from_user.id, shares_list=shares_list)
+            await bot_run.send_message(message.from_user.id, 'Вы удачно изменили набор ценных бумаг!')
+            if counter == 1:
+                await bot_run.send_message(message.from_user.id,
+                                       'Были добавлены не все акции, так как их мы не смогли найти в нашей базе данных')
+            await state.finish()
 
-
+        else:
+            await bot_run.send_message(message.from_user.id, 'Таких акций у нас нет, повторите попытку вызвав команду /set_shares')
+            await state.finish()
 
 @dp.message_handler(state=Form.confirmation)
 async def process_confirmation(message: types.Message, state):
     if message.text.lower() == 'да':
         await Form.waiting_for_tickers.set()
-        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите новый список тикеров через запятую:')
+        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите новый список тикеров (на английском языке, пока нет проверки на русские буквы) через запятую:')
     elif message.text.lower() == 'нет':
         await bot_run.send_message(message.from_user.id, 'Хорошо. Вы можете сделать это в любой момент, если введёте команду /set_shares')
         await state.finish()
@@ -209,8 +215,6 @@ async def smth(message: types.Message):
         await bot_run.send_message(message.from_user.id,
                                    'Очень интересно, но ничего не понятно\nЧтобы узнать доступные команды, введите /help')
 
-
-
 async def eleven_messages():
     '''
     Эта функция рассылает пользователям информацию о стоимости выбранных ими акций каждый день в 11:00
@@ -218,8 +222,6 @@ async def eleven_messages():
     users = db.get_all_users()
     for user_id in users:
         await bot_run.send_message(user_id, notify_user_about_stocks(user_id=user_id))
-
-
 
 if __name__ == "__main__":
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")

@@ -1,6 +1,7 @@
 from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, PortfolioPosition
 import pandas as pd
-from bot import db
+# from bot import db
+from new_bot import db
 TOKEN = 't.aR38YYpBrtrkJezowoByFlvhDiOUl8ixFl9QLbnYPr-6x9pfuAL0IOpwjmPdBFI-sNt25Ln1BT9SlhoH1V2WoA'
 account_id = '2164016111'
 

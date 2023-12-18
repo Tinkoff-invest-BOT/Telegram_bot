@@ -117,8 +117,8 @@ class Database:
 
 
     def set_share(self, user_id, shares_list):
-        shares_str = ",".join(f"'{share}'" for share in shares_list)  # костыль - НЕ ТРОГАТЬ
-        query = f"UPDATE users SET shares_to_public = ARRAY[{shares_str}] WHERE user_id = {user_id}"
+        # shares_str = ",".join(f"'{share}'" for share in shares_list)  # костыль - НЕ ТРОГАТЬ
+        query = f"UPDATE users SET shares_to_public = ARRAY{shares_list} WHERE user_id = {user_id}"
         self.cursor.execute(query)
         self.connection.commit()
         
@@ -169,4 +169,32 @@ class Database:
     def get_all_tinkoff_tickers(self): 
         self.cursor.execute("SELECT ticker FROM tiki") 
         return [row['ticker'] for row in self.cursor.fetchall()]
-        
+
+    def get_all_tinkoff(self, fig):
+        self.cursor.execute(f"SELECT * FROM tiki WHERE figi = {repr(fig)}")
+
+        return [row for row in self.cursor.fetchall()]
+
+    def get_ticker_parser(self, ticker):
+        self.cursor.execute(f"SELECT parser FROM ticker_parser WHERE ticker = {repr(ticker)}")
+        result = self.cursor.fetchone()
+        if result:
+            return result
+        return False
+
+    def set_share_to_parser(self, ticker):
+        result = self.cursor.execute(f"INSERT INTO ticker_parser (ticker) VALUES ({repr(ticker)})")
+        self.connection.commit()
+        return result
+    def set_parser_to_share(self, ticker, parser):
+        result = self.cursor.execute(f"UPDATE ticker_parser SET parser = {repr(parser)} WHERE ticker = {repr(ticker)}")
+        self.connection.commit()
+        # result = self.cursor.execute(f"INSERT INTO ticker_parser (parser) VALUES ({repr(parser)})")
+
+    # def get_shares_parser(self, share):
+    #     self.cursor.execute(f"SELECT ticker FROM ")
+
+
+
+
+
