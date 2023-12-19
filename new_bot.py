@@ -20,7 +20,7 @@ db = Database(connection)
 
 class Form(StatesGroup):
     '''
-    Этот класс нужен для того, чтобы запоминать состояние разговора с пользователем ()
+    Этот класс нужен для того, чтобы запоминать состояние разговора с пользователем
     '''
     waiting_for_tickers = State()
     confirmation = State()
@@ -45,7 +45,7 @@ async def start(message: types.Message):
 
 @dp.message_handler(commands=['help'])
 async def help_function(message: types.Message):
-    await bot_run.send_message(message.from_user.id, help_message)
+    await bot_run.send_message(message.from_user.id, help_message, parse_mode='html')
     if not db.user_exists(message.from_user.id):
         await start(message)
     elif db.get_signup(message.from_user.id) != 'done':
@@ -73,10 +73,10 @@ async def mail_setter(message: types.Message):
     else:
         db.set_email(message.from_user.id, message.text)
         db.set_sign_up(message.from_user.id, 'settoken')
-        await bot_run.send_message(message.from_user.id, 'Введите токен от своего аккаунта Тинькофф '
-                                                         'Инвестиции\nВы можете продолжить без токена, но тогда'
-                                                         ' будет доступно гораздо меньше возможностей.\nДля '
-                                                         'этого напиши "/without_token"')
+        await bot_run.send_message(message.from_user.id, 'Введите токен от своего аккаунта Тинькофф <a href="https://developer.tinkoff.ru/docs/intro/manuals/self-service-auth">Как получить токен Tinkoff </a>\
+                                                         Инвестиции\nВы можете продолжить без токена, но тогда \
+                                                          будет доступно гораздо меньше возможностей.\nДля \
+                                                         этого напиши "/without_token"')
 
 
 @dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'settoken')
@@ -116,7 +116,6 @@ async def status_set_token(message: types.Message):
                            'Введите токен от своего аккаунта Тинькофф Инвестиции\nВы можете продолжить без токена, но тогда будет доступно гораздо меньше возможностей.\nДля этого напиши "/without_token"')
 
 
-
 @dp.message_handler(lambda message: db.get_token_status(message.from_user.id) == ['choose_acc'])
 async def choose_one_acc(message: types.Message):
     try:
@@ -139,7 +138,6 @@ async def choose_one_acc(message: types.Message):
             else:
                 await bot_run.send_message(message.from_user.id, "Можете изменить выбранные акции с помощью команды /set_shares")
             query = choose_account(TOKEN, s)
-            # await bot_run.send_message(message.from_user.id, f"account_id: {list(query[0].items())[0][0]}, access: {list(query[0].items())[0][1]}")
             db.set_token_status(message.from_user.id, f"{list(query[0].items())[0][0]},{list(query[0].items())[0][1]}")
 
 
@@ -179,6 +177,7 @@ async def process_tickers(message: types.Message, state):
             await bot_run.send_message(message.from_user.id, 'Таких акций у нас нет, повторите попытку вызвав команду /set_shares')
             await state.finish()
 
+
 @dp.message_handler(state=Form.confirmation)
 async def process_confirmation(message: types.Message, state):
     if message.text.lower() == 'да':
@@ -199,12 +198,16 @@ async def show_shares(message: types.Message):
 @dp.message_handler(lambda message: message.text == "/get_portfolio")
 async def get_portfolio(message: types.Message):
     if (db.get_token_status(message.from_user.id) == 'without_token') or db.get_signup(message.from_user.id) != 'done':
-        await bot_run.send_message(message.from_user.id, 'Извините, но эта функция не работает без токена. Чтобы установить свой токен введите команду /settoken.\nУзнать доступные функции можно с помощью команды /help')
+        await bot_run.send_message(message.from_user.id, 'Извините, но эта функция не работает без токена. Чтобы установить свой токен, введите команду /settoken.\nУзнать доступные функции можно с помощью команды /help')
     else:
         pdf_out = create_pdf_from_dataframe(df)
         pdf_out.seek(0)
         await bot_run.send_document(message.from_user.id, document=types.InputFile(pdf_out, filename='your_portfolio.pdf'))
 
+
+@dp.message_handler(lambda message: message.text == "/show_graphics")
+async def show_graphics(message: types.message):
+    await bot_run.send_message(message.from_user.id, '<a href="https://olblack52-telegramm-chair-com.onrender.com/">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
 
 
 @dp.message_handler()
@@ -215,18 +218,19 @@ async def smth(message: types.Message):
         await bot_run.send_message(message.from_user.id,
                                    'Очень интересно, но ничего не понятно\nЧтобы узнать доступные команды, введите /help')
 
+
 async def eleven_messages():
     '''
     Эта функция рассылает пользователям информацию о стоимости выбранных ими акций каждый день в 11:00
     '''
     users = db.get_all_users()
     for user_id in users:
-        await bot_run.send_message(user_id, notify_user_about_stocks(user_id=user_id))
+        if db.get_share(user_id):
+            await bot_run.send_message(user_id, notify_user_about_stocks(user_id=user_id))
 
 if __name__ == "__main__":
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
-    scheduler.add_job(eleven_messages, trigger="cron", hour=10, minute=59)
-
+    scheduler.add_job(eleven_messages, trigger="cron", hour=17, minute=2)
     scheduler.start()
     executor.start_polling(dp, skip_updates=True)
 
