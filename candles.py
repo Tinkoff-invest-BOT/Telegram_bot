@@ -61,7 +61,7 @@ def run():
         print(str(e))
 
 
-def create_df(candles : [HistoricCandle]):
+def create_df(candles : HistoricCandle):
     df = DataFrame([{
         'time': c.time,
         'volume': c.volume,

@@ -20,9 +20,8 @@ streamlit
 dash
 dash_bootstrap_components
 yfinance
-
 fpdf
 requests
 typing
 pandas_datareader
-tinkoff
+tinkoff-investments

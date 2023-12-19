@@ -1,16 +1,15 @@
 import types
-
 from functions import *
 from db import Database
 from passwords import *
 from connection_db import connection
 from messages import *
-# from DELETE_AT_FIRST import *
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, Dispatcher, executor, types
-from parser_daily import notify_user_about_stocks
+from parser_daily import notify_user_about_stocks, price_checker
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
+
 
 logging.basicConfig(level=logging.INFO)
 storage = MemoryStorage()
@@ -188,7 +187,6 @@ async def process_confirmation(message: types.Message, state):
         await state.finish()
 
 
-
 @dp.message_handler(lambda message: message.text == "/show_shares")
 async def show_shares(message: types.Message):
     result = db.get_share(message.from_user.id)
@@ -228,9 +226,22 @@ async def eleven_messages():
         if db.get_share(user_id):
             await bot_run.send_message(user_id, notify_user_about_stocks(user_id=user_id))
 
+
+async def blm_worker(): 
+    ''' 
+    Запускается каждые 15 минут и проверяет стоимости акций 
+    ''' 
+    users = db.get_all_users() 
+    for user_id in users: 
+        if db.get_share(user_id): 
+            if price_checker(user_id=user_id): 
+                await bot_run.send_message(user_id, price_checker(user_id=user_id), parse_mode="html")
+                
+                
 if __name__ == "__main__":
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
-    scheduler.add_job(eleven_messages, trigger="cron", hour=17, minute=2)
+    scheduler.add_job(eleven_messages, trigger="cron", hour=10, minute=59)
+    scheduler.add_job(blm_worker, trigger="interval", seconds=1200)
     scheduler.start()
     executor.start_polling(dp, skip_updates=True)
 
