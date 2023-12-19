@@ -25,3 +25,4 @@ fpdf
 requests
 typing
 pandas_datareader
+tinkoff
