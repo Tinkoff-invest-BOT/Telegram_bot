@@ -1,6 +1,4 @@
 import datetime
-
-import apimoex
 from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
@@ -48,7 +46,7 @@ app.layout = html.Div([
 
     html.Hr(),
 
-    dcc.Interval(id='update', interval=1000),
+    dcc.Interval(id='update', interval=3000),
 
     html.Div(id='page-content')
 
