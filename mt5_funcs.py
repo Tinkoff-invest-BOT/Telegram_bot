@@ -21,5 +21,3 @@ def get_symbol_names():
         data = iss.get()
         df = pd.DataFrame(data['securities'])
         return pd.DataFrame(df["SECID"])["SECID"].tolist()
-
-
