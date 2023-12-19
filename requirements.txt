@@ -20,7 +20,7 @@ streamlit
 dash
 dash_bootstrap_components
 yfinance
-tinkoff.invest
+
 fpdf
 requests
 typing
