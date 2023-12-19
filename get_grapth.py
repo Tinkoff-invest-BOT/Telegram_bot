@@ -11,6 +11,7 @@ from mt5_funcs import get_symbol_names, TIMEFRAMES, dict_timeframes
 
 # creates the Dash App
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 
 symbol_dropdown = html.Div([
     html.P('Symbol:'),
