@@ -3,7 +3,6 @@ dash
 dash_bootstrap_components
 pandas
 plotly
-plotly.graph_objects
 requests
 apimoex
 gunicorn
