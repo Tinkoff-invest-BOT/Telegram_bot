@@ -24,4 +24,4 @@ tinkoff.invest
 fpdf
 requests
 typing
-
+pandas_datareader
