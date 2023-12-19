@@ -27,3 +27,4 @@ codecs
 requests
 typing
 types
+gunicorn
