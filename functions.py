@@ -25,7 +25,7 @@ import chardet
 from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse
 #
 from fpdf import FPDF
-import sys
+
 import codecs
 import pandas as pd
 from db import *
