@@ -1,0 +1,9 @@
+datetime
+dash
+dash_bootstrap_components
+dash.dependencies 
+pandas
+plotly
+plotly.graph_objects
+requests
+apimoex
