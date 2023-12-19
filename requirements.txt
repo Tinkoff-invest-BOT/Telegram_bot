@@ -21,7 +21,6 @@ dash
 dash_bootstrap_components
 yfinance
 tinkoff.invest
-encodings
 fpdf
 codecs
 requests
