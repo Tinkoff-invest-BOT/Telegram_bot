@@ -48,7 +48,7 @@ app.layout = html.Div([
 
     html.Hr(),
 
-    dcc.Interval(id='update', interval=3000),
+    dcc.Interval(id='update', interval=1000),
 
     html.Div(id='page-content')
 
@@ -66,7 +66,7 @@ def update_ohlc_chart(interval, symbol, timeframe, num_bars):
     num_bars = int(num_bars)
     print(symbol, timeframe, num_bars, timeframe)
     from_ = (datetime.datetime.now() - datetime.timedelta(weeks=100)).strftime("%Y-%m-%d")
-    till = datetime.datetime.now().strftime("%Y-%m-%d-")
+    till = datetime.datetime.now().strftime("%Y-%m-%d")
     query = f'http://iss.moex.com/iss/engines/stock/markets/shares/securities/{symbol}/candles.csv?iss.meta=on&iss.reverse=true&from={from_}&till={till}&interval={timeframe}'
     df = pd.read_csv(query, sep=';', header=1)
     df = df.head(num_bars)
