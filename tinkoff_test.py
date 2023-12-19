@@ -1,5 +1,4 @@
-import Cython
-import os
+
 import pandas as pd
 from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse
 def get_id(r: GetAccountsResponse):
