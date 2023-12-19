@@ -22,7 +22,6 @@ dash_bootstrap_components
 yfinance
 tinkoff.invest
 fpdf
-codecs
 requests
 typing
 types
