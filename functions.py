@@ -1,39 +1,15 @@
-import encodings
-import locale
-from pandas_datareader import data as pdr
 import yfinance as yf
-import logging
-import matplotlib.pyplot as plt
-from aiogram import Bot, Dispatcher, executor, types
-from reportlab.pdfbase import pdfmetrics
-
-# import markups as nav
-from temporary import df_str, df_html, df
-from tabulate import tabulate
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from tabulate import tabulate
 from io import BytesIO
-from db import Database
-from passwords import *
-from connection_db import connection
-from messages import *
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.lib import fonts
-# from bot import *
 import chardet
 from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse
-#
-from fpdf import FPDF
-
-import codecs
 import pandas as pd
 from db import *
 
 
 
 db = Database(connection)
-# sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
 
 def language_check(smth):
     try:
@@ -110,8 +86,6 @@ def share_check(share):
 
 def create_pdf_from_dataframe(dataframe):
     output = BytesIO()
-    # pdfmetrics.registerFont(TTFont('Sochi2014Bold', r"C:\Users\Timur\PycharmProjects\pythonProject\Tinkoff_invest\Sochi2014Bold.ttf"))
-
     doc = SimpleDocTemplate(output, pagesize=letter)
     elements = []
     doc.encoding = "utf-8"
