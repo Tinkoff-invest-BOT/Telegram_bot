@@ -9,6 +9,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from parser_daily import notify_user_about_stocks, price_checker
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 logging.basicConfig(level=logging.INFO)
@@ -75,13 +76,13 @@ async def mail_setter(message: types.Message):
         await bot_run.send_message(message.from_user.id, 'Введите токен от своего аккаунта Тинькофф <a href="https://developer.tinkoff.ru/docs/intro/manuals/self-service-auth">Как получить токен Tinkoff </a>\
                                                          Инвестиции\nВы можете продолжить без токена, но тогда \
                                                           будет доступно гораздо меньше возможностей.\nДля \
-                                                         этого напиши "/without_token"')
+                                                         этого напиши "/without_token"', parse_mode="html")
 
 
 @dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'settoken')
 async def tkn_setter(message: types.Message):
     if message.text == '/without_token':
-        await bot_run.send_message(message.from_user.id, 'Вам доступен функционал, для которого не требуется токен.\nЕсли захотите вести токен, это всегда можно сделать, вызвав команду "/settoken"')
+        await bot_run.send_message(message.from_user.id, 'Вам доступен функционал, для которого <i>не требуется токен</i>.\nЕсли захотите вести токен, это всегда можно сделать, вызвав команду "/settoken"', parse_mode="html")
         if db.get_share(message.from_user.id) == []:
             await bot_run.send_message(message.from_user.id, set_shares_message)
         else:
@@ -91,7 +92,7 @@ async def tkn_setter(message: types.Message):
         db.set_token_status(message.from_user.id, "without_token")
     else:
         if token_check(message.text) == 1:
-            await bot_run.send_message(message.from_user.id, 'Несуществующий токен')
+            await bot_run.send_message(message.from_user.id, 'Несуществующий токен. Введите токен ещё раз или продолжите без него: /without_token')
         elif token_check(message.text) == 2:
             await bot_run.send_message(message.from_user.id,
                                    'Ты когда нибудь видел токен на русском языке? Напиши нормальный токен')
@@ -112,7 +113,7 @@ async def tkn_setter(message: types.Message):
 async def status_set_token(message: types.Message):
     db.set_sign_up(message.from_user.id, 'settoken')
     await bot_run.send_message(message.from_user.id,
-                           'Введите токен от своего аккаунта Тинькофф Инвестиции\nВы можете продолжить без токена, но тогда будет доступно гораздо меньше возможностей.\nДля этого напиши "/without_token"')
+                           'Введите токен от своего аккаунта <b>Тинькофф Инвестиций.</b>\nВы можете продолжить без токена, но тогда будет доступно гораздо меньше возможностей.\nДля этого введите /without_token', parse_mode='html')
 
 
 @dp.message_handler(lambda message: db.get_token_status(message.from_user.id) == ['choose_acc'])
@@ -190,7 +191,7 @@ async def process_confirmation(message: types.Message, state):
 @dp.message_handler(lambda message: message.text == "/show_shares")
 async def show_shares(message: types.Message):
     result = db.get_share(message.from_user.id)
-    await bot_run.send_message(message.from_user.id, result)
+    await bot_run.send_message(message.from_user.id, f"<b>Ваш список любимых акций:</b>\n{', '.join(result)}", parse_mode="html")
 
 
 @dp.message_handler(lambda message: message.text == "/get_portfolio")
