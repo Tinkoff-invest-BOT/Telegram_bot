@@ -8,7 +8,6 @@ Python-IO
 datetime
 ta
 markups
-logging
 typing
 pytz
 asyncio
