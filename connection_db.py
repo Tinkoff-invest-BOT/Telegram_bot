@@ -2,11 +2,11 @@ import psycopg2
 
 try:
     connection = psycopg2.connect(
-        dbname="mydatabase",
+        dbname="railway",
         user="postgres",
-        password="123",
-        host="localhost",
-        port="5432"
+        password="F*FfEeGdBb42dF1aF-*e6bGff-cFGg3a",
+        host="roundhouse.proxy.rlwy.net",
+        port="19279"
     )
 
 except Exception as e:
