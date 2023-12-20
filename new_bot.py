@@ -27,6 +27,10 @@ class Form(StatesGroup):
 
 @dp.message_handler(lambda message: db.user_exists(message.from_user.id) == False)
 async def start_function(message):
+    '''
+    Данная функция обрабатывает сообщение от пользователя,
+    который еще не зарегистрирован в системе и добавить его в базу данных
+    '''
     db.add_user(message.from_user.id)
     await bot_run.send_message(message.from_user.id, start_message)
     await bot_run.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
@@ -35,6 +39,10 @@ async def start_function(message):
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
+    '''
+    Данная функция обрабатывает команду /start и проверяет 
+    статус регистрации пользователя в базе данных
+    '''
     if not db.user_exists(message.from_user.id):
        await start_function(message)
     elif db.get_signup(message.from_user.id) == 'done':
@@ -45,6 +53,11 @@ async def start(message: types.Message):
 
 @dp.message_handler(commands=['help'])
 async def help_function(message: types.Message):
+    '''
+    Данная функция обрабатывает команду /help и 
+    отправляет пользователю информацию о помощи, 
+    а затем проверяет статус регистрации
+    '''
     await bot_run.send_message(message.from_user.id, help_message, parse_mode='html')
     if not db.user_exists(message.from_user.id):
         await start(message)
@@ -54,6 +67,11 @@ async def help_function(message: types.Message):
 
 @dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'setnickname')
 async def nick_setter(message: types.Message):
+    '''
+    Данная функция управляет процессом установки никнейма
+    пользователя(проверяет его формат) и переводит
+    на следующий этап (установка электронной почты)
+    '''
     if len(message.text) > 30:
         await bot_run.send_message(message.from_user.id, 'Никнейм не должен превышать 30 символов')
     elif '@' in message.text or '/' in message.text:
@@ -66,6 +84,10 @@ async def nick_setter(message: types.Message):
 
 @dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'setemail')
 async def mail_setter(message: types.Message):
+    '''
+    Данная функция обрабатывает сообщения от пользователя, 
+    находящегося в состоянии "setemail" в процессе регистрации
+    '''
     if len(message.text) < 5:
         await bot_run.send_message(message.from_user.id, "Недопустимый email")
     elif '@' not in message.text or '.' not in message.text:
@@ -81,6 +103,11 @@ async def mail_setter(message: types.Message):
 
 @dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'settoken')
 async def tkn_setter(message: types.Message):
+    '''
+    Данная функция обрабатывает сообщени от пользователя,
+    который находится в состоянии "settoken" в процессе регистрации,
+    при этом проверяя наличие сообщения пользователя "without_token"
+    '''
     if message.text == '/without_token':
         await bot_run.send_message(message.from_user.id, 'Вам доступен функционал, для которого <i>не требуется токен</i>.\nЕсли захотите вести токен, это всегда можно сделать, вызвав команду "/settoken"', parse_mode="html")
         if db.get_share(message.from_user.id) == []:
@@ -118,6 +145,12 @@ async def status_set_token(message: types.Message):
 
 @dp.message_handler(lambda message: db.get_token_status(message.from_user.id) == ['choose_acc'])
 async def choose_one_acc(message: types.Message):
+    '''
+    Данная функция обрабатывает сообщения от пользователя, находящегося в 
+    состоянии выбора счета. Ему предоставляется возможность выбрать
+    акции для портфеля, а также изменить выбранные акции. Выбранный счет и 
+    связанный с ним токен сохраняются в базе данных 
+    '''
     try:
         a = int(message.text)
     except:
@@ -144,6 +177,9 @@ async def choose_one_acc(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == '/set_shares')
 async def shares_set(message: types.Message):
+    '''
+    Данная функция заносит массив тикеров в базу данных
+    '''
     if db.get_share(message.from_user.id) == []:
         await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите через запятую <b>до 10 тикеров</b> (коротких названий на английском языке) ценных бумаг, вы хотите отслеживать у которых Вы желаете отслеживать стоимость:', parse_mode='html')
         await Form.waiting_for_tickers.set()
@@ -155,6 +191,11 @@ async def shares_set(message: types.Message):
 
 @dp.message_handler(state=Form.waiting_for_tickers)
 async def process_tickers(message: types.Message, state):
+    '''
+    Данная функция обрабатывает бот вода пользователя,
+    связанного с установкой тикеров ценных бумаг, и 
+    обновления соответствующих данных в базе данных.
+    '''
     tickers = message.text
     if language_check(tickers) != 3:
         await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров")
@@ -180,6 +221,10 @@ async def process_tickers(message: types.Message, state):
 
 @dp.message_handler(state=Form.confirmation)
 async def process_confirmation(message: types.Message, state):
+    '''
+    Данная функция обрабатывает запрос на ввод нового списка тикеров,
+    если того хочет пользователь
+    '''
     if message.text.lower() == 'да':
         await Form.waiting_for_tickers.set()
         await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите новый список тикеров (на английском языке, пока нет проверки на русские буквы) через запятую:')
@@ -190,12 +235,20 @@ async def process_confirmation(message: types.Message, state):
 
 @dp.message_handler(lambda message: message.text == "/show_shares")
 async def show_shares(message: types.Message):
+    '''
+    Данная функция вызывает выбранный пользователем,
+    список акций из базы данных
+    '''
     result = db.get_share(message.from_user.id)
     await bot_run.send_message(message.from_user.id, f"<b>Ваш список любимых акций:</b>\n{', '.join(result)}", parse_mode="html")
 
 
 @dp.message_handler(lambda message: message.text == "/get_portfolio")
 async def get_portfolio(message: types.Message):
+    '''
+    Данная функция вызывает портфель пользователя в виде PDF-документа,
+    при этом проверяя регистрацию и наличие токена
+    '''
     if (db.get_token_status(message.from_user.id) == 'without_token') or db.get_signup(message.from_user.id) != 'done':
         await bot_run.send_message(message.from_user.id, 'Извините, но эта функция не работает без токена. Чтобы установить свой токен, введите команду /settoken.\nУзнать доступные функции можно с помощью команды /help')
     else:
@@ -206,11 +259,19 @@ async def get_portfolio(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == "/show_graphics")
 async def show_graphics(message: types.message):
-    await bot_run.send_message(message.from_user.id, '<a href="https://allblack-web-com.onrender.com/">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
+    '''
+    Выводит на сервер график свечей для тикеров,
+    выбранных пользователем
+    '''
+    await bot_run.send_message(message.from_user.id, '<a href="https://olblack52-telegramm-chair-com.onrender.com/">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
 
 
 @dp.message_handler()
 async def smth(message: types.Message):
+    '''
+    Данная функция обрабатывает сообщения пользователя,
+    на которые бот не сможет ответить
+    '''
     if not db.user_exists(message.from_user.id):
         await start_function(message)
     else:
