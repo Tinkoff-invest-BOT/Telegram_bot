@@ -1,4 +1,5 @@
 import types
+
 from functions import *
 from db import Database
 from passwords import *
