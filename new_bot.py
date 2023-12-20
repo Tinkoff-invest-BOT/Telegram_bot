@@ -206,7 +206,7 @@ async def get_portfolio(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == "/show_graphics")
 async def show_graphics(message: types.message):
-    await bot_run.send_message(message.from_user.id, '<a href="https://olblack52-telegramm-chair-com.onrender.com/">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
+    await bot_run.send_message(message.from_user.id, '<a href="https://allblack-web-com.onrender.com/">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
 
 
 @dp.message_handler()
