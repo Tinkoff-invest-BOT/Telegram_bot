@@ -1,0 +1,31 @@
+.Select-control {
+    background-color: #2c135a !important;
+    color: white !important;
+    border: 0px solid #180a31;
+}
+
+.Select-value,
+.Select-value-label,
+.Select-placeholder,
+.Select--single > .Select-control .Select-value {
+    color: white !important;
+}
+
+.VirtualizedSelectOption {
+    background-color: #2c135a !important;
+    color: white !important;
+}
+.my-class {
+    color: white;
+}
+
+p {
+    color: white;
+}
+h1 {
+    color: white;
+}
+
+h2 {
+    color: white;
+}
