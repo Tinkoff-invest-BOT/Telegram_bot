@@ -12,6 +12,7 @@ import pandas_ta as ta
 
 # creates the Dash App
 app = Dash(__name__, external_stylesheets=[dbc.themes.VAPOR])
+server = app.server
 
 symbol_dropdown = html.Div([
     html.P('Symbol:'),
