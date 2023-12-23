@@ -267,7 +267,26 @@ class Database:
     # def get_shares_parser(self, share):
     #     self.cursor.execute(f"SELECT ticker FROM ")
 
+    def set_levels(self, user_id, data):
+        ticker, operation, cost = data
 
+        self.cursor.execute("SELECT shares_level FROM users WHERE user_id = %s", (user_id,))
+        result = self.cursor.fetchone()
+
+        if result and result[0]:
+            current_data = result[0]
+        else:
+            current_data = {}
+
+        if ticker in current_data:
+            current_data[ticker][operation] = int(cost)
+        else:
+            current_data[ticker] = {operation: int(cost)}
+
+        updated_json_data = json.dumps(current_data)
+
+        self.cursor.execute("UPDATE users SET shares_level = %s WHERE user_id = %s", (updated_json_data, user_id))
+        self.connection.commit()
 
 
 
