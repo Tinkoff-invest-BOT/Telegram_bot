@@ -1,9 +1,11 @@
+import datetime
+
 import yfinance as yf
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from io import BytesIO
 import chardet
-from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse
+from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse, OrderDirection, OrderType, Quotation
 import pandas as pd
 from db import *
 
@@ -146,9 +148,141 @@ def add_shares(shares_list: list):
 
 def token_access_level(user_id):
     result = db.get_token_status(user_id)
-    res = result.split(",")
-    account_id = res[0]
-    access_level = res[1]
-    return account_id, access_level
+    if result[0] != "without_token":
+        res = result[0].split(",")
+        account_id = res[0]
+        access_level = res[1]
+        return account_id, access_level
+    return False
+
+
+def buy_share_market(TOKEN, figi, price, quantity, account_id):
+    try:
+        tmp = int(price)
+        flag = 1
+    except:
+        flag = 0
+
+    if flag == 1:
+        with Client(TOKEN) as c:
+            r = c.orders.post_order(
+                order_id=str(datetime.datetime.utcnow().timestamp()),
+                figi=figi,
+                price=price,
+                quantity=quantity,
+                account_id=account_id,
+                direction=OrderDirection.ORDER_DIRECTION_BUY,
+                order_type=OrderType.ORDER_TYPE_MARKET
+            )
+    else:
+        with Client(TOKEN) as c:
+            r = c.orders.post_order(
+                order_id=str(datetime.datetime.utcnow().timestamp()),
+                figi=figi,
+                quantity=quantity,
+                account_id=account_id,
+                direction=OrderDirection.ORDER_DIRECTION_BUY,
+                order_type=OrderType.ORDER_TYPE_MARKET
+            )
+    return r
+
+def sell_share_market(TOKEN, figi, price, quantity, account_id):
+    try:
+        tmp = int(price)
+        flag = 1
+    except:
+        flag = 0
+
+    if flag == 1:
+        with Client(TOKEN) as c:
+            r = c.orders.post_order(
+                order_id=str(datetime.datetime.utcnow().timestamp()),
+                figi=figi,
+                price=int(price),
+                quantity=quantity,
+                account_id=account_id,
+                direction=OrderDirection.ORDER_DIRECTION_SELL,
+                order_type=OrderType.ORDER_TYPE_MARKET
+            )
+    else:
+        with Client(TOKEN) as c:
+            r = c.orders.post_order(
+                order_id=str(datetime.datetime.utcnow().timestamp()),
+                figi=figi,
+                quantity=quantity,
+                account_id=account_id,
+                direction=OrderDirection.ORDER_DIRECTION_SELL,
+                order_type=OrderType.ORDER_TYPE_MARKET
+            )
+    return r
+
+def before_buying(user_id, tiker, lots, price="best_price"):
+    TOKEN = db.get_token(user_id)
+    if TOKEN is None:
+        return 0
+    query = token_access_level(user_id)
+    if not query:
+        return 1
+    account_id = query[0]
+    access_level = query[1]
+
+    if int(access_level) != 1:
+        return 2
+
+    print(TOKEN, account_id, access_level)
+    if not share_check(tiker):
+        return 3
+    figi = db.ticker_to_figi(tiker)
+
+    try:
+        q = buy_share_market(TOKEN, figi, price, lots, account_id)
+        return q
+    except:
+        return 4
+def before_selling(user_id, tiker, lots, price="best_price"):
+    TOKEN = db.get_token(user_id)
+    if TOKEN is None:
+        return 0
+    query = token_access_level(user_id)
+    if not query:
+        return 1
+    account_id = query[0]
+    access_level = query[1]
+
+    if int(access_level) != 1:
+        return 2
+
+    print(TOKEN, account_id, access_level)
+    if not share_check(tiker):
+        return 3
+    figi = db.ticker_to_figi(tiker)
+
+    try:
+        q = sell_share_market(TOKEN, figi, price, lots, account_id)
+        return q
+    except:
+        return 4
+
+
+# a = before_buying(1297355532, "TMOS", 1 )
+# print(a)
+# a = before_selling(1297355532, "TMOS",  1, 6.16)
+# print(a)
+# a = before_buying(1297355532, "TMOS", "best", 1)
+# print(a)
+# a = before_selling(1297355532, "TMOS", "best", 1)
+# print(a)
+# a = before_buying(1297355532, "TMOS", "best", 1)
+# print(a)
+
+# buy_share(1297355532)
+# buy_share(446927518)
+# def f(TOKEN):
+#     with Client(TOKEN) as c:
+#         res = c.users.get_info()
+#         print(res)
+
+# f("t.aR38YYpBrtrkJezowoByFlvhDiOUl8ixFl9QLbnYPr-6x9pfuAL0IOpwjmPdBFI-sNt25Ln1BT9SlhoH1V2WoA")
+
 
 

@@ -253,9 +253,10 @@ async def get_portfolio(message: types.Message):
     if (db.get_token_status(message.from_user.id) == 'without_token') or db.get_signup(message.from_user.id) != 'done':
         await bot_run.send_message(message.from_user.id, 'Извините, но эта функция не работает без токена. Чтобы установить свой токен, введите команду /settoken.\nУзнать доступные функции можно с помощью команды /help')
     else:
-        pdf_out = create_pdf_from_dataframe(df)
-        pdf_out.seek(0)
-        await bot_run.send_document(message.from_user.id, document=types.InputFile(pdf_out, filename='your_portfolio.pdf'))
+        pass
+        # pdf_out = create_pdf_from_dataframe(df)
+        # pdf_out.seek(0)
+        # await bot_run.send_document(message.from_user.id, document=types.InputFile(pdf_out, filename='your_portfolio.pdf'))
 
 
 @dp.message_handler(lambda message: message.text == "/show_graphics")
@@ -265,6 +266,73 @@ async def show_graphics(message: types.message):
     выбранных пользователем
     '''
     await bot_run.send_message(message.from_user.id, '<a href="https://olblack52-telegramm-chair-com.onrender.com/">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
+
+
+@dp.message_handler(lambda message: message.text == "/operations")
+async def operations_start(message:types.Message):
+    '''
+    Функция для операций с ценными бумагами
+    '''
+    db.set_status(message.from_user.id, 'operations')
+    await bot_run.send_message(message.from_user.id, operation_message)
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'operations')
+async def operations(message: types.Message):
+    query = message.text
+    try:
+        a = int(query)
+    except:
+        a = "ERROR"
+        db.set_status(message.from_user.id, "none")
+        await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите \operations что-бы начать заново')
+    if a != "ERROR":
+        if int(query) == 1:
+            db.set_status(message.from_user.id, 'buying')
+            await bot_run.send_message(message.from_user.id, buying_message)
+        elif int(query) == 2:
+            db.set_status(message.from_user.id, "selling")
+            await bot_run.send_message(message.from_user.id, selling_message)
+        else:
+            db.set_status(message.from_user.id, "none")
+            await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите \operations что-бы начать заново')
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying')
+async def buying(message:types.Message):
+    query = message.text
+    st = query.split(' ')
+    n_query = []
+    for i in st:
+        n_query.append(i.strip())
+    n_query[0] = n_query[0].upper()
+    if len(n_query) == 2:
+        n_query.append('best_price')
+    try:
+        a = before_buying(message.from_user.id, n_query[0], int(n_query[1]), n_query[2])
+        await bot_run.send_message(message.from_user.id, a)
+        db.set_status(message.from_user.id, "none")
+    except:
+        await bot_run.send_message(message.from_user.id, "Произошла ошибка, попробуйте снова")
+        db.set_status(message.from_user.id, "none")
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling')
+async def buying(message:types.Message):
+    query = message.text
+    st = query.split(' ')
+    n_query = []
+    for i in st:
+        n_query.append(i.strip())
+    n_query[0] = n_query[0].upper()
+    if len(n_query) == 2:
+        n_query.append('best_price')
+    try:
+        a = before_selling(message.from_user.id, n_query[0], int(n_query[1]), n_query[2])
+        await bot_run.send_message(message.from_user.id, a)
+        db.set_status(message.from_user.id, "none")
+    except Exception as e:
+        await bot_run.send_message(message.from_user.id, str(e))
+        db.set_status(message.from_user.id, "none")
+
+
 
 
 @dp.message_handler()
