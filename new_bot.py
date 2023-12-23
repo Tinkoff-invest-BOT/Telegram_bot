@@ -298,6 +298,9 @@ async def operations(message: types.Message):
 
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying')
 async def buying(message:types.Message):
+    '''
+    Данная функция управляет покупкой акций
+    '''
     query = message.text
     st = query.split(' ')
     n_query = []
@@ -316,6 +319,9 @@ async def buying(message:types.Message):
 
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling')
 async def buying(message:types.Message):
+    '''
+    Данная функция управляет продажей акций
+    '''
     query = message.text
     st = query.split(' ')
     n_query = []
@@ -375,5 +381,4 @@ if __name__ == "__main__":
     scheduler.add_job(blm_worker, trigger="interval", seconds=1200)
     scheduler.start()
     executor.start_polling(dp, skip_updates=True)
-
 
