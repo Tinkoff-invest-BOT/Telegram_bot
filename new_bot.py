@@ -296,6 +296,7 @@ async def operations(message: types.Message):
             db.set_status(message.from_user.id, "none")
             await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите \operations что-бы начать заново')
 
+
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying')
 async def buying(message:types.Message):
     '''
@@ -316,6 +317,7 @@ async def buying(message:types.Message):
     except:
         await bot_run.send_message(message.from_user.id, "Произошла ошибка, попробуйте снова")
         db.set_status(message.from_user.id, "none")
+
 
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling')
 async def buying(message:types.Message):
@@ -339,6 +341,56 @@ async def buying(message:types.Message):
         db.set_status(message.from_user.id, "none")
 
 
+@dp.message_handler(lambda message: message.text == "/set_level_price")
+async def show_graphics(message: types.message):
+    await bot_run.send_message(message.from_user.id, set_price_level, parse_mode="html")
+    await Form.waiting_levels.set()
+
+
+@dp.message_handler(state=Form.waiting_levels)
+async def levels_set(message: types.Message, state):
+    text = message.text
+    if text == '/cancel':
+        await bot_run.send_message(message.from_user.id, cancelling, parse_mode="html")
+        await state.finish()
+    else:
+        text = text.split()
+        shares_list, flag = add_shares([text[0]])
+        if flag != 0:
+            await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров или мы не нашли его в нашей базе данных(")
+            await Form.waiting_levels.set()
+        else:
+            db.set_levels(message.from_user.id, text)
+            await bot_run.send_message(message.from_user.id, f"Вы теперь следители за стоимостью акций {text[0]}")
+            await state.finish()
+
+
+@dp.message_handler(commands=['delete'])
+async def delete_user(message: types.Message):
+    '''
+    Данная функция обрабатывает команду /delete и 
+    удаляет пользователя из базы данных
+    '''
+    mark_up = ReplyKeyboardMarkup(resize_keyboard=True)
+    mark_up.add(KeyboardButton('Да'))
+    mark_up.add(KeyboardButton('Нет'))
+    user_id = message.from_user.id
+    await bot_run.send_message(user_id, 'Вы точно хотите удалить профиль?', reply_markup=mark_up)
+    await Form.ask_if_delete.set()
+
+
+@dp.message_handler(state=Form.ask_if_delete)
+async def answer_id_delete(message: types.Message, state):
+    user_id = message.from_user.id
+    if message.text == 'Да':
+        db.delete_user(user_id)
+        await bot_run.send_message(user_id, 'Ваш профиль успешно удален.', reply_markup=ReplyKeyboardRemove())
+        await state.finish()
+    elif message.text == 'Нет':
+        await bot_run.send_message(user_id, 'Мы очень рады, что вы остались.', reply_markup=ReplyKeyboardRemove())
+        await state.finish()
+    else:
+        await bot_run.send_message(user_id, 'Непонятный запрос, повторите.')
 
 
 @dp.message_handler()
