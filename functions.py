@@ -497,19 +497,19 @@ def get_portfolio_(user_id):
         except:
             return '-1'
 
+
 def photo_generating(ticker):
     from_where = db.get_ticker_parser(ticker=ticker)
     if from_where[0] == 'moex':
-        df = parse_moex(ticker=ticker, flag='graph')
+        df = parse_moex(ticker=ticker, flag='graph')[::-1]
         plt.figure(figsize=(14, 7))
-        print(df)
         plt.plot(df['begin'], df['close'], markersize=4, label='Цена закрытия в руб.')
 
         ticks = plt.gca().get_xticks()
         plt.gca().set_xticks(ticks[::15])
         plt.gcf().autofmt_xdate() 
 
-        plt.title('График цены закрытия')
+        plt.title(f'График цены закрытия {ticker}')
         plt.xlabel('Дата')
         plt.ylabel('Цена закрытия')
         plt.legend()
@@ -521,11 +521,9 @@ def photo_generating(ticker):
         buffer.close()
         plt.close()
         return image_base64
+    
     elif from_where[0] == 'yahoo':
         df = parse_yahoo(ticker=ticker, flag='graph').reset_index()
-
-        # df['Datetime'] = pd.to_datetime(df['Datetime']).dt.date
-        print(df)
 
         plt.figure(figsize=(14, 7))
         plt.plot(df['Datetime'], df['Close'], markersize=4, label='Цена закрытия в $')
@@ -535,7 +533,7 @@ def photo_generating(ticker):
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
         
         plt.gcf().autofmt_xdate() 
-        plt.title('График цены закрытия')
+        plt.title(f'График цены закрытия {ticker}')
         plt.xlabel('Дата')
         plt.ylabel('Цена закрытия')
         plt.legend()
@@ -547,3 +545,5 @@ def photo_generating(ticker):
         buffer.close()
         plt.close()
         return image_base64
+
+photo_generating('LKOH')
