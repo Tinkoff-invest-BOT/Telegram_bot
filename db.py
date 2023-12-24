@@ -269,6 +269,11 @@ class Database:
     # def get_shares_parser(self, share):
     #     self.cursor.execute(f"SELECT ticker FROM ")
 
+    def delete_user(self, user_id):
+        query = f'DELETE FROM users WHERE user_id ={user_id}'
+        self.cursor.execute(query)
+        self.connection.commit()
+
     def set_levels(self, user_id, data):
         '''
         Добавляет информацию по отслеживанию стоимости бумаги пользователя
