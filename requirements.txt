@@ -24,4 +24,4 @@ requests
 typing
 pandas_datareader
 tinkoff-investments
-random
+
