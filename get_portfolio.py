@@ -33,7 +33,7 @@ def run():
     except RequestError as e:
         print(str(e))
 
-def portfolio_pose_todict(p : PortfolioPosition, usdrur):
+def portfolio_pose_todict(p : PortfolioPosition):
     r = {
         'figi': p.figi,
         'quantity': cast_money(p.quantity),
@@ -42,10 +42,6 @@ def portfolio_pose_todict(p : PortfolioPosition, usdrur):
         'average_buy_price': cast_money(p.average_position_price),
         'currency': p.average_position_price.currency
     }
-
-    if r['currency'] == 'usd':
-        r['expected_yield'] *= usdrur
-        r['average_buy_price'] *= usdrur
 
     r['sell_sum'] = (r['average_buy_price']*r['quantity']) + r['expected_yield']
     r['comission'] = r['sell_sum']*0.003

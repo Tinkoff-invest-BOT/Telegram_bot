@@ -5,7 +5,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from io import BytesIO
 import chardet
-from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse, OrderDirection, OrderType, Quotation
+from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse, OrderDirection, OrderType, Quotation, PortfolioPosition
 import pandas as pd
 from db import *
 from random import random, randint
@@ -443,6 +443,43 @@ def omg_hacked_text(text: str, speed=0.6):
                 r = ch 
             yield s + r 
         s += r
+
+def cast_money(v):
+    return v.units + v.nano / 1e9
+
+def portfolio_pose_todict(p : PortfolioPosition):
+    r = {
+        'figi': p.figi,
+        'quantity': cast_money(p.quantity),
+        'expected_yield': cast_money(p.expected_yield),
+        'instrument_type': p.instrument_type,
+        'average_buy_price': cast_money(p.average_position_price),
+        'currency': p.average_position_price.currency
+    }
+
+    r['sell_sum'] = (r['average_buy_price']*r['quantity']) + r['expected_yield']
+    r['comission'] = r['sell_sum']*0.003
+    r['comission'] += r['expected_yield']*0.013 if r['expected_yield'] > 0 else 0
+
+    return r
+
+def get_portfolio_(user_id):
+    TOKEN = db.get_token(user_id)
+    query = token_access_level(user_id)
+    if not query:
+        return '0'
+    account_id = query[0]
+    try:
+        with Client(TOKEN) as client:
+            r: PortfolioResponse = client.operations.get_portfolio(account_id=account_id)
+            df = pd.DataFrame([portfolio_pose_todict(p) for p in r.positions])
+            return df
+    except Exception as e:
+        try:
+            error_code = str(e).split(',')[2].strip()[1:-1]
+            return error_code
+        except:
+            return '-1'
 
 
 # a = before_buying(1297355532, "TMOS", 1 )
