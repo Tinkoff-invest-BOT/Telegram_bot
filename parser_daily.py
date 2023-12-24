@@ -149,9 +149,9 @@ def price_checker(user_id):
         flag = 0
         platform = db.get_ticker_parser(key)[0]
         if platform == 'moex':
-            prices = parse_moex(key)
+            prices = parse_moex(key, 'checker')
         elif platform == 'yahoo':
-            prices = parse_yahoo(key)
+            prices = parse_yahoo(key, 'checker')
         if prices is None:
             print("Выходной!")
             flag = 1
