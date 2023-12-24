@@ -19,6 +19,7 @@ bot_run = Bot(BOT_TOKEN)
 dp = Dispatcher(bot_run, storage=storage)
 db = Database(connection)
 
+
 class Form(StatesGroup):
     '''
     Этот класс нужен для того, чтобы запоминать состояние разговора с пользователем
@@ -27,6 +28,8 @@ class Form(StatesGroup):
     confirmation = State()
     waiting_levels = State()
     ask_if_delete = State()
+    waiting_for_share_graph = State()
+
 
 @dp.message_handler(lambda message: db.user_exists(message.from_user.id) == False)
 async def start_function(message):
