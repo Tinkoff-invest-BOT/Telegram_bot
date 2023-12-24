@@ -77,7 +77,6 @@ def stock_price_change(shares_figi, user_id, interval : CandleInterval, delta):
                 pct_change = 0 
  
             pct_changes[figi] = pct_change              
- 
     return pct_changes 
  
  
