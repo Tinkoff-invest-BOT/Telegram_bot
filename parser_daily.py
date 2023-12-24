@@ -104,7 +104,7 @@ def pct_checker(user_id):
 
 def parse_moex(ticker):
     timeframe = '1min' 
-    from_ = (datetime.datetime.now() - datetime.timedelta(weeks=300)).strftime("%Y-%m-%d")
+    from_ = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
     till = datetime.datetime.now().strftime("%Y-%m-%d")
     query = f'http://iss.moex.com/iss/engines/stock/markets/shares/securities/{ticker}/candles.csv?iss.meta=on&iss.reverse=true&from={from_}&till={till}&interval={timeframe}'
     df = pd.read_csv(query, sep=';', header=1)
@@ -119,37 +119,45 @@ def parse_moex(ticker):
 def parse_yahoo(ticker):
        
     now = datetime.datetime.now()
-    start_date = now - datetime.timedelta(days=7)
+    start_date = now - datetime.timedelta(days=1)
     data = yf.download(ticker, start=start_date.strftime("%Y-%m-%d"), interval="1m")
     last_50_prices = data['Close'].tail(60)
-    return list(last_50_prices)
+    if list(last_50_prices) != []:
+        return list(last_50_prices)
+    return None
 
 
 def price_checker(user_id):
     info = db.get_levels(user_id=user_id)
     message = ''
     for key in info.keys():
+        flag = 0
         print(key)
         platform = db.get_ticker_parser(key)[0]
         if platform == 'moex':
             prices = parse_moex(key)
         elif platform == 'yahoo':
             prices = parse_yahoo(key)
-        print(prices)
-        print(info[key])
-        for sign in info[key].keys():
-            if sign == '+':
-                final = next((price for price in prices if info[key]['+'] <= price), None)
-                if final:
-                    db.delete_level(user_id=user_id, ticker=key)
-                    message += f"Стоимость {key} превысила {info[key]['+']}. Сейчас: {final}.\n<b>Бегом проверять!</b>\nТеперь {key} не отслеживается."
-                    
-            elif sign == '-':
-                final = next((price for price in prices if info[key]['-'] >= price), None)
-                if final:
-                    db.delete_level(user_id=user_id, ticker=key)
-                    message += f"Стоимость {key} упала ниже {info[key]['-']}. Сейчас: {final}.\n<b>Бегом проверять!</b>\nТеперь {key} не отслеживается."
-    return message
+        print(prices, info[key])
+        if prices is None:
+            print("Выходной!")
+            flag = 1
+        if flag == 0:
+            for sign in info[key].keys():
+                if sign == '+':
+                    final = next((price for price in prices if info[key]['+'] <= price), None)
+                    if final:
+                        db.delete_level(user_id=user_id, ticker=key)
+                        message += f"Стоимость {key} превысила {info[key]['+']}. Сейчас: {final}.\n<b>Бегом проверять!</b>\nТеперь {key} не отслеживается."
+
+                elif sign == '-':
+                    final = next((price for price in prices if info[key]['-'] >= price), None)
+                    if final:
+                        db.delete_level(user_id=user_id, ticker=key)
+                        message += f"Стоимость {key} упала ниже {info[key]['-']}. Сейчас: {final}.\n<b>Бегом проверять!</b>\nТеперь {key} не отслеживается."
+    if message != '':
+        return message
+    return
 
 
 
