@@ -82,7 +82,7 @@ async def nick_setter(message: types.Message):
     else:
         db.set_nickname(message.from_user.id, message.text)
         db.set_sign_up(message.from_user.id, 'setemail')
-        await bot_run.send_message(message.from_user.id, 'Введите  свой email')
+        await bot_run.send_message(message.from_user.id, 'Введите свой email')
 
 
 @dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'setemail')
@@ -98,10 +98,7 @@ async def mail_setter(message: types.Message):
     else:
         db.set_email(message.from_user.id, message.text)
         db.set_sign_up(message.from_user.id, 'settoken')
-        await bot_run.send_message(message.from_user.id, 'Введите токен от своего аккаунта Тинькофф <a href="https://developer.tinkoff.ru/docs/intro/manuals/self-service-auth">Как получить токен Tinkoff </a>\
-                                                         Инвестиции\nВы можете продолжить без токена, но тогда \
-                                                          будет доступно гораздо меньше возможностей.\nДля \
-                                                         этого напиши "/without_token"', parse_mode="html")
+        await bot_run.send_message(message.from_user.id, set_token_message, parse_mode="html")
 
 
 @dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'settoken')
@@ -255,10 +252,18 @@ async def get_portfolio(message: types.Message):
     if (db.get_token_status(message.from_user.id) == 'without_token') or db.get_signup(message.from_user.id) != 'done':
         await bot_run.send_message(message.from_user.id, 'Извините, но эта функция не работает без токена. Чтобы установить свой токен, введите команду /settoken.\nУзнать доступные функции можно с помощью команды /help')
     else:
-        pass
-        # pdf_out = create_pdf_from_dataframe(df)
-        # pdf_out.seek(0)
-        # await bot_run.send_document(message.from_user.id, document=types.InputFile(pdf_out, filename='your_portfolio.pdf'))
+        result = get_portfolio_(message.from_user.id)
+        if type(result) is pd.core.frame.DataFrame:
+            pdf_out = create_pdf_from_dataframe(result)
+            pdf_out.seek(0)
+            await bot_run.send_document(message.from_user.id, document=types.InputFile(pdf_out, filename='your_portfolio.pdf'))
+        else:
+            try:
+                err = exeptions[result]
+            except:
+                err = result
+            await bot_run.send_message(message.from_user.id, err)
+
 
 
 @dp.message_handler(lambda message: message.text == "/show_graphics")
@@ -290,16 +295,16 @@ async def operations(message: types.Message):
     if a != "ERROR":
         if int(query) == 1:
             db.set_status(message.from_user.id, 'buying_m')
-            await bot_run.send_message(message.from_user.id, buying_message_m)
+            await bot_run.send_message(message.from_user.id, buying_message_m, parse_mode = "html")
         elif int(query) == 2:
             db.set_status(message.from_user.id, "selling_m")
-            await bot_run.send_message(message.from_user.id, selling_message_m)
+            await bot_run.send_message(message.from_user.id, selling_message_m, parse_mode = "html")
         elif int(query) == 3:
             db.set_status(message.from_user.id, "buying_l")
-            await bot_run.send_message(message.from_user.id, buying_message_l)
+            await bot_run.send_message(message.from_user.id, buying_message_l, parse_mode = "html")
         elif int(query) == 4:
             db.set_status(message.from_user.id, "selling_l")
-            await bot_run.send_message(message.from_user.id, selling_message_l)
+            await bot_run.send_message(message.from_user.id, selling_message_l, parse_mode = "html")
         else:
             db.set_status(message.from_user.id, "none")
             await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите \operations что-бы начать заново')
@@ -490,11 +495,11 @@ async def delete_user(message: types.Message):
 @dp.message_handler(state=Form.ask_if_delete)
 async def answer_id_delete(message: types.Message, state):
     user_id = message.from_user.id
-    if message.text == 'Да':
+    if message.text.lower() == 'да':
         db.delete_user(user_id)
         await bot_run.send_message(user_id, 'Ваш профиль успешно удален.', reply_markup=ReplyKeyboardRemove())
         await state.finish()
-    elif message.text == 'Нет':
+    elif message.text.lower() == 'нет':
         await bot_run.send_message(user_id, 'Мы очень рады, что вы остались.', reply_markup=ReplyKeyboardRemove())
         await state.finish()
     else:
