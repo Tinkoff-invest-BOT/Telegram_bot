@@ -276,6 +276,7 @@ async def operations_start(message:types.Message):
     db.set_status(message.from_user.id, 'operations')
     await bot_run.send_message(message.from_user.id, operation_message)
 
+
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'operations')
 async def operations(message: types.Message):
     query = message.text
