@@ -514,20 +514,6 @@ async def send_share_graph(message : types.Message):
     await bot_run.send_message(message.from_user.id, "Введите тикер акции, чей график хотите увидеть:", parse_mode="html")
     await Form.waiting_for_share_graph.set()
 
-@dp.message_handler()
-async def smth(message: types.Message):
-    '''
-    Данная функция обрабатывает сообщения пользователя,
-    на которые бот не сможет ответить
-    '''
-    if not db.user_exists(message.from_user.id):
-        await start_function(message)
-    else:
-        msg = await bot_run.send_message(message.from_user.id,
-                                   'Очень интересно, но ничего не понятно\nЧтобы узнать доступные команды, введите /help')
-        await beautiful_messages(message.from_user.id, "Я такое не понимаю ...", msg)
-        await bot_run.send_message(message.from_user.id,
-                                         'Чтобы узнать доступные команды, введите /help')
 
 @dp.message_handler(state=Form.waiting_for_share_graph)
 async def answer_id_delete(message: types.Message, state):
@@ -547,6 +533,23 @@ async def answer_id_delete(message: types.Message, state):
             image_file.name = 'graph.png'
             await bot_run.send_photo(message.from_user.id, photo=image_file)
             await state.finish()
+
+
+@dp.message_handler()
+async def smth(message: types.Message):
+    '''
+    Данная функция обрабатывает сообщения пользователя,
+    на которые бот не сможет ответить
+    '''
+    if not db.user_exists(message.from_user.id):
+        await start_function(message)
+    else:
+        msg = await bot_run.send_message(message.from_user.id,
+                                   'Очень интересно, но ничего не понятно\nЧтобы узнать доступные команды, введите /help')
+        await beautiful_messages(message.from_user.id, "Я такое не понимаю ...", msg)
+        await bot_run.send_message(message.from_user.id,
+                                         'Чтобы узнать доступные команды, введите /help')
+
 
 
 async def beautiful_messages(user_id, message, msg):
