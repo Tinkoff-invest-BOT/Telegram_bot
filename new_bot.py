@@ -278,7 +278,6 @@ async def operations_start(message:types.Message):
     db.set_status(message.from_user.id, 'operations')
     await bot_run.send_message(message.from_user.id, operation_message)
 
-
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'operations')
 async def operations(message: types.Message):
     query = message.text
@@ -287,61 +286,167 @@ async def operations(message: types.Message):
     except:
         a = "ERROR"
         db.set_status(message.from_user.id, "none")
-        await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите \operations что-бы начать заново')
+        await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите /operations что-бы начать заново')
     if a != "ERROR":
         if int(query) == 1:
-            db.set_status(message.from_user.id, 'buying')
-            await bot_run.send_message(message.from_user.id, buying_message)
+            db.set_status(message.from_user.id, 'buying_m')
+            await bot_run.send_message(message.from_user.id, buying_message_m)
         elif int(query) == 2:
-            db.set_status(message.from_user.id, "selling")
-            await bot_run.send_message(message.from_user.id, selling_message)
+            db.set_status(message.from_user.id, "selling_m")
+            await bot_run.send_message(message.from_user.id, selling_message_m)
+        elif int(query) == 3:
+            db.set_status(message.from_user.id, "buying_l")
+            await bot_run.send_message(message.from_user.id, buying_message_l)
+        elif int(query) == 4:
+            db.set_status(message.from_user.id, "selling_l")
+            await bot_run.send_message(message.from_user.id, selling_message_l)
         else:
             db.set_status(message.from_user.id, "none")
             await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите \operations что-бы начать заново')
 
-
-@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying')
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying_m')
 async def buying(message:types.Message):
-    '''
-    Данная функция управляет покупкой акций
-    '''
-    query = message.text
-    st = query.split(' ')
-    n_query = []
-    for i in st:
-        n_query.append(i.strip())
-    n_query[0] = n_query[0].upper()
-    if len(n_query) == 2:
-        n_query.append('best_price')
     try:
-        a = before_buying(message.from_user.id, n_query[0], int(n_query[1]), n_query[2])
-        await bot_run.send_message(message.from_user.id, a)
+        query = message.text
+        st = query.split(' ')
+        n_query = []
+        for i in st:
+            n_query.append(i.strip())
+        n_query[0] = n_query[0].upper()
+        if len(n_query) == 2:
+            n_query.append('best_price')
+    except:
+        await bot_run.send_message(message.from_user.id, "Неверный запрос")
+        db.set_status(message.from_user.id, "none")
+        return
+
+    try:
+        a = before_buying_market(message.from_user.id, n_query[0], int(n_query[1]), n_query[2])
+        if type(a) is str:
+            try:
+                ans = exeptions[a]
+            except:
+                ans = "Произошла ошибка"
+        else:
+            ans = "Успешно!"
+
+        await bot_run.send_message(message.from_user.id, ans)
         db.set_status(message.from_user.id, "none")
     except:
         await bot_run.send_message(message.from_user.id, "Произошла ошибка, попробуйте снова")
         db.set_status(message.from_user.id, "none")
 
-
-@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling')
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling_m')
 async def buying(message:types.Message):
-    '''
-    Данная функция управляет продажей акций
-    '''
-    query = message.text
-    st = query.split(' ')
-    n_query = []
-    for i in st:
-        n_query.append(i.strip())
-    n_query[0] = n_query[0].upper()
-    if len(n_query) == 2:
-        n_query.append('best_price')
     try:
-        a = before_selling(message.from_user.id, n_query[0], int(n_query[1]), n_query[2])
-        await bot_run.send_message(message.from_user.id, a)
+        query = message.text
+        st = query.split(' ')
+        n_query = []
+        for i in st:
+            n_query.append(i.strip())
+        n_query[0] = n_query[0].upper()
+        if len(n_query) == 2:
+            n_query.append('best_price')
+    except:
+        await bot_run.send_message(message.from_user.id, "Неверный запрос")
+        db.set_status(message.from_user.id, "none")
+        return
+
+    try:
+        a = before_selling_market(message.from_user.id, n_query[0], int(n_query[1]), n_query[2])
+        if type(a) is str:
+            try:
+                ans = exeptions[a]
+            except:
+                ans = "Произошла ошибка"
+        else:
+            ans = "Успешно!"
+        await bot_run.send_message(message.from_user.id, ans)
         db.set_status(message.from_user.id, "none")
     except Exception as e:
         await bot_run.send_message(message.from_user.id, str(e))
         db.set_status(message.from_user.id, "none")
+
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying_l')
+async def buying(message:types.Message):
+    query = message.text
+    try:
+        st = query.split(' ')
+        n_query = []
+        for i in st:
+            n_query.append(i.strip())
+        n_query[0] = n_query[0].upper()
+        if len(n_query) != 3:
+            await bot_run.send_message(message.from_user.id, "Неверный запрос")
+            db.set_status(message.from_user.id, "none")
+    except:
+        await bot_run.send_message(message.from_user.id, "Неверный запрос")
+        db.set_status(message.from_user.id, "none")
+        return
+
+    try:
+        a = before_buying_limit(message.from_user.id, n_query[0], int(n_query[1]), n_query[2])
+        if type(a) is str:
+            try:
+                ans = exeptions[a]
+            except:
+                ans = "Произошла ошибка"
+        else:
+            ans = "Успешно!"
+        await bot_run.send_message(message.from_user.id, ans)
+        db.set_status(message.from_user.id, "none")
+    except Exception as e:
+        await bot_run.send_message(message.from_user.id, str(e))
+        db.set_status(message.from_user.id, "none")
+
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling_l')
+async def buying(message: types.Message):
+    query = message.text
+    try:
+        st = query.split(' ')
+        n_query = []
+        for i in st:
+            n_query.append(i.strip())
+        n_query[0] = n_query[0].upper()
+        if len(n_query) != 3:
+            await bot_run.send_message(message.from_user.id, "Неверный запрос")
+            db.set_status(message.from_user.id, "none")
+    except:
+        await bot_run.send_message(message.from_user.id, "Неверный запрос")
+        db.set_status(message.from_user.id, "none")
+        return
+
+    try:
+        a = before_selling_limit(message.from_user.id, n_query[0], int(n_query[1]), n_query[2])
+        if type(a) is str:
+            try:
+                ans = exeptions[a]
+            except:
+                ans = "Произошла ошибка"
+        else:
+            ans = "Успешно!"
+        await bot_run.send_message(message.from_user.id, ans)
+        db.set_status(message.from_user.id, "none")
+    except Exception as e:
+        await bot_run.send_message(message.from_user.id, str(e))
+        db.set_status(message.from_user.id, "none")
+
+
+
+@dp.message_handler(lambda message: message.text == "/change_account")
+async def change_account(message: types.Message):
+    if db.get_token(user_id=message.from_user.id) is not None:
+        db.set_token_status(message.from_user.id, 'choose_acc')
+        await bot_run.send_message(message.from_user.id, choose_accounts_message)
+        TOKEN = db.get_token(message.from_user.id)
+        df = show_accounts(TOKEN)
+        await bot_run.send_message(message.from_user.id, df)
+    else:
+        await bot_run.send_message(message.from_user.id, "Выбор аккаунта доступен только пользователям с Токеном")
+
+
 
 
 @dp.message_handler(lambda message: message.text == "/set_level_price")
@@ -405,8 +510,27 @@ async def smth(message: types.Message):
     if not db.user_exists(message.from_user.id):
         await start_function(message)
     else:
-        await bot_run.send_message(message.from_user.id,
+        msg = await bot_run.send_message(message.from_user.id,
                                    'Очень интересно, но ничего не понятно\nЧтобы узнать доступные команды, введите /help')
+        await beautiful_messages(message.from_user.id, "Я такое не понимаю ...", msg)
+        await bot_run.send_message(message.from_user.id,
+                                         'Чтобы узнать доступные команды, введите /help')
+
+
+
+async def beautiful_messages(user_id, message, msg):
+    s = ''
+    for ch in message:
+        r = '}'
+        while r != ch:
+            r = chr(randint(65,122))
+            if random() > 0.5:
+                r = ch
+            try:
+                await bot_run.edit_message_text(s + r, user_id, msg.message_id)
+            except:
+                pass
+        s+=r
 
 
 async def eleven_messages():
@@ -450,4 +574,3 @@ if __name__ == "__main__":
     scheduler.add_job(wlm_worker, trigger="interval", seconds=60)
     scheduler.start()
     executor.start_polling(dp, skip_updates=True)
-
