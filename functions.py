@@ -13,7 +13,7 @@ from random import random, randint
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import base64
-
+from parser_daily import parse_moex, parse_yahoo
 db = Database(connection)
 
 
