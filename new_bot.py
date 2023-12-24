@@ -509,6 +509,11 @@ async def answer_id_delete(message: types.Message, state):
         await bot_run.send_message(user_id, 'Непонятный запрос, повторите.')
 
 
+@dp.message_handler(lambda message: message.text == "/send_share_graph")
+async def send_share_graph(message : types.Message):
+    await bot_run.send_message(message.from_user.id, "Введите тикер акции, чей график хотите увидеть:", parse_mode="html")
+    await Form.waiting_for_share_graph.set()
+
 @dp.message_handler()
 async def smth(message: types.Message):
     '''
@@ -524,13 +529,6 @@ async def smth(message: types.Message):
         await bot_run.send_message(message.from_user.id,
                                          'Чтобы узнать доступные команды, введите /help')
 
-
-@dp.message_handler(lambda message: message.text == "/send_share_graph")
-async def send_share_graph(message : types.Message):
-    await bot_run.send_message(message.from_user.id, "Введите тикер акции, чей график хотите увидеть:", parse_mode="html")
-    await Form.waiting_for_share_graph.set()
-    
-    
 @dp.message_handler(state=Form.waiting_for_share_graph)
 async def answer_id_delete(message: types.Message, state):
     text = message.text
