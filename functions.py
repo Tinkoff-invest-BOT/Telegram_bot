@@ -8,6 +8,7 @@ import chardet
 from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsResponse, GetAccountsResponse, OrderDirection, OrderType, Quotation
 import pandas as pd
 from db import *
+from random import random, randint
 
 
 
@@ -262,6 +263,27 @@ def before_selling(user_id, tiker, lots, price="best_price"):
         return q
     except:
         return 4
+    
+    
+def omg_hacked_text(text: str, speed=0.6): 
+    # speed [0;1] - probability of finding correct char
+    # generator 
+    s = '' 
+    for ch in text: 
+        r = '' 
+        if ch == ' ': 
+            yield s + ch 
+            s += ch 
+            continue 
+        while r != ch: 
+            n = randint(65, 186) 
+            if n >= 123: 
+                n += 917 
+            r = chr(n) 
+            if random() <= speed: 
+                r = ch 
+            yield s + r 
+        s += r
 
 
 # a = before_buying(1297355532, "TMOS", 1 )
