@@ -24,4 +24,5 @@ requests
 typing
 pandas_datareader
 tinkoff-investments
-
+dateutil
+numpy
