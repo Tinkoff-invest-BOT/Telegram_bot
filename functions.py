@@ -158,21 +158,35 @@ def token_access_level(user_id):
 
 
 def buy_share_market(TOKEN, figi, price, quantity, account_id):
+    flag = 0
+    flag2 = 0
     try:
-        tmp = int(price)
-        flag = 1
+        if "." in price:
+            tmp = price.split(".")[0]
+            flag = 1
+        else:
+            tmp = int(price)
+            flag = 2
     except:
         flag = 0
 
     if flag == 1:
+        price2 = Quotation(units=int(price.split(".")[0]), nano=int(price.split(".")[1]))
+    elif flag == 2:
+        price2 = Quotation(units=int(price), nano=0)
+    else:
+        flag2 = 1
+        price2 = ''
+
+    if flag2 == 0:
         with Client(TOKEN) as c:
             r = c.orders.post_order(
                 order_id=str(datetime.datetime.utcnow().timestamp()),
                 figi=figi,
-                price=price,
+                price=price2,
                 quantity=quantity,
                 account_id=account_id,
-                direction=OrderDirection.ORDER_DIRECTION_BUY,
+                direction=OrderDirection.ORDER_DIRECTION_SELL,
                 order_type=OrderType.ORDER_TYPE_MARKET
             )
     else:
@@ -186,20 +200,35 @@ def buy_share_market(TOKEN, figi, price, quantity, account_id):
                 order_type=OrderType.ORDER_TYPE_MARKET
             )
     return r
+
 
 def sell_share_market(TOKEN, figi, price, quantity, account_id):
+    flag = 0
+    flag2 = 0
     try:
-        tmp = int(price)
-        flag = 1
+        if "." in price:
+            tmp = price.split(".")[0]
+            flag = 1
+        else:
+            tmp = int(price)
+            flag = 2
     except:
         flag = 0
 
     if flag == 1:
+        price2 = Quotation(units=int(price.split(".")[0]), nano=int(price.split(".")[1]))
+    elif flag == 2:
+        price2 = Quotation(units=int(price), nano=0)
+    else:
+        flag2 = 1
+        price2 = ''
+
+    if flag2 == 0:
         with Client(TOKEN) as c:
             r = c.orders.post_order(
                 order_id=str(datetime.datetime.utcnow().timestamp()),
                 figi=figi,
-                price=int(price),
+                price=price2,
                 quantity=quantity,
                 account_id=account_id,
                 direction=OrderDirection.ORDER_DIRECTION_SELL,
@@ -217,52 +246,182 @@ def sell_share_market(TOKEN, figi, price, quantity, account_id):
             )
     return r
 
-def before_buying(user_id, tiker, lots, price="best_price"):
+def buy_share_limit(TOKEN, figi, price, quantity, account_id):
+    flag = 0
+    try:
+        if "." in price:
+            tmp = price.split(".")[0]
+            flag = 1
+        else:
+            tmp = int(price)
+            flag = 2
+    except:
+        flag = 0
+        return "ERROR"
+
+    if flag == 1:
+        price2 = Quotation(units=int(price.split(".")[0]), nano=int(price.split(".")[1]))
+    elif flag == 2:
+        price2 = Quotation(units=int(price), nano=0)
+    else:
+        return "такой ошибки не может быть, вы сломали Питон"
+
+    with Client(TOKEN) as c:
+        r = c.orders.post_order(
+            order_id=str(datetime.datetime.utcnow().timestamp()),
+            figi=figi,
+            price=price2,
+            quantity=quantity,
+            account_id=account_id,
+            direction=OrderDirection.ORDER_DIRECTION_BUY,
+            order_type=OrderType.ORDER_TYPE_LIMIT
+        )
+    return r
+
+def sell_share_limit(TOKEN, figi, price, quantity, account_id):
+    flag = 0
+    try:
+        if "." in price:
+            tmp = price.split(".")[0]
+            flag = 1
+        else:
+            tmp = int(price)
+            flag = 2
+    except:
+        flag = 0
+        return "ERROR"
+
+    if flag == 1:
+        price2 = Quotation(units=int(price.split(".")[0]), nano=int(price.split(".")[1]))
+    elif flag == 2:
+        price2 = Quotation(units=int(price), nano=0)
+    else:
+        return "такой ошибки не может быть, вы сломали Питон"
+    with Client(TOKEN) as c:
+        r = c.orders.post_order(
+            order_id=str(datetime.datetime.utcnow().timestamp()),
+            figi=figi,
+            price=price2,
+            quantity=quantity,
+            account_id=account_id,
+            direction=OrderDirection.ORDER_DIRECTION_SELL,
+            order_type=OrderType.ORDER_TYPE_LIMIT
+        )
+    return r
+
+
+def before_buying_market(user_id, tiker, lots, price="best_price"):
     TOKEN = db.get_token(user_id)
     if TOKEN is None:
-        return 0
+        return '0'
     query = token_access_level(user_id)
     if not query:
-        return 1
+        return '0'
     account_id = query[0]
     access_level = query[1]
 
     if int(access_level) != 1:
-        return 2
+        return '2'
 
-    print(TOKEN, account_id, access_level)
+    print('b_m', TOKEN, account_id, access_level)
     if not share_check(tiker):
-        return 3
+        return '3'
     figi = db.ticker_to_figi(tiker)
 
     try:
         q = buy_share_market(TOKEN, figi, price, lots, account_id)
         return q
-    except:
-        return 4
-def before_selling(user_id, tiker, lots, price="best_price"):
+    except Exception as e:
+        try:
+            error_code = str(e).split(',')[2].strip()[1:-1]
+            return error_code
+        except:
+            return '-1'
+
+def before_selling_market(user_id, tiker, lots, price="best_price"):
     TOKEN = db.get_token(user_id)
     if TOKEN is None:
-        return 0
+        return '0'
     query = token_access_level(user_id)
     if not query:
-        return 1
+        return '0'
     account_id = query[0]
     access_level = query[1]
 
     if int(access_level) != 1:
-        return 2
+        return '2'
 
-    print(TOKEN, account_id, access_level)
+    print('s_m', TOKEN, account_id, access_level)
     if not share_check(tiker):
-        return 3
+        return '3'
     figi = db.ticker_to_figi(tiker)
 
     try:
         q = sell_share_market(TOKEN, figi, price, lots, account_id)
         return q
-    except:
-        return 4
+    except Exception as e:
+        try:
+            error_code = str(e).split(',')[2].strip()[1:-1]
+            return error_code
+        except:
+            return '-1'
+
+
+def before_buying_limit(user_id, tiker, lots, price):
+    TOKEN = db.get_token(user_id)
+    if TOKEN is None:
+        return '0'
+    query = token_access_level(user_id)
+    if not query:
+        return '0'
+    account_id = query[0]
+    access_level = query[1]
+
+    if int(access_level) != 1:
+        return '2'
+
+    print('s_l', TOKEN, account_id, access_level)
+    if not share_check(tiker):
+        return '3'
+    figi = db.ticker_to_figi(tiker)
+    try:
+        q = buy_share_limit(TOKEN, figi, price, lots, account_id)
+        return q
+    except Exception as e:
+        try:
+            error_code = str(e).split(',')[2].strip()[1:-1]
+            return error_code
+        except:
+            return '-1'
+
+
+def before_selling_limit(user_id, tiker, lots, price):
+    TOKEN = db.get_token(user_id)
+    if TOKEN is None:
+        return '0'
+    query = token_access_level(user_id)
+    if not query:
+        return '0'
+    account_id = query[0]
+    access_level = query[1]
+
+    if int(access_level) != 1:
+        return '2'
+
+    print('s_l', TOKEN, account_id, access_level)
+    if not share_check(tiker):
+        return '3'
+    figi = db.ticker_to_figi(tiker)
+    try:
+        q = buy_share_limit(TOKEN, figi, price, lots, account_id)
+        return q
+    except Exception as e:
+        try:
+            error_code = str(e).split(',')[2].strip()[1:-1]
+            return error_code
+        except:
+            return '-1'
+
     
     
 def omg_hacked_text(text: str, speed=0.6): 
