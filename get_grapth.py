@@ -4,15 +4,12 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 import pandas as pd
 import plotly.graph_objects as go
-import apimoex
 from mt5_funcs import get_symbol_names, TIMEFRAMES, dict_timeframes, INDICATORS
-# import ta.trend as ta
 import pandas_ta as ta
 
 
 # creates the Dash App
 app = Dash(__name__, external_stylesheets=[dbc.themes.VAPOR])
-server = app.server
 
 symbol_dropdown = html.Div([
     html.P('Symbol:'),
@@ -65,7 +62,7 @@ app.layout = html.Div(children=[
 
     html.Hr(),
 
-    dcc.Interval(id='update', interval=3000),
+    dcc.Interval(id='update', interval=9000),
 
     html.Div(id='page-content')
 
@@ -81,14 +78,17 @@ def update_ohlc_chart(interval, symbol, timeframe, num_bars, indicator):
     timeframe_str = timeframe
     timeframe = dict_timeframes[timeframe]
     num_bars = int(num_bars)
-    print(symbol, timeframe, num_bars, timeframe)
+    print(symbol, timeframe, num_bars, timeframe, indicator)
     from_ = (datetime.datetime.now() - datetime.timedelta(weeks=300)).strftime("%Y-%m-%d")
     till = datetime.datetime.now().strftime("%Y-%m-%d")
     query = f'http://iss.moex.com/iss/engines/stock/markets/shares/securities/{symbol}/candles.csv?iss.meta=on&iss.reverse=true&from={from_}&till={till}&interval={timeframe}'
     df = pd.read_csv(query, sep=';', header=1)
     if indicator != "CLEAR":
         indicator = indicator.lower()
-        df[indicator] = getattr(ta, indicator)(close = df.close, length=10)
+        try:
+            df[indicator] = getattr(ta, indicator)(close = df.close, length=10)
+        except:
+            indicator = "CLEAR"
     df = df.head(num_bars)
     df['end'] = pd.to_datetime(df['end'])
 
@@ -100,7 +100,7 @@ def update_ohlc_chart(interval, symbol, timeframe, num_bars, indicator):
                     # template = "plotly_dark",
                     # title="Gapminder 2007: '%s' theme" % "plotly_dark"))
     if indicator != "CLEAR":
-        fig.add_scatter(x=df['end'], y=df[indicator], mode='lines', line=dict(color='white'), name=indicator.upper())
+        fig.add_scatter(x=df['end'], y=df[indicator], mode='lines', line=dict(color='yellow'), name=indicator.upper())
 
     fig.update_layout(xaxis_rangeslider_visible=False)
 
