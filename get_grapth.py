@@ -86,10 +86,7 @@ def update_ohlc_chart(interval, symbol, timeframe, num_bars, indicator):
     df = pd.read_csv(query, sep=';', header=1)
     if indicator != "CLEAR":
         indicator = indicator.lower()
-        try:
-            df[indicator] = getattr(ta, indicator)(close = df.close, length=10)
-        except:
-            indicator = "CLEAR"
+        df[indicator] = getattr(ta, indicator)(close = df.close, length=10)
     df = df.head(num_bars)
     df['end'] = pd.to_datetime(df['end'])
 
