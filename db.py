@@ -4,6 +4,8 @@ import markups as nav
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from psycopg2.extras import DictCursor
 from connection_db import connection
+import json
+
 
 class Database:
     def __init__(self, connection):
@@ -268,6 +270,9 @@ class Database:
     #     self.cursor.execute(f"SELECT ticker FROM ")
 
     def set_levels(self, user_id, data):
+        '''
+        Добавляет информацию по отслеживанию стоимости бумаги пользователя
+        '''
         ticker, operation, cost = data
 
         self.cursor.execute("SELECT shares_level FROM users WHERE user_id = %s", (user_id,))
@@ -289,4 +294,32 @@ class Database:
         self.connection.commit()
 
 
+    def get_levels(self, user_id):
+        '''
+        Возвращает информацию по отслеживанию стоимости ценных бумаг пользователя
+        '''
+        self.cursor.execute("SELECT shares_level FROM users WHERE user_id = %s", (user_id,))
+        result = self.cursor.fetchone()[0]
+        return result
 
+
+
+
+    def delete_level(self, user_id, ticker):
+        '''
+        После отработки триггера удаляет информацию по отслеживанию бумаги
+        '''
+    
+        self.cursor.execute("SELECT shares_level FROM users WHERE user_id = %s", (user_id,))
+        result = self.cursor.fetchone()
+
+        if result and result[0]:
+            current_data = result[0]
+
+        if ticker in current_data:
+            del current_data[ticker] 
+            updated_json_data = json.dumps(current_data)
+
+            self.cursor.execute("UPDATE users SET shares_level = %s WHERE user_id = %s", (updated_json_data, user_id))
+            self.connection.commit()
+            print(f"Информация по {ticker} успешно удалена.")

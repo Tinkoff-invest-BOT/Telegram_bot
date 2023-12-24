@@ -7,10 +7,10 @@ from connection_db import connection
 from messages import *
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, Dispatcher, executor, types
-from parser_daily import notify_user_about_stocks, price_checker
+from parser_daily import notify_user_about_stocks, pct_checker, price_checker
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
 
 
 logging.basicConfig(level=logging.INFO)
@@ -25,6 +25,8 @@ class Form(StatesGroup):
     '''
     waiting_for_tickers = State()
     confirmation = State()
+    waiting_levels = State()
+    ask_if_delete = State()
 
 @dp.message_handler(lambda message: db.user_exists(message.from_user.id) == False)
 async def start_function(message):
@@ -265,7 +267,7 @@ async def show_graphics(message: types.message):
     Выводит на сервер график свечей для тикеров,
     выбранных пользователем
     '''
-    await bot_run.send_message(message.from_user.id, '<a href="https://olblack52-telegramm-chair-com.onrender.com/">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
+    await bot_run.send_message(message.from_user.id, '<a href="https://alblack52-telegramm-com.onrender.com">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
 
 
 @dp.message_handler(lambda message: message.text == "/operations")
@@ -419,19 +421,33 @@ async def eleven_messages():
 
 async def blm_worker(): 
     ''' 
-    Запускается каждые 15 минут и проверяет стоимости акций 
+    Запускается каждые 15 минут и проверяет стоимости акций (процент)
     ''' 
     users = db.get_all_users() 
     for user_id in users: 
         if db.get_share(user_id): 
-            if price_checker(user_id=user_id): 
-                await bot_run.send_message(user_id, price_checker(user_id=user_id), parse_mode="html")
+            message = pct_checker(user_id=user_id)
+            if message: 
+                await bot_run.send_message(user_id, message, parse_mode="html")
+                
+
+async def wlm_worker():
+    '''
+    Запускается каждую минуту секунд и проверяет уровни акций для каждого пользователя
+    '''
+    users = db.get_all_users()
+    for user_id in users:
+        if db.get_levels(user_id=user_id):
+            message = price_checker(user_id=user_id)
+            if message:
+                await bot_run.send_message(user_id, message, parse_mode="html")
                 
                 
 if __name__ == "__main__":
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
     scheduler.add_job(eleven_messages, trigger="cron", hour=10, minute=59)
-    scheduler.add_job(blm_worker, trigger="interval", seconds=1200)
+    scheduler.add_job(blm_worker, trigger="interval", seconds=900)
+    scheduler.add_job(wlm_worker, trigger="interval", seconds=60)
     scheduler.start()
     executor.start_polling(dp, skip_updates=True)
 

@@ -1,16 +1,12 @@
-from tinkoff.invest import Client 
-from datetime import datetime, timedelta, timezone 
+from datetime import timedelta, timezone 
 from db import Database 
 from pandas import DataFrame 
 from connection_db import connection 
-from ta.trend import ema_indicator 
-from aiogram import Bot, Dispatcher 
-from aiogram.utils.executor import start_webhook 
-from aiogram.contrib.fsm_storage.memory import MemoryStorage 
 from tinkoff.invest import Client, CandleInterval, RequestError 
 from passwords import * 
- 
- 
+import pandas as pd
+import datetime
+import yfinance as yf
  
 db = Database(connection) 
  
@@ -85,7 +81,7 @@ def stock_price_change(shares_figi, user_id, interval : CandleInterval, delta):
     return pct_changes 
  
  
-def price_checker(user_id): 
+def pct_checker(user_id): 
     ''' 
     Функция формирует сообщение для пользователя об измненении стоимости акции (если abs() >= 5) 
     ''' 
@@ -103,3 +99,59 @@ def price_checker(user_id):
     if message: 
         message = '<b>AHTUNG!</b> Стоимости акций меняются!\n' + message + '<b>Проверьте прямо сейчас!</b>' 
     return message
+        
+
+
+def parse_moex(ticker):
+    timeframe = '1min' 
+    from_ = (datetime.datetime.now() - datetime.timedelta(weeks=300)).strftime("%Y-%m-%d")
+    till = datetime.datetime.now().strftime("%Y-%m-%d")
+    query = f'http://iss.moex.com/iss/engines/stock/markets/shares/securities/{ticker}/candles.csv?iss.meta=on&iss.reverse=true&from={from_}&till={till}&interval={timeframe}'
+    df = pd.read_csv(query, sep=';', header=1)
+    df['end'] = pd.to_datetime(df['end'])
+
+    if not df.empty:
+        return list(df['close'].iloc[0 : 60])
+    else:
+        return None
+
+
+def parse_yahoo(ticker):
+       
+    now = datetime.datetime.now()
+    start_date = now - datetime.timedelta(days=7)
+    data = yf.download(ticker, start=start_date.strftime("%Y-%m-%d"), interval="1m")
+    last_50_prices = data['Close'].tail(60)
+    return list(last_50_prices)
+
+
+def price_checker(user_id):
+    info = db.get_levels(user_id=user_id)
+    message = ''
+    for key in info.keys():
+        print(key)
+        platform = db.get_ticker_parser(key)[0]
+        if platform == 'moex':
+            prices = parse_moex(key)
+        elif platform == 'yahoo':
+            prices = parse_yahoo(key)
+        print(prices)
+        print(info[key])
+        for sign in info[key].keys():
+            if sign == '+':
+                final = next((price for price in prices if info[key]['+'] <= price), None)
+                if final:
+                    db.delete_level(user_id=user_id, ticker=key)
+                    message += f"Стоимость {key} превысила {info[key]['+']}. Сейчас: {final}.\n<b>Бегом проверять!</b>\nТеперь {key} не отслеживается."
+                    
+            elif sign == '-':
+                final = next((price for price in prices if info[key]['-'] >= price), None)
+                if final:
+                    db.delete_level(user_id=user_id, ticker=key)
+                    message += f"Стоимость {key} упала ниже {info[key]['-']}. Сейчас: {final}.\n<b>Бегом проверять!</b>\nТеперь {key} не отслеживается."
+    return message
+
+
+
+# db.set_levels(user_id=446927518, data=['TSLA', '-', 253])
+# print(db.get_ticker_parser(ticker='TSLA'))
