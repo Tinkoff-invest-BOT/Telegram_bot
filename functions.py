@@ -587,4 +587,25 @@ def get_glass(figi, TOKEN):
         -------------
         '''
         return string
+    
+    
+def omg_hacked_text(text: str, speed=0.6):
+    # speed [0;1] - probability of finding correct char
+    # generator
+    s = ''
+    for ch in text:
+        r = ''
+        if ch == ' ':
+            yield s + ch
+            s += ch
+            continue
+        while r != ch:
+            n = randint(65, 186)
+            if n >= 123:
+                n += 917
+            r = chr(n)
+            if random() <= speed:
+                r = ch
+            yield s + r
+        s += r
 
