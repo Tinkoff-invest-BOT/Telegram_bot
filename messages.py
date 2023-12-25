@@ -28,7 +28,7 @@ help_message = """
 functional_message = """
 """
 set_token_message = """
-Введите токен от своего аккаунта Тинькофф Инвестиции(<a href="https://developer.tinkoff.ru/docs/intro/manuals/self-service-auth">как получить токен</a>). Вы можете продолжить без токена, но тогда будет доступно гораздо меньше возможностей. Для этого напиши "Without token"
+Введите токен от своего аккаунта Тинькофф Инвестиции(<a href="https://developer.tinkoff.ru/docs/intro/manuals/self-service-auth">как получить токен</a>). Вы можете продолжить без токена, но тогда будет доступно гораздо меньше возможностей. Для этого напиши /without_token
 """
 choose_accounts_message = """
 Токен авторизирован.
