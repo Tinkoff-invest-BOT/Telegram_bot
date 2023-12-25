@@ -10,6 +10,11 @@ from tinkoff.invest import Client, RequestError, PortfolioResponse, PositionsRes
 import pandas as pd
 from db import *
 from random import random, randint
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import base64
+from parser_daily import parse_moex, parse_yahoo
+db = Database(connection)
 
 
 
@@ -510,4 +515,76 @@ def get_portfolio_(user_id):
             return '-1'
 
 
+
+def photo_generating(ticker):
+    from_where = db.get_ticker_parser(ticker=ticker)
+    if from_where[0] == 'moex':
+        df = parse_moex(ticker=ticker, flag='graph')[::-1]
+        plt.figure(figsize=(14, 7))
+        plt.plot(df['begin'], df['close'], markersize=4, label='Цена закрытия в руб.')
+
+        ticks = plt.gca().get_xticks()
+        plt.gca().set_xticks(ticks[::15])
+        plt.gcf().autofmt_xdate() 
+
+        plt.title(f'График цены закрытия {ticker}')
+        plt.xlabel('Дата')
+        plt.ylabel('Цена закрытия')
+        plt.legend()
+
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+        buffer.close()
+        plt.close()
+        return image_base64
+    
+    elif from_where[0] == 'yahoo':
+        df = parse_yahoo(ticker=ticker, flag='graph').reset_index()
+
+        plt.figure(figsize=(14, 7))
+        plt.plot(df['Datetime'], df['Close'], markersize=4, label='Цена закрытия в $')
+
+        ax = plt.gca()
+        ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=7, maxticks=7))
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        
+        plt.gcf().autofmt_xdate() 
+        plt.title(f'График цены закрытия {ticker}')
+        plt.xlabel('Дата')
+        plt.ylabel('Цена закрытия')
+        plt.legend()
+
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+        buffer.close()
+        plt.close()
+        return image_base64
+
+def get_glass(figi, TOKEN):
+    with Client(TOKEN) as client:
+        book = client.market_data.get_order_book(figi=figi, depth=50)
+        bids = [cast_money(p.price) for p in book.bids]
+        asks = [cast_money(p.price) for p in book.asks]
+        if len(bids) == 0 and len(asks) == 0:
+            return 30079
+        length_a = min(len(asks), 5)
+        tmp_a = '\n'.join(f'\t{asks[i]}' for i in range(length_a))
+
+        length_b = min(len(bids), 5)
+        tmp_b = '\n'.join(f'\t{bids[i]}' for i in range(length_b))
+
+        string = f'''
+        -------------
+        АСКИ
+        {tmp_a}
+        ---       --- 
+        {tmp_b}
+        БИДЫ
+        -------------
+        '''
+        return string
 

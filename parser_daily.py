@@ -7,11 +7,11 @@ from passwords import *
 import pandas as pd
 import datetime
 import yfinance as yf
- 
+
+
 db = Database(connection) 
- 
- 
- 
+
+
 def notify_user_about_stocks(user_id): 
     ''' 
     Функция формирует сообщении о стоимости акций для каждого пользователя 
@@ -77,7 +77,6 @@ def stock_price_change(shares_figi, user_id, interval : CandleInterval, delta):
                 pct_change = 0 
  
             pct_changes[figi] = pct_change              
- 
     return pct_changes 
  
  
@@ -101,30 +100,46 @@ def pct_checker(user_id):
     return message
         
 
-
-def parse_moex(ticker):
-    timeframe = '1min' 
-    from_ = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+def parse_moex(ticker, flag):
+    if flag == 'graph':
+        timeframe = '1hour'
+        delta = datetime.timedelta(days=7)
+    elif flag == 'checker':
+        timeframe = '1min' 
+        delta = datetime.timedelta(minutes=2)
+    from_ = (datetime.datetime.now() - delta).strftime("%Y-%m-%d")
     till = datetime.datetime.now().strftime("%Y-%m-%d")
     query = f'http://iss.moex.com/iss/engines/stock/markets/shares/securities/{ticker}/candles.csv?iss.meta=on&iss.reverse=true&from={from_}&till={till}&interval={timeframe}'
     df = pd.read_csv(query, sep=';', header=1)
     df['end'] = pd.to_datetime(df['end'])
 
     if not df.empty:
-        return list(df['close'].iloc[0 : 60])
+        if flag == 'graph':
+            return df
+        else:
+            return list(df['close'].iloc[0 : 60])
     else:
         return None
 
-
-def parse_yahoo(ticker):
        
+def parse_yahoo(ticker, flag):
+    if flag == 'graph':
+        timeframe = '1h'
+        delta = datetime.timedelta(days=7)
+    elif flag == 'checker':
+        timeframe = '1m'
+        delta = datetime.timedelta(hours=2)
+
     now = datetime.datetime.now()
-    start_date = now - datetime.timedelta(days=1)
-    data = yf.download(ticker, start=start_date.strftime("%Y-%m-%d"), interval="1m")
-    last_50_prices = data['Close'].tail(60)
-    if list(last_50_prices) != []:
-        return list(last_50_prices)
-    return None
+    start_date = now - delta
+    try:
+        data = yf.download(ticker, start=start_date.strftime("%Y-%m-%d"), interval=timeframe)
+        if flag == 'graph':
+           return data
+        elif flag == 'checker':
+            return list(data['Close'].tail(60))
+    except:
+        return None
 
 
 def price_checker(user_id):
@@ -132,13 +147,11 @@ def price_checker(user_id):
     message = ''
     for key in info.keys():
         flag = 0
-        print(key)
         platform = db.get_ticker_parser(key)[0]
         if platform == 'moex':
-            prices = parse_moex(key)
+            prices = parse_moex(key, 'checker')
         elif platform == 'yahoo':
-            prices = parse_yahoo(key)
-        print(prices, info[key])
+            prices = parse_yahoo(key, 'checker')
         if prices is None:
             print("Выходной!")
             flag = 1
@@ -157,7 +170,7 @@ def price_checker(user_id):
                         message += f"Стоимость {key} упала ниже {info[key]['-']}. Сейчас: {final}.\n<b>Бегом проверять!</b>\nТеперь {key} не отслеживается."
     if message != '':
         return message
-    return
+    return False
 
 
 

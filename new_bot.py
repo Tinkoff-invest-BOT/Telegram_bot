@@ -19,6 +19,7 @@ bot_run = Bot(BOT_TOKEN)
 dp = Dispatcher(bot_run, storage=storage)
 db = Database(connection)
 
+
 class Form(StatesGroup):
     '''
     Этот класс нужен для того, чтобы запоминать состояние разговора с пользователем
@@ -27,6 +28,9 @@ class Form(StatesGroup):
     confirmation = State()
     waiting_levels = State()
     ask_if_delete = State()
+    waiting_for_share_graph = State()
+    waiting_for_book = State()
+
 
 @dp.message_handler(lambda message: db.user_exists(message.from_user.id) == False)
 async def start_function(message):
@@ -174,6 +178,37 @@ async def choose_one_acc(message: types.Message):
             db.set_token_status(message.from_user.id, f"{list(query[0].items())[0][0]},{list(query[0].items())[0][1]}")
 
 
+@dp.message_handler(lambda message: message.text == '/get_book')
+async def book(message:types.Message):
+    TOKEN = db.get_token(message.from_user.id)
+    if TOKEN is None:
+        await bot_run.send_message(message.from_user.id, "Функция доступна только авторизированным пользователям")
+    else:
+        await bot_run.send_message(message.from_user.id, "Пожалуйста введите тикер акции")
+        await Form.waiting_for_book.set()
+
+
+@dp.message_handler(state=Form.waiting_for_book)
+async def booking(message:types.Message, state):
+    query = message.text
+    if not share_check(query):
+        await bot_run.send_message(message.from_user.id, exeptions['3'])
+        await state.finish()
+    TOKEN = db.get_token(message.from_user.id)
+    figi = db.ticker_to_figi(query)
+    result = get_glass(figi=figi, TOKEN=TOKEN)
+    if type(result) is str:
+        await bot_run.send_message(message.from_user.id, result)
+        await state.finish()
+    elif result == 30079:
+        await bot_run.send_message(message.from_user.id, exeptions['30079'])
+        await state.finish()
+    else:
+        await bot_run.send_message(message.from_user.id, exeptions['1'])
+        await state.finish()
+
+
+
 
 @dp.message_handler(lambda message: message.text == '/set_shares')
 async def shares_set(message: types.Message):
@@ -283,6 +318,7 @@ async def operations_start(message:types.Message):
     db.set_status(message.from_user.id, 'operations')
     await bot_run.send_message(message.from_user.id, operation_message)
 
+
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'operations')
 async def operations(message: types.Message):
     query = message.text
@@ -308,6 +344,7 @@ async def operations(message: types.Message):
         else:
             db.set_status(message.from_user.id, "none")
             await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите \operations что-бы начать заново')
+
 
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying_m')
 async def buying(message:types.Message):
@@ -340,6 +377,7 @@ async def buying(message:types.Message):
     except:
         await bot_run.send_message(message.from_user.id, "Произошла ошибка, попробуйте снова")
         db.set_status(message.from_user.id, "none")
+
 
 @dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling_m')
 async def buying(message:types.Message):
@@ -439,7 +477,6 @@ async def buying(message: types.Message):
         db.set_status(message.from_user.id, "none")
 
 
-
 @dp.message_handler(lambda message: message.text == "/change_account")
 async def change_account(message: types.Message):
     if db.get_token(user_id=message.from_user.id) is not None:
@@ -450,8 +487,6 @@ async def change_account(message: types.Message):
         await bot_run.send_message(message.from_user.id, df)
     else:
         await bot_run.send_message(message.from_user.id, "Выбор аккаунта доступен только пользователям с Токеном")
-
-
 
 
 @dp.message_handler(lambda message: message.text == "/set_level_price")
@@ -504,6 +539,32 @@ async def answer_id_delete(message: types.Message, state):
         await state.finish()
     else:
         await bot_run.send_message(user_id, 'Непонятный запрос, повторите.')
+
+
+@dp.message_handler(lambda message: message.text == "/send_share_graph")
+async def send_share_graph(message : types.Message):
+    await bot_run.send_message(message.from_user.id, "Введите тикер акции, чей график хотите увидеть:", parse_mode="html")
+    await Form.waiting_for_share_graph.set()
+
+
+@dp.message_handler(state=Form.waiting_for_share_graph)
+async def answer_id_delete(message: types.Message, state):
+    text = message.text
+    if text == '/cancel':
+        await bot_run.send_message(message.from_user.id, cancelling, parse_mode="html")
+        await state.finish()
+    else:
+        shares_list, flag = add_shares([text])
+        if flag != 0:
+            await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров или мы не нашли его в нашей базе данных(")
+            await Form.waiting_levels.set()
+        else:
+            image_base64 = photo_generating(ticker=text)
+            image_bytes = base64.b64decode(image_base64)
+            image_file = BytesIO(image_bytes)
+            image_file.name = 'graph.png'
+            await bot_run.send_photo(message.from_user.id, photo=image_file)
+            await state.finish()
 
 
 @dp.message_handler()
