@@ -578,13 +578,13 @@ def get_glass(figi, TOKEN):
         tmp_b = '\n'.join(f'\t{bids[i]}' for i in range(length_b))
 
         string = f'''
-        -------------
-        АСКИ
-        {tmp_a}
-        ---       --- 
-        {tmp_b}
-        БИДЫ
-        -------------
-        '''
+-------------
+АСКИ
+{tmp_a}
+---       --- 
+{tmp_b}
+БИДЫ
+-------------
+                '''
         return string
 
