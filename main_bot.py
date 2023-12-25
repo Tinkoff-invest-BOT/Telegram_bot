@@ -692,7 +692,34 @@ async def analyzer_date(message: types.Message, state: FSMContext):
                                        reply_markup=markups.main_menu)
             await state.finish()
             await Form.main_menu.set()
-            
+
+
+@dp.message_handler(state=Form.main_menu, commands=["send_share_graph"])
+async def send_share_graph(message : types.Message, state):
+    await bot_run.send_message(message.from_user.id, "Введите тикер акции, чей график хотите увидеть:", parse_mode="html", reply_markup=markups.to_main_menu)
+    await Form.waiting_for_share_graph.set()
+    
+    
+@dp.message_handler(state=Form.waiting_for_share_graph)
+async def send_share_graph2(message: types.Message, state):
+    text = message.text
+    if text == 'В главное меню':
+        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.", parse_mode="html", reply_markup=markups.main_menu)
+        await state.finish()
+        await Form.main_menu.set()
+    else:
+        shares_list, flag = add_shares([text])
+        if flag != 0:
+            await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров или мы не нашли его в нашей базе данных(\nПовторите попытку.")
+            await Form.waiting_for_share_graph.set()
+        else:
+            image_base64 = photo_generating(ticker=text)
+            image_bytes = base64.b64decode(image_base64)
+            image_file = BytesIO(image_bytes)
+            image_file.name = 'graph.png'
+            await bot_run.send_photo(message.from_user.id, photo=image_file, reply_markup=markups.main_menu)
+            await state.finish()
+            await Form.main_menu.set()
             
         
 @dp.message_handler(state=Form.main_menu)
