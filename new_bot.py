@@ -200,6 +200,9 @@ async def booking(message:types.Message, state):
     if type(result) is str:
         await bot_run.send_message(message.from_user.id, result)
         await state.finish()
+    elif result == 30079:
+        await bot_run.send_message(message.from_user.id, exeptions['30079'])
+        await state.finish()
     else:
         await bot_run.send_message(message.from_user.id, exeptions['1'])
         await state.finish()
