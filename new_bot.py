@@ -29,6 +29,7 @@ class Form(StatesGroup):
     waiting_levels = State()
     ask_if_delete = State()
     waiting_for_share_graph = State()
+    waiting_for_book = State()
 
 
 @dp.message_handler(lambda message: db.user_exists(message.from_user.id) == False)
@@ -175,6 +176,34 @@ async def choose_one_acc(message: types.Message):
                 await bot_run.send_message(message.from_user.id, "Можете изменить выбранные акции с помощью команды /set_shares")
             query = choose_account(TOKEN, s)
             db.set_token_status(message.from_user.id, f"{list(query[0].items())[0][0]},{list(query[0].items())[0][1]}")
+
+
+@dp.message_handler(lambda message: message.text == '/get_book')
+async def book(message:types.Message):
+    TOKEN = db.get_token(message.from_user.id)
+    if TOKEN is None:
+        await bot_run.send_message(message.from_user.id, "Функция доступна только авторизированным пользователям")
+    else:
+        await bot_run.send_message(message.from_user.id, "Пожалуйста введите тикер акции")
+        await Form.waiting_for_book.set()
+
+
+@dp.message_handler(state=Form.waiting_for_book)
+async def booking(message:types.Message, state):
+    query = message.text
+    if not share_check(query):
+        await bot_run.send_message(message.from_user.id, exeptions['3'])
+        await state.finish()
+    TOKEN = db.get_token(message.from_user.id)
+    figi = db.ticker_to_figi(query)
+    result = get_glass(figi=figi, TOKEN=TOKEN)
+    if type(result) is str:
+        await bot_run.send_message(message.from_user.id, result)
+        await state.finish()
+    else:
+        await bot_run.send_message(message.from_user.id, exeptions['1'])
+        await state.finish()
+
 
 
 

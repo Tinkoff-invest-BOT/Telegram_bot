@@ -546,4 +546,26 @@ def photo_generating(ticker):
         plt.close()
         return image_base64
 
-photo_generating('LKOH')
+def get_glass(figi, TOKEN):
+    with Client(TOKEN) as client:
+        book = client.market_data.get_order_book(figi=figi, depth=50)
+        bids = [cast_money(p.price) for p in book.bids]
+        asks = [cast_money(p.price) for p in book.asks]
+        if len(bids) == 0 and len(asks) == 0:
+            return 30079
+        length_a = min(len(asks), 5)
+        tmp_a = '\n'.join(f'\t{asks[i]}' for i in range(length_a))
+
+        length_b = min(len(bids), 5)
+        tmp_b = '\n'.join(f'\t{bids[i]}' for i in range(length_b))
+
+        string = f'''
+        -------------
+        АСКИ
+        {tmp_a}
+        ---       --- 
+        {tmp_b}
+        БИДЫ
+        -------------
+        '''
+        return string
