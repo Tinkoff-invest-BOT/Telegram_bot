@@ -24,4 +24,7 @@ operations = ReplyKeyboardMarkup(resize_keyboard=True, row_width=4)
 operations.add(KeyboardButton('1'), KeyboardButton('2'), KeyboardButton('3'), KeyboardButton('4'))
 operations.add(KeyboardButton('В главное меню'))
 
+analyzer_tickers = ReplyKeyboardMarkup(resize_keyboard=True)
+analyzer_tickers.add(KeyboardButton('Использовать shares'))
+analyzer_tickers.add(KeyboardButton('В главное меню'))
 

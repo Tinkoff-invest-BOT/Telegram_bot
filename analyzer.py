@@ -31,16 +31,16 @@ class Analyzer:
     
     def text_analyser(self):
         res = []
-        s = '\tРезультаты анализа:\n'
+        s = '<b>Результаты анализа:</b>\n\n'
         self.analysis = self.analysis.set_index('index')
         for ticker in self.stocks_tickers:
-            s += f'<b>{ticker}</b><br>'
-            s += f'Cumulative return: {self.analysis.loc["cumulative"][ticker].round(2)}<br>'
-            s += f'Standard deviation: {self.analysis.loc["std"][ticker].round(2)}<br>'
-            s += f'Sharpe ratio: {self.analysis.loc["sharpe"][ticker].round(2)}<br>'
+            s += f'<b>{ticker}</b>\n'
+            s += f'Cumulative return: {self.analysis.loc["cumulative"][ticker].round(2)}\n'
+            s += f'Standard deviation: {self.analysis.loc["std"][ticker].round(2)}\n'
+            s += f'Sharpe ratio: {self.analysis.loc["sharpe"][ticker].round(2)}\n'
         res.append(s)
         if self.unable_to_parse_tickers:
-            s = "Не получилось собрать информацию с этих тикеров:"
+            s = "<b>Не получилось собрать информацию с этих тикеров:</b>"
             for word in self.unable_to_parse_tickers:
                 s += ' ' + str(word)
             res.append(s)
@@ -112,7 +112,7 @@ class Analyzer:
         self.data['Overall'] = self.data.apply(lambda x: sum(x[name] for name in self.stocks_tickers), axis=1)
         
         
-    def sharpe_ratio(self, rfr: float):
+    def sharpe_ratio(self, rfr=0.02):
         # self.analysis = DataFrame: cols - stocks, row - sharpe ratio
         std = self.data.apply(lambda x: x.pct_change().std() * np.sqrt(len(self.data)))
         cumulative = self.data.apply(lambda x: (x[len(self.data) - 1] / x[0]) - 1)
@@ -128,10 +128,6 @@ class Analyzer:
         for i in indexes:
             self.analysis = pd.concat([self.analysis, analysis[analysis['index'] == i]])
             
-            
-a = Analyzer(['sber', 'aapl', 'as9asd9a'], '2021-01-01', '2022-12-01', 1231)
-a.sharpe_ratio(0.02)
-print(a.text_analyser()[1])
 
 
 
