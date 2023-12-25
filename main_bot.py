@@ -10,9 +10,12 @@ from aiogram import Bot, Dispatcher, executor, types
 from parser_daily import notify_user_about_stocks, pct_checker, price_checker
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
 import markups
-
+import datetime
+from dateutil.parser import parse
+from analyzer import Analyzer
 
 
 logging.basicConfig(level=logging.INFO)
@@ -40,6 +43,9 @@ class Form(StatesGroup):
     selling_m = State()
     buying_l = State()
     selling_l = State()
+    analyzer_tickers = State()
+    analyzer_date = State()
+    analyzer_finish = State()
     
 
 @dp.message_handler(commands=['start'])
@@ -242,6 +248,12 @@ async def process_tickers(message: types.Message, state):
         shares_list = []
         for i in tmp_list:
             shares_list.append(i.strip().upper())
+        for i in shares_list:
+            if ' ' in i:
+                await bot_run.send_message(message.from_user.id,
+                                           "Тикеры надо вводить <b>через запятую</b>. Введите еще раз.",
+                                           parse_mode='html')
+                return
         shares, counter = add_shares(shares_list)
         if len(shares_list) >=1 :
             db.set_share(user_id=message.from_user.id, shares_list=shares_list)
@@ -580,6 +592,108 @@ async def answer_id_delete(message: types.Message, state):
     else:
         await bot_run.send_message(user_id, 'Непонятный запрос, повторите попытку (Да или нет).')
         
+        
+@dp.message_handler(state=Form.main_menu, commands=['analyzer'])
+async def analyzer(message: types.Message, state):
+    await bot_run.send_message(message.from_user.id,
+                               analyzer_message_tickers,
+                               parse_mode='html',
+                               reply_markup=markups.analyzer_tickers)
+    await Form.analyzer_tickers.set()
+    
+    
+@dp.message_handler(state=Form.analyzer_tickers)
+async def analyzer_tickers(message: types.Message, state: FSMContext):
+    text = message.text
+    if text == 'В главное меню':
+        await bot_run.send_message(message.from_user.id, 'Возврат в главное меню.', reply_markup=markups.main_menu)
+        await state.finish()
+        await Form.main_menu.set()
+        return
+    elif text == 'Использовать shares':
+        shares = db.get_share(message.from_user.id)
+        if not shares:
+            await bot_run.send_message(message.from_user.id,
+                                       'У вас нет shares. Уставновить shares можно с помощью команды /set_shares.\nВведите акции для анализа через пробел.',
+                                       reply_markup=markups.to_main_menu)
+            return
+        else:
+            async with state.proxy() as data:
+                data['analyzer_tickers'] = shares
+            await Form.analyzer_date.set()
+            await bot_run.send_message(message.from_user.id,
+                                       analyzer_message_date,
+                                       reply_markup=markups.to_main_menu,
+                                       parse_mode='html')
+            return
+    else:
+        arr = text.split()
+        async with state.proxy() as data:
+            data['analyzer_tickers'] = arr
+        await Form.analyzer_date.set()
+        await bot_run.send_message(message.from_user.id,
+                                    analyzer_message_date,
+                                    reply_markup=markups.to_main_menu,
+                                    parse_mode='html')
+            
+            
+@dp.message_handler(state=Form.analyzer_date)
+async def analyzer_date(message: types.Message, state: FSMContext):
+    text = message.text
+    if text == 'В главное меню':
+        await bot_run.send_message(message.from_user.id, 'Возврат в главное меню.',
+                                   reply_markup=markups.main_menu)
+        await state.finish()
+        await Form.main_menu.set()
+        return
+    else:
+        dates = text.split()
+        if len(dates) != 2:
+            await bot_run.send_message(message.from_user.id,
+                                       'Неправильный формат дат. Введите две даты в формате <b>yyyy-mm-dd</b> через пробел',
+                                       parse_mode='html')
+        else:
+            try:
+                datetime.datetime.strptime(dates[0], '%Y-%m-%d')
+                datetime.datetime.strptime(dates[1], '%Y-%m-%d')
+            except:
+                await bot_run.send_message(message.from_user.id,
+                                       'Неправильный формат дат. Введите две даты в формате <b>yyyy-mm-dd</b> через пробел',
+                                       parse_mode='html')
+                return
+            if parse(dates[0]) > parse(dates[1]):
+                await bot_run.send_message(message.from_user.id,
+                                       'Дата окончания не может быть раньше даты начала.\nВведите две даты в формате <b>yyyy-mm-dd</b> через пробел',
+                                       parse_mode='html')
+                return
+            async with state.proxy() as data:
+                tickers = data['analyzer_tickers']
+            try:
+                analyzer = Analyzer(tickers, dates[0], dates[1], message.from_user.id)
+                analyzer.sharpe_ratio()
+                result = analyzer.text_analyser()
+            except Exception as e:
+                await bot_run.send_message(message.from_user.id,
+                                       f"Произошла ошибка: {str(e)}\nВозврат в главное меню.",
+                                       parse_mode='html',
+                                       reply_markup=markups.main_menu)
+                await state.finish()
+                await Form.main_menu.set()
+                return
+            if result[1] is not None:
+                await bot_run.send_message(message.from_user.id,
+                                           result[1],
+                                           parse_mode='html')
+            await bot_run.send_message(message.from_user.id,
+                                       result[0],
+                                       parse_mode='html')
+            await bot_run.send_message(message.from_user.id,
+                                       "Возврат в главное меню.",
+                                       reply_markup=markups.main_menu)
+            await state.finish()
+            await Form.main_menu.set()
+            
+            
         
 @dp.message_handler(state=Form.main_menu)
 async def main_menu_messages(message: types.Message, state):
