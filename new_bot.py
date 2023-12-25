@@ -10,12 +10,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from parser_daily import notify_user_about_stocks, pct_checker, price_checker
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
-import markups
-import datetime
-from dateutil.parser import parse
-from analyzer import Analyzer
 
 
 logging.basicConfig(level=logging.INFO)
@@ -29,24 +24,24 @@ class Form(StatesGroup):
     '''
     Этот класс нужен для того, чтобы запоминать состояние разговора с пользователем
     '''
-    set_nickname = State()
-    set_email = State()
-    set_token = State()
-    choose_acc = State()
-    main_menu = State()
     waiting_for_tickers = State()
     confirmation = State()
     waiting_levels = State()
     ask_if_delete = State()
-    operations = State()
-    buying_m = State()
-    selling_m = State()
-    buying_l = State()
-    selling_l = State()
-    analyzer_tickers = State()
-    analyzer_date = State()
-    analyzer_finish = State()
     waiting_for_share_graph = State()
+    waiting_for_book = State()
+
+
+@dp.message_handler(lambda message: db.user_exists(message.from_user.id) == False)
+async def start_function(message):
+    '''
+    Данная функция обрабатывает сообщение от пользователя,
+    который еще не зарегистрирован в системе и добавить его в базу данных
+    '''
+    db.add_user(message.from_user.id)
+    await bot_run.send_message(message.from_user.id, start_message)
+    await bot_run.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
+    db.set_sign_up(message.from_user.id, 'setnickname')
 
 
 @dp.message_handler(commands=['start'])
@@ -55,17 +50,30 @@ async def start(message: types.Message):
     Данная функция обрабатывает команду /start и проверяет 
     статус регистрации пользователя в базе данных
     '''
-    if db.user_exists(message.from_user.id):
-       db.delete_user(message.from_user.id)
-    db.add_user(message.from_user.id)
-    await bot_run.send_message(message.from_user.id, start_message, reply_markup=ReplyKeyboardRemove())
-    await bot_run.send_message(message.from_user.id, f'{message.chat.first_name}, выбери себе ник:')
-    await Form.set_nickname.set()
-    db.set_sign_up(message.from_user.id, 'setnickname')
-    
+    if not db.user_exists(message.from_user.id):
+       await start_function(message)
+    elif db.get_signup(message.from_user.id) == 'done':
+        await bot_run.send_message(message.from_user.id, "Вы уже зарегистрированны!")
+    else:
+        await bot_run.send_message(message.from_user.id, 'Продолжайте регистрацию!')
 
-@dp.message_handler(state=Form.set_nickname)
-async def nick_setter(message: types.Message, state):
+
+@dp.message_handler(commands=['help'])
+async def help_function(message: types.Message):
+    '''
+    Данная функция обрабатывает команду /help и 
+    отправляет пользователю информацию о помощи, 
+    а затем проверяет статус регистрации
+    '''
+    await bot_run.send_message(message.from_user.id, help_message, parse_mode='html')
+    if not db.user_exists(message.from_user.id):
+        await start(message)
+    elif db.get_signup(message.from_user.id) != 'done':
+        await bot_run.send_message(message.from_user.id, 'Продолжайте регистрацию!')
+
+
+@dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'setnickname')
+async def nick_setter(message: types.Message):
     '''
     Данная функция управляет процессом установки никнейма
     пользователя(проверяет его формат) и переводит
@@ -78,13 +86,11 @@ async def nick_setter(message: types.Message, state):
     else:
         db.set_nickname(message.from_user.id, message.text)
         db.set_sign_up(message.from_user.id, 'setemail')
-        await state.finish()
-        await Form.set_email.set()
         await bot_run.send_message(message.from_user.id, 'Введите свой email')
-        
-        
-@dp.message_handler(state=Form.set_email)
-async def mail_setter(message: types.Message, state):
+
+
+@dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'setemail')
+async def mail_setter(message: types.Message):
     '''
     Данная функция обрабатывает сообщения от пользователя, 
     находящегося в состоянии "setemail" в процессе регистрации
@@ -96,30 +102,28 @@ async def mail_setter(message: types.Message, state):
     else:
         db.set_email(message.from_user.id, message.text)
         db.set_sign_up(message.from_user.id, 'settoken')
-        await state.finish()
-        await Form.set_token.set()
-        await bot_run.send_message(message.from_user.id, set_token_message, parse_mode="html", reply_markup=markups.without_token)
-        
-        
-@dp.message_handler(state=Form.set_token)
-async def tkn_setter(message: types.Message, state):
+        await bot_run.send_message(message.from_user.id, set_token_message, parse_mode="html")
+
+
+@dp.message_handler(lambda message: db.get_signup(message.from_user.id) == 'settoken')
+async def tkn_setter(message: types.Message):
     '''
     Данная функция обрабатывает сообщени от пользователя,
     который находится в состоянии "settoken" в процессе регистрации,
     при этом проверяя наличие сообщения пользователя "without_token"
     '''
-    if message.text == 'Without token':
+    if message.text == '/without_token':
         await bot_run.send_message(message.from_user.id, 'Вам доступен функционал, для которого <i>не требуется токен</i>.\nЕсли захотите вести токен, это всегда можно сделать, вызвав команду "/settoken"', parse_mode="html")
-        await bot_run.send_message(message.from_user.id, set_shares_message)
-        await bot_run.send_message(message.from_user.id, "Вы перенаправлены в главное меню.", reply_markup=markups.main_menu)
+        if db.get_share(message.from_user.id) == []:
+            await bot_run.send_message(message.from_user.id, set_shares_message)
+        else:
+            await bot_run.send_message(message.from_user.id, "Можете изменить выбранные акции с помощью команды /set_shares")
         db.set_sign_up(message.from_user.id, 'done')
         db.set_status(message.from_user.id, "none")
         db.set_token_status(message.from_user.id, "without_token")
-        await state.finish()
-        await Form.main_menu.set()
     else:
         if token_check(message.text) == 1:
-            await bot_run.send_message(message.from_user.id, 'Несуществующий токен. Введите токен ещё раз или продолжите без него: "Without token"')
+            await bot_run.send_message(message.from_user.id, 'Несуществующий токен. Введите токен ещё раз или продолжите без него: /without_token')
         elif token_check(message.text) == 2:
             await bot_run.send_message(message.from_user.id,
                                    'Ты когда нибудь видел токен на русском языке? Напиши нормальный токен')
@@ -130,16 +134,21 @@ async def tkn_setter(message: types.Message, state):
             db.set_tocken(message.from_user.id, message.text)
             db.set_sign_up(message.from_user.id, 'done')
             db.set_token_status(message.from_user.id, 'choose_acc')
-            await state.finish()
-            await Form.choose_acc.set()
-            await bot_run.send_message(message.from_user.id, choose_accounts_message, reply_markup=ReplyKeyboardRemove())
+            await bot_run.send_message(message.from_user.id, choose_accounts_message)
             TOKEN = db.get_token(message.from_user.id)
             df = show_accounts(TOKEN)
             await bot_run.send_message(message.from_user.id, df)
-            
-            
-@dp.message_handler(state=Form.choose_acc)
-async def choose_one_acc(message: types.Message, state):
+
+
+@dp.message_handler(lambda message: message.text == '/settoken')
+async def status_set_token(message: types.Message):
+    db.set_sign_up(message.from_user.id, 'settoken')
+    await bot_run.send_message(message.from_user.id,
+                           'Введите токен от своего аккаунта <b>Тинькофф Инвестиций.</b>\nВы можете продолжить без токена, но тогда будет доступно гораздо меньше возможностей.\nДля этого введите /without_token', parse_mode='html')
+
+
+@dp.message_handler(lambda message: db.get_token_status(message.from_user.id) == ['choose_acc'])
+async def choose_one_acc(message: types.Message):
     '''
     Данная функция обрабатывает сообщения от пользователя, находящегося в 
     состоянии выбора счета. Ему предоставляется возможность выбрать
@@ -161,73 +170,60 @@ async def choose_one_acc(message: types.Message, state):
         else:
             s = df['name'][int(message.text)]
             await bot_run.send_message(message.from_user.id, f'Вы выбрали: {s}')
-            await bot_run.send_message(message.from_user.id, set_shares_message)
-            await bot_run.send_message(message.from_user.id, "Вы перенаправлены в главное меню.", reply_markup=markups.main_menu)
+            if db.get_share(message.from_user.id) == []:
+                await bot_run.send_message(message.from_user.id,set_shares_message)
+            else:
+                await bot_run.send_message(message.from_user.id, "Можете изменить выбранные акции с помощью команды /set_shares")
             query = choose_account(TOKEN, s)
             db.set_token_status(message.from_user.id, f"{list(query[0].items())[0][0]},{list(query[0].items())[0][1]}")
-            await state.finish()
-            await Form.main_menu.set()
-    
-    
-@dp.message_handler(state=Form.main_menu, commands=['help'])
-async def help_function(message: types.Message, state):
-    '''
-    Данная функция обрабатывает команду /help и 
-    отправляет пользователю информацию о помощи
-    '''
-    await bot_run.send_message(message.from_user.id, help_message, parse_mode='html')
-    
-    
-@dp.message_handler(state=Form.main_menu, commands=['settoken'])
-async def status_set_token(message: types.Message, state):
-    db.set_sign_up(message.from_user.id, 'settoken')
-    await state.finish()
-    await Form.set_token.set()
-    await bot_run.send_message(message.from_user.id,
-                           'Введите токен от своего аккаунта <b>Тинькофф Инвестиций.</b>\nВы можете продолжить без токена, но тогда будет доступно гораздо меньше возможностей.\nДля этого введите "Without token"',
-                           parse_mode='html',
-                           reply_markup=markups.without_token)
-    
-    
-@dp.message_handler(state=Form.main_menu, commands=['set_shares'])
-async def shares_set(message: types.Message, state):
+
+
+@dp.message_handler(lambda message: message.text == '/get_book')
+async def book(message:types.Message):
+    TOKEN = db.get_token(message.from_user.id)
+    if TOKEN is None:
+        await bot_run.send_message(message.from_user.id, "Функция доступна только авторизированным пользователям")
+    else:
+        await bot_run.send_message(message.from_user.id, "Пожалуйста введите тикер акции")
+        await Form.waiting_for_book.set()
+
+
+@dp.message_handler(state=Form.waiting_for_book)
+async def booking(message:types.Message, state):
+    query = message.text
+    if not share_check(query):
+        await bot_run.send_message(message.from_user.id, exeptions['3'])
+        await state.finish()
+    TOKEN = db.get_token(message.from_user.id)
+    figi = db.ticker_to_figi(query)
+    result = get_glass(figi=figi, TOKEN=TOKEN)
+    if type(result) is str:
+        await bot_run.send_message(message.from_user.id, result)
+        await state.finish()
+    elif result == 30079:
+        await bot_run.send_message(message.from_user.id, exeptions['30079'])
+        await state.finish()
+    else:
+        await bot_run.send_message(message.from_user.id, exeptions['1'])
+        await state.finish()
+
+
+
+
+@dp.message_handler(lambda message: message.text == '/set_shares')
+async def shares_set(message: types.Message):
     '''
     Данная функция заносит массив тикеров в базу данных
     '''
     if db.get_share(message.from_user.id) == []:
-        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите через запятую <b>до 10 тикеров</b> (коротких названий на английском языке) ценных бумаг, вы хотите отслеживать у которых Вы желаете отслеживать стоимость:',
-                                   parse_mode='html',
-                                   reply_markup=markups.to_main_menu)
-        await state.finish()
+        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите через запятую <b>до 10 тикеров</b> (коротких названий на английском языке) ценных бумаг, вы хотите отслеживать у которых Вы желаете отслеживать стоимость:', parse_mode='html')
         await Form.waiting_for_tickers.set()
     else:
-        await state.finish()
         await Form.confirmation.set()
-        await bot_run.send_message(message.from_user.id,
-                                   'У вас уже есть набор ценных бумаг. Желаете изменить его?',
-                                   reply_markup=markups.yes_no)
-        
-        
-@dp.message_handler(state=Form.confirmation)
-async def process_confirmation(message: types.Message, state):
-    '''
-    Данная функция обрабатывает запрос на ввод нового списка тикеров,
-    если того хочет пользователь
-    '''
-    if message.text == 'Да' or message.text == 'да':
-        await state.finish()
-        await Form.waiting_for_tickers.set()
-        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите новый список тикеров (на английском языке, пока нет проверки на русские буквы) через запятую:',
-                                   reply_markup=markups.to_main_menu)
-    elif message.text == 'Нет' or message.text == 'нет':
-        await bot_run.send_message(message.from_user.id, 'Хорошо. Вы можете сделать это в любой момент, если введёте команду /set_shares в главном меню.\nВы перенаправлены в главное меню.',
-                                   reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
-    else:
-        await bot_run.send_message(message.from_user.id, 'Непонятный ввод. Вы желаете изменить набор ценных бумаг? (Да или нет)')
-        
-        
+        await bot_run.send_message(message.from_user.id, 'У вас уже есть набор ценных бумаг. Желаете изменить его?')
+
+
+
 @dp.message_handler(state=Form.waiting_for_tickers)
 async def process_tickers(message: types.Message, state):
     '''
@@ -236,52 +232,54 @@ async def process_tickers(message: types.Message, state):
     обновления соответствующих данных в базе данных.
     '''
     tickers = message.text
-    if tickers == "В главное меню":
-        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.",
-                                   reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
-        return
     if language_check(tickers) != 3:
-        await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров. Введите еще раз.")
+        await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров")
+        await Form.waiting_for_tickers.set()
     else:
         tmp_list = tickers.split(",")
         shares_list = []
         for i in tmp_list:
             shares_list.append(i.strip().upper())
-        for i in shares_list:
-            if ' ' in i:
-                await bot_run.send_message(message.from_user.id,
-                                           "Тикеры надо вводить <b>через запятую</b>. Введите еще раз.",
-                                           parse_mode='html')
-                return
         shares, counter = add_shares(shares_list)
         if len(shares_list) >=1 :
             db.set_share(user_id=message.from_user.id, shares_list=shares_list)
-            await bot_run.send_message(message.from_user.id, 'Вы удачно изменили набор ценных бумаг!\nВы перенаправлены в главное меню.',
-                                       reply_markup=markups.main_menu)
+            await bot_run.send_message(message.from_user.id, 'Вы удачно изменили набор ценных бумаг!')
             if counter == 1:
                 await bot_run.send_message(message.from_user.id,
                                        'Были добавлены не все акции, так как их мы не смогли найти в нашей базе данных')
             await state.finish()
-            await Form.main_menu.set()
 
         else:
-            await bot_run.send_message(message.from_user.id, 'Таких акций у нас нет, повторите попытку.')
-            
-            
-@dp.message_handler(state=Form.main_menu, commands=["show_shares"])
-async def show_shares(message: types.Message, state):
+            await bot_run.send_message(message.from_user.id, 'Таких акций у нас нет, повторите попытку вызвав команду /set_shares')
+            await state.finish()
+
+
+@dp.message_handler(state=Form.confirmation)
+async def process_confirmation(message: types.Message, state):
+    '''
+    Данная функция обрабатывает запрос на ввод нового списка тикеров,
+    если того хочет пользователь
+    '''
+    if message.text.lower() == 'да':
+        await Form.waiting_for_tickers.set()
+        await bot_run.send_message(message.from_user.id, 'Пожалуйста, введите новый список тикеров (на английском языке, пока нет проверки на русские буквы) через запятую:')
+    elif message.text.lower() == 'нет':
+        await bot_run.send_message(message.from_user.id, 'Хорошо. Вы можете сделать это в любой момент, если введёте команду /set_shares')
+        await state.finish()
+
+
+@dp.message_handler(lambda message: message.text == "/show_shares")
+async def show_shares(message: types.Message):
     '''
     Данная функция вызывает выбранный пользователем,
     список акций из базы данных
     '''
     result = db.get_share(message.from_user.id)
     await bot_run.send_message(message.from_user.id, f"<b>Ваш список любимых акций:</b>\n{', '.join(result)}", parse_mode="html")
-    
-    
-@dp.message_handler(state=Form.main_menu, commands=["get_portfolio"])
-async def get_portfolio(message: types.Message, state):
+
+
+@dp.message_handler(lambda message: message.text == "/get_portfolio")
+async def get_portfolio(message: types.Message):
     '''
     Данная функция вызывает портфель пользователя в виде PDF-документа,
     при этом проверяя регистрацию и наличие токена
@@ -300,70 +298,56 @@ async def get_portfolio(message: types.Message, state):
             except:
                 err = result
             await bot_run.send_message(message.from_user.id, err)
-            
-            
-@dp.message_handler(state=Form.main_menu, commands=["show_graphics"])
-async def show_graphics(message: types.message, state):
+
+
+
+@dp.message_handler(lambda message: message.text == "/show_graphics")
+async def show_graphics(message: types.message):
     '''
     Выводит на сервер график свечей для тикеров,
     выбранных пользователем
     '''
     await bot_run.send_message(message.from_user.id, '<a href="https://alblack52-telegramm-com.onrender.com">Интерактивный график свеч. </a>\nЛучше расположить телефон горизонтально)', parse_mode="html")
-    
-    
-@dp.message_handler(state=Form.main_menu, commands=["operations"])
-async def operations_start(message:types.Message, state):
+
+
+@dp.message_handler(lambda message: message.text == "/operations")
+async def operations_start(message:types.Message):
     '''
     Функция для операций с ценными бумагами
     '''
     db.set_status(message.from_user.id, 'operations')
-    await state.finish()
-    await Form.operations.set()
-    await bot_run.send_message(message.from_user.id, operation_message, reply_markup=markups.operations, parse_mode='html')
-    
-    
-@dp.message_handler(state=Form.operations)
-async def operations(message: types.Message, state):
+    await bot_run.send_message(message.from_user.id, operation_message)
+
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'operations')
+async def operations(message: types.Message):
     query = message.text
-    if query == "В главное меню":
-        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+    try:
+        a = int(query)
+    except:
+        a = "ERROR"
         db.set_status(message.from_user.id, "none")
-        return
-    if query in ['1', '2', '3', '4']:
+        await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите /operations что-бы начать заново')
+    if a != "ERROR":
         if int(query) == 1:
             db.set_status(message.from_user.id, 'buying_m')
-            await state.finish()
-            await Form.buying_m.set()
-            await bot_run.send_message(message.from_user.id, buying_message_m, parse_mode = "html", reply_markup=markups.to_main_menu)
+            await bot_run.send_message(message.from_user.id, buying_message_m, parse_mode = "html")
         elif int(query) == 2:
             db.set_status(message.from_user.id, "selling_m")
-            await state.finish()
-            await Form.selling_m.set()
-            await bot_run.send_message(message.from_user.id, selling_message_m, parse_mode = "html", reply_markup=markups.to_main_menu)
+            await bot_run.send_message(message.from_user.id, selling_message_m, parse_mode = "html")
         elif int(query) == 3:
             db.set_status(message.from_user.id, "buying_l")
-            await state.finish()
-            await Form.buying_l.set()
-            await bot_run.send_message(message.from_user.id, buying_message_l, parse_mode = "html", reply_markup=markups.to_main_menu)
+            await bot_run.send_message(message.from_user.id, buying_message_l, parse_mode = "html")
         elif int(query) == 4:
             db.set_status(message.from_user.id, "selling_l")
-            await state.finish()
-            await Form.selling_l.set()
-            await bot_run.send_message(message.from_user.id, selling_message_l, parse_mode = "html", reply_markup=markups.to_main_menu)
-    else:
-        await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nПовторите запрос.')
-        
-        
-@dp.message_handler(state=Form.buying_m)
-async def buying(message:types.Message, state):
-    if message.text == "В главное меню":
-        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
-        db.set_status(message.from_user.id, "none")
-        return
+            await bot_run.send_message(message.from_user.id, selling_message_l, parse_mode = "html")
+        else:
+            db.set_status(message.from_user.id, "none")
+            await bot_run.send_message(message.from_user.id, 'Нужно выбрать цифру из предложенных.\nОперация прервана, введите \operations что-бы начать заново')
+
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying_m')
+async def buying(message:types.Message):
     try:
         query = message.text
         st = query.split(' ')
@@ -374,7 +358,8 @@ async def buying(message:types.Message, state):
         if len(n_query) == 2:
             n_query.append('best_price')
     except:
-        await bot_run.send_message(message.from_user.id, "Неверный запрос. Повторите попытку.")
+        await bot_run.send_message(message.from_user.id, "Неверный запрос")
+        db.set_status(message.from_user.id, "none")
         return
 
     try:
@@ -386,25 +371,16 @@ async def buying(message:types.Message, state):
                 ans = "Произошла ошибка"
         else:
             ans = "Успешно!"
-        await bot_run.send_message(message.from_user.id, ans + '\nВы перенаправлены в главное меню.', reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+
+        await bot_run.send_message(message.from_user.id, ans)
         db.set_status(message.from_user.id, "none")
-    except Exception as e:
-        await bot_run.send_message(message.from_user.id, f"Произошла ошибка: {str(e)}\nВы перенаправлены в главое меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+    except:
+        await bot_run.send_message(message.from_user.id, "Произошла ошибка, попробуйте снова")
         db.set_status(message.from_user.id, "none")
-        
-        
-@dp.message_handler(state=Form.selling_m)
-async def buying(message:types.Message, state):
-    if message.text == "В главное меню":
-        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
-        db.set_status(message.from_user.id, "none")
-        return
+
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling_m')
+async def buying(message:types.Message):
     try:
         query = message.text
         st = query.split(' ')
@@ -415,7 +391,8 @@ async def buying(message:types.Message, state):
         if len(n_query) == 2:
             n_query.append('best_price')
     except:
-        await bot_run.send_message(message.from_user.id, "Неверный запрос. Повторите попытку.")
+        await bot_run.send_message(message.from_user.id, "Неверный запрос")
+        db.set_status(message.from_user.id, "none")
         return
 
     try:
@@ -427,26 +404,15 @@ async def buying(message:types.Message, state):
                 ans = "Произошла ошибка"
         else:
             ans = "Успешно!"
-        
-        await bot_run.send_message(message.from_user.id, ans + '\nВы перенаправлены в главное меню.', reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+        await bot_run.send_message(message.from_user.id, ans)
         db.set_status(message.from_user.id, "none")
     except Exception as e:
-        await bot_run.send_message(message.from_user.id, f"Произошла ошибка: {str(e)}\nВы перенаправлены в главое меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+        await bot_run.send_message(message.from_user.id, str(e))
         db.set_status(message.from_user.id, "none")
-        
-        
-@dp.message_handler(state=Form.buying_l)
-async def buying(message:types.Message, state):
-    if message.text == "В главное меню":
-        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
-        db.set_status(message.from_user.id, "none")
-        return
+
+
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'buying_l')
+async def buying(message:types.Message):
     query = message.text
     try:
         st = query.split(' ')
@@ -455,10 +421,11 @@ async def buying(message:types.Message, state):
             n_query.append(i.strip())
         n_query[0] = n_query[0].upper()
         if len(n_query) != 3:
-            await bot_run.send_message(message.from_user.id, "Неверный запрос. Повторите попытку.")
-            return
+            await bot_run.send_message(message.from_user.id, "Неверный запрос")
+            db.set_status(message.from_user.id, "none")
     except:
-        await bot_run.send_message(message.from_user.id, "Неверный запрос. Повторите попытку.")
+        await bot_run.send_message(message.from_user.id, "Неверный запрос")
+        db.set_status(message.from_user.id, "none")
         return
 
     try:
@@ -470,25 +437,15 @@ async def buying(message:types.Message, state):
                 ans = "Произошла ошибка"
         else:
             ans = "Успешно!"
-        await bot_run.send_message(message.from_user.id, ans + '\nВы перенаправлены в главное меню.', reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+        await bot_run.send_message(message.from_user.id, ans)
         db.set_status(message.from_user.id, "none")
     except Exception as e:
-        await bot_run.send_message(message.from_user.id, f"Произошла ошибка: {str(e)}\nВы перенаправлены в главное меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+        await bot_run.send_message(message.from_user.id, str(e))
         db.set_status(message.from_user.id, "none")
 
 
-@dp.message_handler(state=Form.selling_l)
-async def buying(message: types.Message, state):
-    if message.text == "В главное меню":
-        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
-        db.set_status(message.from_user.id, "none")
-        return
+@dp.message_handler(lambda message: db.get_status(message.from_user.id) == 'selling_l')
+async def buying(message: types.Message):
     query = message.text
     try:
         st = query.split(' ')
@@ -497,10 +454,11 @@ async def buying(message: types.Message, state):
             n_query.append(i.strip())
         n_query[0] = n_query[0].upper()
         if len(n_query) != 3:
-            await bot_run.send_message(message.from_user.id, "Неверный запрос. Повторите попытку.")
-            return
+            await bot_run.send_message(message.from_user.id, "Неверный запрос")
+            db.set_status(message.from_user.id, "none")
     except:
-        await bot_run.send_message(message.from_user.id, "Неверный запрос. Повторите попытку.")
+        await bot_run.send_message(message.from_user.id, "Неверный запрос")
+        db.set_status(message.from_user.id, "none")
         return
 
     try:
@@ -512,247 +470,135 @@ async def buying(message: types.Message, state):
                 ans = "Произошла ошибка"
         else:
             ans = "Успешно!"
-        await bot_run.send_message(message.from_user.id, ans + '\nВы перенаправлены в главное меню.', reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+        await bot_run.send_message(message.from_user.id, ans)
         db.set_status(message.from_user.id, "none")
     except Exception as e:
-        await bot_run.send_message(message.from_user.id, f"Произошла ошибка: {str(e)}\nВы перенаправлены в главое меню.", reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
+        await bot_run.send_message(message.from_user.id, str(e))
         db.set_status(message.from_user.id, "none")
-        
-        
-@dp.message_handler(state=Form.main_menu, commands=["change_account"])
-async def change_account(message: types.Message, state):
+
+
+@dp.message_handler(lambda message: message.text == "/change_account")
+async def change_account(message: types.Message):
     if db.get_token(user_id=message.from_user.id) is not None:
         db.set_token_status(message.from_user.id, 'choose_acc')
-        await state.finish()
-        await Form.choose_acc.set()
-        await bot_run.send_message(message.from_user.id, choose_accounts_message, reply_markup=ReplyKeyboardRemove())
+        await bot_run.send_message(message.from_user.id, choose_accounts_message)
         TOKEN = db.get_token(message.from_user.id)
         df = show_accounts(TOKEN)
         await bot_run.send_message(message.from_user.id, df)
     else:
         await bot_run.send_message(message.from_user.id, "Выбор аккаунта доступен только пользователям с Токеном")
-        
-        
-@dp.message_handler(state=Form.main_menu, commands=["set_level_price"])
-async def show_graphics(message: types.message, state):
-    await bot_run.send_message(message.from_user.id, set_price_level, parse_mode="html", reply_markup=markups.to_main_menu)
-    await state.finish()
+
+
+@dp.message_handler(lambda message: message.text == "/set_level_price")
+async def show_graphics(message: types.message):
+    await bot_run.send_message(message.from_user.id, set_price_level, parse_mode="html")
     await Form.waiting_levels.set()
-    
-    
+
+
 @dp.message_handler(state=Form.waiting_levels)
 async def levels_set(message: types.Message, state):
     text = message.text
-    if text == 'В главное меню':
-        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.",
-                                   parse_mode="html", reply_markup=markups.main_menu)
+    if text == '/cancel':
+        await bot_run.send_message(message.from_user.id, cancelling, parse_mode="html")
         await state.finish()
-        await Form.main_menu.set()
     else:
         text = text.split()
         shares_list, flag = add_shares([text[0]])
         if flag != 0:
-            await bot_run.send_message(message.from_user.id,
-                                       "Недопустимый формат тикеров или мы не нашли его в нашей базе данных(\nПовторите запрос.")
+            await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров или мы не нашли его в нашей базе данных(")
+            await Form.waiting_levels.set()
         else:
             db.set_levels(message.from_user.id, text)
-            await bot_run.send_message(message.from_user.id,
-                                       f"Вы теперь отслеживаете стоимость акций {text[0]}\nВы перенаправлены в главное меню.",
-                                       reply_markup=markups.main_menu)
+            await bot_run.send_message(message.from_user.id, f"Вы теперь следители за стоимостью акций {text[0]}")
             await state.finish()
-            await Form.main_menu.set()
-            
-            
-@dp.message_handler(state=Form.main_menu, commands=['delete'])
-async def delete_user(message: types.Message, state):
+
+
+@dp.message_handler(commands=['delete'])
+async def delete_user(message: types.Message):
     '''
     Данная функция обрабатывает команду /delete и 
     удаляет пользователя из базы данных
     '''
+    mark_up = ReplyKeyboardMarkup(resize_keyboard=True)
+    mark_up.add(KeyboardButton('Да'))
+    mark_up.add(KeyboardButton('Нет'))
     user_id = message.from_user.id
-    await bot_run.send_message(user_id, 'Вы точно хотите удалить профиль?', reply_markup=markups.yes_no)
-    await state.finish()
+    await bot_run.send_message(user_id, 'Вы точно хотите удалить профиль?', reply_markup=mark_up)
     await Form.ask_if_delete.set()
-    
-    
+
+
 @dp.message_handler(state=Form.ask_if_delete)
 async def answer_id_delete(message: types.Message, state):
     user_id = message.from_user.id
-    if message.text == 'Да' or message.text == 'да':
+    if message.text.lower() == 'да':
         db.delete_user(user_id)
-        await bot_run.send_message(user_id, 'Ваш профиль успешно удален.\nЧтобы снова зарегестрироваться, используйте команду /start .', reply_markup=ReplyKeyboardRemove())
+        await bot_run.send_message(user_id, 'Ваш профиль успешно удален.', reply_markup=ReplyKeyboardRemove())
         await state.finish()
-    elif message.text == 'Нет' or message.text == 'нет':
-        await bot_run.send_message(user_id, 'Мы очень рады, что вы остались.\nВозвращаем вас в главное меню', reply_markup=markups.main_menu)
+    elif message.text.lower() == 'нет':
+        await bot_run.send_message(user_id, 'Мы очень рады, что вы остались.', reply_markup=ReplyKeyboardRemove())
         await state.finish()
-        await Form.main_menu.set()
     else:
-        await bot_run.send_message(user_id, 'Непонятный запрос, повторите попытку (Да или нет).')
-        
-        
-@dp.message_handler(state=Form.main_menu, commands=['analyzer'])
-async def analyzer(message: types.Message, state):
-    await bot_run.send_message(message.from_user.id,
-                               analyzer_message_tickers,
-                               parse_mode='html',
-                               reply_markup=markups.analyzer_tickers)
-    await Form.analyzer_tickers.set()
-    
-    
-@dp.message_handler(state=Form.analyzer_tickers)
-async def analyzer_tickers(message: types.Message, state: FSMContext):
-    text = message.text
-    if text == 'В главное меню':
-        await bot_run.send_message(message.from_user.id, 'Возврат в главное меню.', reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
-        return
-    elif text == 'Использовать shares':
-        shares = db.get_share(message.from_user.id)
-        if not shares:
-            await bot_run.send_message(message.from_user.id,
-                                       'У вас нет shares. Уставновить shares можно с помощью команды /set_shares.\nВведите акции для анализа через пробел.',
-                                       reply_markup=markups.to_main_menu)
-            return
-        else:
-            async with state.proxy() as data:
-                data['analyzer_tickers'] = shares
-            await Form.analyzer_date.set()
-            await bot_run.send_message(message.from_user.id,
-                                       analyzer_message_date,
-                                       reply_markup=markups.to_main_menu,
-                                       parse_mode='html')
-            return
-    else:
-        arr = text.split()
-        async with state.proxy() as data:
-            data['analyzer_tickers'] = arr
-        await Form.analyzer_date.set()
-        await bot_run.send_message(message.from_user.id,
-                                    analyzer_message_date,
-                                    reply_markup=markups.to_main_menu,
-                                    parse_mode='html')
-            
-            
-@dp.message_handler(state=Form.analyzer_date)
-async def analyzer_date(message: types.Message, state: FSMContext):
-    text = message.text
-    if text == 'В главное меню':
-        await bot_run.send_message(message.from_user.id, 'Возврат в главное меню.',
-                                   reply_markup=markups.main_menu)
-        await state.finish()
-        await Form.main_menu.set()
-        return
-    else:
-        dates = text.split()
-        if len(dates) != 2:
-            await bot_run.send_message(message.from_user.id,
-                                       'Неправильный формат дат. Введите две даты в формате <b>yyyy-mm-dd</b> через пробел',
-                                       parse_mode='html')
-        else:
-            try:
-                datetime.datetime.strptime(dates[0], '%Y-%m-%d')
-                datetime.datetime.strptime(dates[1], '%Y-%m-%d')
-            except:
-                await bot_run.send_message(message.from_user.id,
-                                       'Неправильный формат дат. Введите две даты в формате <b>yyyy-mm-dd</b> через пробел',
-                                       parse_mode='html')
-                return
-            if parse(dates[0]) > parse(dates[1]):
-                await bot_run.send_message(message.from_user.id,
-                                       'Дата окончания не может быть раньше даты начала.\nВведите две даты в формате <b>yyyy-mm-dd</b> через пробел',
-                                       parse_mode='html')
-                return
-            async with state.proxy() as data:
-                tickers = data['analyzer_tickers']
-            try:
-                analyzer = Analyzer(tickers, dates[0], dates[1], message.from_user.id)
-                analyzer.sharpe_ratio()
-                result = analyzer.text_analyser()
-            except Exception as e:
-                await bot_run.send_message(message.from_user.id,
-                                       f"Произошла ошибка: {str(e)}\nВозврат в главное меню.",
-                                       parse_mode='html',
-                                       reply_markup=markups.main_menu)
-                await state.finish()
-                await Form.main_menu.set()
-                return
-            if result[1] is not None:
-                await bot_run.send_message(message.from_user.id,
-                                           result[1],
-                                           parse_mode='html')
-            await bot_run.send_message(message.from_user.id,
-                                       result[0],
-                                       parse_mode='html')
-            await bot_run.send_message(message.from_user.id,
-                                       "Возврат в главное меню.",
-                                       reply_markup=markups.main_menu)
-            await state.finish()
-            await Form.main_menu.set()
+        await bot_run.send_message(user_id, 'Непонятный запрос, повторите.')
 
 
-@dp.message_handler(state=Form.main_menu, commands=["send_share_graph"])
-async def send_share_graph(message : types.Message, state):
-    await bot_run.send_message(message.from_user.id, "Введите тикер акции, чей график хотите увидеть:", parse_mode="html", reply_markup=markups.to_main_menu)
+@dp.message_handler(lambda message: message.text == "/send_share_graph")
+async def send_share_graph(message : types.Message):
+    await bot_run.send_message(message.from_user.id, "Введите тикер акции, чей график хотите увидеть:", parse_mode="html")
     await Form.waiting_for_share_graph.set()
-    
-    
+
+
 @dp.message_handler(state=Form.waiting_for_share_graph)
-async def send_share_graph2(message: types.Message, state):
+async def answer_id_delete(message: types.Message, state):
     text = message.text
-    if text == 'В главное меню':
-        await bot_run.send_message(message.from_user.id, "Возврат в главное меню.", parse_mode="html", reply_markup=markups.main_menu)
+    if text == '/cancel':
+        await bot_run.send_message(message.from_user.id, cancelling, parse_mode="html")
         await state.finish()
-        await Form.main_menu.set()
     else:
         shares_list, flag = add_shares([text])
         if flag != 0:
-            await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров или мы не нашли его в нашей базе данных(\nПовторите попытку.")
-            await Form.waiting_for_share_graph.set()
+            await bot_run.send_message(message.from_user.id, "Недопустимый формат тикеров или мы не нашли его в нашей базе данных(")
+            await Form.waiting_levels.set()
         else:
             image_base64 = photo_generating(ticker=text)
             image_bytes = base64.b64decode(image_base64)
             image_file = BytesIO(image_bytes)
             image_file.name = 'graph.png'
-            await bot_run.send_photo(message.from_user.id, photo=image_file, reply_markup=markups.main_menu)
+            await bot_run.send_photo(message.from_user.id, photo=image_file)
             await state.finish()
-            await Form.main_menu.set()
-            
-        
-@dp.message_handler(state=Form.main_menu)
-async def main_menu_messages(message: types.Message, state):
-    text = message.text
-    if text == "Функции":
-        await bot_run.send_message(message.from_user.id, help_message, parse_mode='html')
-    elif text == "Профиль":
-        await bot_run.send_message(message.from_user.id, profile_info(message.from_user.id), parse_mode='html')
-    else:
-        msg = await bot_run.send_message(message.from_user.id,
-                                   'Я такое не понимаю ...')
-        await beautiful_messages(message.from_user.id,
-                                 "Я такое не понимаю ...\nЧтобы узнать доступные команды, введите /help", msg)
-        
-        
+
+
 @dp.message_handler()
 async def smth(message: types.Message):
     '''
     Данная функция обрабатывает сообщения пользователя,
     на которые бот не сможет ответить
     '''
-    msg = await bot_run.send_message(message.from_user.id, 'Вы не зарегестрированы.')
-    await beautiful_messages(message.from_user.id,
-                                'Вы не зарегестрированы.\nИспользуйте команду /start, чтобы начать регистрацию.', msg)
-        
-    
-async def beautiful_messages(user_id, message, msg, speed=0.8):
-    for word in omg_hacked_text(message, speed=speed):
-        await bot_run.edit_message_text(word, user_id, msg.message_id)
-        
-        
+    if not db.user_exists(message.from_user.id):
+        await start_function(message)
+    else:
+        msg = await bot_run.send_message(message.from_user.id,
+                                   'Очень интересно, но ничего не понятно\nЧтобы узнать доступные команды, введите /help')
+        await beautiful_messages(message.from_user.id, "Я такое не понимаю ...", msg)
+        await bot_run.send_message(message.from_user.id,
+                                         'Чтобы узнать доступные команды, введите /help')
+
+
+
+async def beautiful_messages(user_id, message, msg):
+    s = ''
+    for ch in message:
+        r = '}'
+        while r != ch:
+            r = chr(randint(65,122))
+            if random() > 0.5:
+                r = ch
+            try:
+                await bot_run.edit_message_text(s + r, user_id, msg.message_id)
+            except:
+                pass
+        s+=r
+
+
 async def eleven_messages():
     '''
     Эта функция рассылает пользователям информацию о стоимости выбранных ими акций каждый день в 11:00
@@ -761,8 +607,8 @@ async def eleven_messages():
     for user_id in users:
         if db.get_share(user_id):
             await bot_run.send_message(user_id, notify_user_about_stocks(user_id=user_id))
-            
-            
+
+
 async def blm_worker(): 
     ''' 
     Запускается каждые 15 минут и проверяет стоимости акций (процент)
@@ -774,7 +620,7 @@ async def blm_worker():
             if message: 
                 await bot_run.send_message(user_id, message, parse_mode="html")
                 
-                
+
 async def wlm_worker():
     '''
     Запускается каждую минуту секунд и проверяет уровни акций для каждого пользователя
