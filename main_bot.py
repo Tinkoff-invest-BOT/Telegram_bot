@@ -46,7 +46,8 @@ class Form(StatesGroup):
     analyzer_tickers = State()
     analyzer_date = State()
     analyzer_finish = State()
-    
+    waiting_for_share_graph = State()
+
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
@@ -318,7 +319,7 @@ async def operations_start(message:types.Message, state):
     db.set_status(message.from_user.id, 'operations')
     await state.finish()
     await Form.operations.set()
-    await bot_run.send_message(message.from_user.id, 'hi', reply_markup=markups.operations)
+    await bot_run.send_message(message.from_user.id, operation_message, reply_markup=markups.operations, parse_mode='html')
     
     
 @dp.message_handler(state=Form.operations)
@@ -731,7 +732,7 @@ async def main_menu_messages(message: types.Message, state):
         await bot_run.send_message(message.from_user.id, profile_info(message.from_user.id), parse_mode='html')
     else:
         msg = await bot_run.send_message(message.from_user.id,
-                                   'Сбой')
+                                   'Я такое не понимаю ...')
         await beautiful_messages(message.from_user.id,
                                  "Я такое не понимаю ...\nЧтобы узнать доступные команды, введите /help", msg)
         
@@ -742,7 +743,7 @@ async def smth(message: types.Message):
     Данная функция обрабатывает сообщения пользователя,
     на которые бот не сможет ответить
     '''
-    msg = await bot_run.send_message(message.from_user.id, 'В')
+    msg = await bot_run.send_message(message.from_user.id, 'Вы не зарегестрированы.')
     await beautiful_messages(message.from_user.id,
                                 'Вы не зарегестрированы.\nИспользуйте команду /start, чтобы начать регистрацию.', msg)
         
