@@ -11,8 +11,9 @@ import pandas as pd
 from db import *
 from random import random, randint
 
-db = Database(connection)
 
+
+db = Database(connection)
 
 def language_check(smth):
     try:
@@ -24,20 +25,17 @@ def language_check(smth):
         return result
     return 3
 
-
 def get_id(r: GetAccountsResponse):
     df = ([{
         c.id: [c.name, c.access_level]
     } for c in r.accounts])
     return df
 
-
 def beauty_df(r):
     df = pd.DataFrame([{
-        'name': c.name
+        'name' : c.name
     } for c in r.accounts])
     return df
-
 
 def get_account_id(r, a):
     mp = get_id(r)
@@ -45,8 +43,10 @@ def get_account_id(r, a):
     for i in mp:
         tmp = list(i.values())[0][0].lower()
         if str(tmp).replace('ё', 'е') == a.lower().replace('ё', 'е'):
+
             broc_accs.append({int(list(i.keys())[0]): list(i.values())[0][1]})
     return broc_accs
+
 
 
 def show_accounts(TOKEN):
@@ -54,15 +54,13 @@ def show_accounts(TOKEN):
         r = client.users.get_accounts()
         return beauty_df(r)
 
-
 def choose_account(TOKEN, string):
     with Client(TOKEN) as client:
         r = client.users.get_accounts()
         df = beauty_df(r)
-        result = get_id(r)
+        result  = get_id(r)
         account_id = get_account_id(r, string)
         return (account_id)
-
 
 def token_check(TOKEN):
     try:
@@ -84,13 +82,11 @@ def token_check(TOKEN):
             result = 1
         return result
 
-
 def share_check(share):
     result = db.share_exist(share)
     if result:
         return True
     return False
-
 
 def create_pdf_from_dataframe(dataframe):
     output = BytesIO()
@@ -105,7 +101,7 @@ def create_pdf_from_dataframe(dataframe):
     return output
 
 
-def check_share_moex(share: str):
+def check_share_moex(share:str):
     ticker = share
     from_ = '2022-12-15'
     till = '2022-12-16'
@@ -119,16 +115,14 @@ def check_share_moex(share: str):
         return False
     return True
 
-
 def check_share_yahoo(share):
     try:
-        data = yf.download(share, start="2023-10-01", end="2023-10-03", interval="1d")
+        data = yf.download(share, start= "2023-10-01", end = "2023-10-03", interval = "1d")
     except:
         data = []
     if (len(data)) == 0:
         return False
     return True
-
 
 def add_shares(shares_list: list):
     shares_dict = {}
@@ -153,7 +147,6 @@ def add_shares(shares_list: list):
 
     shares_list = list(set(shares_list))
     return shares_list, counter
-
 
 def token_access_level(user_id):
     result = db.get_token_status(user_id)
@@ -254,7 +247,6 @@ def sell_share_market(TOKEN, figi, price, quantity, account_id):
             )
     return r
 
-
 def buy_share_limit(TOKEN, figi, price, quantity, account_id):
     flag = 0
     try:
@@ -286,7 +278,6 @@ def buy_share_limit(TOKEN, figi, price, quantity, account_id):
             order_type=OrderType.ORDER_TYPE_LIMIT
         )
     return r
-
 
 def sell_share_limit(TOKEN, figi, price, quantity, account_id):
     flag = 0
@@ -347,7 +338,6 @@ def before_buying_market(user_id, tiker, lots, price="best_price"):
             return error_code
         except:
             return '-1'
-
 
 def before_selling_market(user_id, tiker, lots, price="best_price"):
     TOKEN = db.get_token(user_id)
@@ -432,27 +422,52 @@ def before_selling_limit(user_id, tiker, lots, price):
             return error_code
         except:
             return '-1'
+        
+
+def profile_info(user_id):
+    text = f'<b>id</b>: {user_id}\n'
+    text += f"<b>nickname</b>: {db.get_nickname(user_id)}\n"
+    text += f"<b>email</b>: {db.get_email(user_id)}\n"
+    if db.get_token_status(user_id) == 'without_token':
+        text += "<b>has_token</b>: no\n"
+    else:
+        text += "<b>has_token</b>: yes\n"
+    shares = db.get_share(user_id)
+    if shares:
+        text += "<b>shares</b>:"
+        for i in shares:
+            text += f" {i},"
+        text = text[:-1] + '\n'
+    else:
+        text += "<b>shares</b>: None\n"
+    levels = db.get_levels(user_id)
+    if levels:
+        text += f"<b>levels</b>: {levels}"
+    else:
+        text += f"<b>levels</b>: None"
+    return text
+    
 
 
-def omg_hacked_text(text: str, speed=0.6):
-    # speed [0;1] - probability of finding correct char
-    # generator
-    s = ''
-    for ch in text:
-        r = ''
-        if ch == ' ':
-            yield s + ch
-            s += ch
-            continue
-        while r != ch:
-            n = randint(65, 186)
-            if n >= 123:
-                n += 917
-            r = chr(n)
-            if random() <= speed:
-                r = ch
-            yield s + r
-        s += r
+# a = before_buying(1297355532, "TMOS", 1 )
+# print(a)
+# a = before_selling(1297355532, "TMOS",  1, 6.16)
+# print(a)
+# a = before_buying(1297355532, "TMOS", "best", 1)
+# print(a)
+# a = before_selling(1297355532, "TMOS", "best", 1)
+# print(a)
+# a = before_buying(1297355532, "TMOS", "best", 1)
+# print(a)
+
+# buy_share(1297355532)
+# buy_share(446927518)
+# def f(TOKEN):
+#     with Client(TOKEN) as c:
+#         res = c.users.get_info()
+#         print(res)
+
+# f("t.aR38YYpBrtrkJezowoByFlvhDiOUl8ixFl9QLbnYPr-6x9pfuAL0IOpwjmPdBFI-sNt25Ln1BT9SlhoH1V2WoA")
 
 
 def cast_money(v):
@@ -493,3 +508,6 @@ def get_portfolio_(user_id):
             return error_code
         except:
             return '-1'
+
+
+

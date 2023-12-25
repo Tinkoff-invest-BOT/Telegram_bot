@@ -5,6 +5,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from psycopg2.extras import DictCursor
 from connection_db import connection
 import json
+from connection_db import connection
 
 
 class Database:
@@ -328,3 +329,29 @@ class Database:
             self.cursor.execute("UPDATE users SET shares_level = %s WHERE user_id = %s", (updated_json_data, user_id))
             self.connection.commit()
             print(f"Информация по {ticker} успешно удалена.")
+            
+        
+    def get_nickname(self, user_id):
+        '''
+        Возвращает nickname по user_id
+        '''
+        self.cursor.execute("SELECT 1")
+        with self.connection:
+            tmp = f"SELECT nickname FROM users WHERE user_id = {user_id}"
+            self.cursor.execute(tmp)
+            result = self.cursor.fetchone()
+            return result['nickname']
+        
+        
+    def get_email(self, user_id):
+        '''
+        Возвращает email по user_id
+        '''
+        self.cursor.execute("SELECT 1")
+        with self.connection:
+            tmp = f"SELECT email FROM users WHERE user_id = {user_id}"
+            self.cursor.execute(tmp)
+            result = self.cursor.fetchone()
+            return result['email']
+            
+db = Database(connection)
